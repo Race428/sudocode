@@ -1,6 +1,3 @@
 {
-  "sourceOfTruth": "jsonl",
-  "telemetry": {
-    "projectId": "proj-69794ec6"
-  }
+  "sourceOfTruth": "jsonl"
 }

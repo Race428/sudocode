@@ -1,0 +1,19 @@
+[     278ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=b5622718:21608
+[     329ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=b5622718:4412
+[     330ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=b5622718:4412
+[     330ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[     330ms] [WARNING] WebSocket connection to 'ws://localhost:3002/ws' failed: WebSocket is closed before the connection is established. @ http://localhost:3002/src/contexts/WebSocketContext.tsx:107
+[     331ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[     390ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[     646ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[     647ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[     648ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[     648ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[     648ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[     648ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[     648ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[     648ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[     648ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[     648ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[     648ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[     648ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65

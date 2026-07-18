@@ -21,6 +21,7 @@ import ProjectsPage from '@/pages/ProjectsPage'
 import ExecutionsPage from '@/pages/ExecutionsPage'
 import WorkflowsPage from '@/pages/WorkflowsPage'
 import WorkflowDetailPage from '@/pages/WorkflowDetailPage'
+import GraphPage from '@/pages/GraphPage'
 import { cleanExpiredDrafts } from '@/hooks/usePersistedDraft'
 
 // Prune stale draft entries from localStorage on startup
@@ -138,6 +139,14 @@ function App() {
                         element={
                           <ProtectedRoute>
                             <WorkflowDetailPage />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="graph"
+                        element={
+                          <ProtectedRoute>
+                            <GraphPage />
                           </ProtectedRoute>
                         }
                       />

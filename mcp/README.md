@@ -69,12 +69,18 @@ If you've installed via npm, add to your Claude Code configuration:
       "command": "sudocode-mcp",
       "env": {
         "SUDOCODE_WORKING_DIR": "/path/to/your/project",
-        "SUDOCODE_PATH": "sudocode",
+        "SUDOCODE_PATH": "sudocode"
       }
     }
   }
 }
 ```
+
+### Pinned Node runtime (fork / local link)
+
+When developing from this monorepo, `./scripts/link.sh` writes a machine-local `.node-path` into each package. The `sudocode` / `sudocode-mcp` / `sudocode-server` bin wrappers always `exec` that Node, so Cursor cannot load `better-sqlite3` under a mismatched ABI via `#!/usr/bin/env node`.
+
+Override with `SUDOCODE_NODE=/absolute/path/to/node` if needed. Re-run `./scripts/link.sh` after switching Node versions or rebuilding native addons.
 
 ## Environment Variables
 
@@ -82,6 +88,7 @@ If you've installed via npm, add to your Claude Code configuration:
 - `SUDOCODE_WORKING_DIR` - Working directory for sudocode (default: current directory)
 - `SUDOCODE_DB` - Custom database path (default: `.sudocode/cache.db`)
 - `SUDOCODE_ACTOR` - Actor name for operations (default: system username)
+- `SUDOCODE_NODE` - Absolute Node binary used by bin wrappers (overrides `.node-path`)
 
 ## Available Tools
 

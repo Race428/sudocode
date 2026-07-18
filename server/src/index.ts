@@ -28,6 +28,7 @@ import { createVoiceRouter } from "./routes/voice.js";
 import { ProjectRegistry } from "./services/project-registry.js";
 import { ProjectManager } from "./services/project-manager.js";
 import { requireProject } from "./middleware/project-context.js";
+import { importFromJSONL } from "@sudocode-ai/cli/dist/import.js";
 import {
   initWebSocketServer,
   getWebSocketStats,
@@ -235,6 +236,30 @@ async function main() {
           success: false,
           data: null,
           message: "Failed to get project status",
+          error_data: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
+  );
+
+  // Manual resync: re-import JSONL into the SQLite cache on demand.
+  // Lets users run the server with SUDOCODE_WATCH=false (no file watcher) and
+  // pull in on-disk changes (git pull, CLI/MCP writes) by clicking a button.
+  app.post(
+    "/api/resync",
+    requireProject(projectManager),
+    async (req: Request, res: Response) => {
+      try {
+        const result = await importFromJSONL(req.project!.db, {
+          inputDir: req.project!.sudocodeDir,
+        });
+        res.json({ success: true, data: result });
+      } catch (error) {
+        console.error("Error during resync:", error);
+        res.status(500).json({
+          success: false,
+          data: null,
+          message: "Failed to resync from JSONL",
           error_data: error instanceof Error ? error.message : String(error),
         });
       }

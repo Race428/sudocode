@@ -1,0 +1,844 @@
+[     494ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=b5622718:21608
+[     560ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=b5622718:4412
+[     560ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=b5622718:4412
+[     560ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[     561ms] [WARNING] WebSocket connection to 'ws://localhost:3002/ws' failed: WebSocket is closed before the connection is established. @ http://localhost:3002/src/contexts/WebSocketContext.tsx:107
+[     562ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[     587ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[     997ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[     997ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[     999ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[     999ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[     999ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[     999ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[    1008ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[    1008ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[    1008ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[    1008ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  385391ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[  390415ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[  390417ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[  390469ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[  390474ms] [LOG] [WebSocket] Resubscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:55
+[  390474ms] [LOG] [WebSocket] Resubscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:55
+[  390475ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  390516ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[  390517ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[  390517ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[  390518ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[  390520ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  390520ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  390521ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  390521ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  390521ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  390521ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  695713ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3002/@vite/client:963
+[  695721ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[  695771ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: net::ERR_CONNECTION_RESET @ http://localhost:3002/@vite/client:1034
+[  697182ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Connection closed before receiving a handshake response @ http://localhost:3002/@vite/client:1034
+[  698194ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Connection closed before receiving a handshake response @ http://localhost:3002/@vite/client:1034
+[  699227ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Connection closed before receiving a handshake response @ http://localhost:3002/@vite/client:1034
+[  700249ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Connection closed before receiving a handshake response @ http://localhost:3002/@vite/client:1034
+[  700723ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[  700723ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[  701567ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Connection closed before receiving a handshake response @ http://localhost:3002/@vite/client:1034
+[  940755ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: WebSocket opening handshake timed out @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[  940777ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[  940800ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[  941800ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:21608
+[  942051ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=3a20fd14:4412
+[  942052ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=3a20fd14:4412
+[  942054ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[  942056ms] [WARNING] WebSocket connection to 'ws://localhost:3002/ws' failed: WebSocket is closed before the connection is established. @ http://localhost:3002/src/contexts/WebSocketContext.tsx:107
+[  942057ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[  942119ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[  942226ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[  942230ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  942234ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[  942234ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[  942234ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[  942234ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[  942240ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  942240ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  942240ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[  942240ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1097678ms] ReferenceError: GraphPage is not defined
+    at App (http://localhost:3002/src/App.tsx?t=1782325316493:337:96)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:11596:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:14630:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:15972:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:3705:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:3739:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19818:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19251:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19190:13)
+[ 1097680ms] ReferenceError: GraphPage is not defined
+    at App (http://localhost:3002/src/App.tsx?t=1782325316493:337:96)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:11596:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:14630:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:15972:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:3705:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:3739:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19818:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19251:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19190:13)
+[ 1097658ms] [ERROR] The above error occurred in the <App> component:
+
+    at App (http://localhost:3002/src/App.tsx?t=1782325316493:337:96)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:14079
+[ 1097680ms] ReferenceError: GraphPage is not defined
+    at App (http://localhost:3002/src/App.tsx?t=1782325316493:337:96)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:11596:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:14630:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:15972:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19806:22)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19251:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19190:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:19169:15)
+    at recoverFromConcurrentError (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:18786:28)
+    at performSyncWorkOnRoot (http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=fd2b4d43:18932:28)
+[ 1102378ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 1102379ms] [WARNING] WebSocket connection to 'ws://localhost:3002/ws' failed: WebSocket is closed before the connection is established. @ http://localhost:3002/src/contexts/WebSocketContext.tsx:107
+[ 1102379ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 1102395ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 1102618ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[ 1102651ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[ 1102651ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1102651ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1102651ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1102674ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1102674ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1102674ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1102674ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1102674ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1107712ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[ 1107713ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1107713ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1107723ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1107723ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1107724ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1112536ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[ 1112537ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1112537ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 1112538ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1112538ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 1112538ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4325950ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3002/@vite/client:963
+[ 4326060ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 4326363ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4327371ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4328376ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4329381ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4330389ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4331088ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 4331090ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 4331108ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[ 4331111ms] [LOG] [WebSocket] Resubscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:55
+[ 4331111ms] [LOG] [WebSocket] Resubscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:55
+[ 4331113ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331160ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[ 4331161ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 4331162ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 4331162ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[ 4331164ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331164ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331164ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331164ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331165ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331165ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[ 4331394ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4332396ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4333405ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4334411ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4335449ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4336455ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4337459ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4338469ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4339480ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4340525ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4341532ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4342557ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4343570ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4344650ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4345721ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4346795ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4347932ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4349110ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4350365ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4351551ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4353056ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4354358ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4355643ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4357589ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4359295ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4361821ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4365490ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4369584ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4371996ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4377675ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4380181ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4384281ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4388573ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4393055ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4396278ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4401939ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4405870ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4408641ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4411438ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4415965ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4421530ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4426219ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4431873ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4434378ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4439350ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4444722ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4447780ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4451795ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4455468ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4457492ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4462465ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4467804ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4471148ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4476959ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4482534ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4484830ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4489445ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4494332ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4497948ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4502087ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4507096ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4510408ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4513681ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4515872ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4520766ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4523420ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4528258ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4533139ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4535618ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4538654ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4542857ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4545298ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4549663ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4554766ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4556793ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4560850ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4564369ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4567868ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4572500ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4576908ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4580599ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4584705ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4589456ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4593558ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4598367ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4603611ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4606121ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4608493ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4611774ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4616853ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4622855ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4626233ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4628451ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4630997ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4633948ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4639288ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4642028ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4647098ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4650727ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4653680ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4656810ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4662726ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4667793ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4670295ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4674095ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4679220ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4683053ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4688914ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4692428ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4694815ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4700156ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4702211ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4707971ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4711429ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4715495ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4721464ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4724753ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4728360ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4734161ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4739185ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4744753ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4750401ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4755045ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4759843ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4765481ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4768832ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4771424ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4774049ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4779094ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4782660ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4785169ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4790746ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4794073ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4799836ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4805417ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4806421ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4807423ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4808426ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4809430ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4810433ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4811440ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4812446ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4813453ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4814491ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4815545ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4816627ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4817830ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4819356ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4820764ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4822427ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4827203ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4829623ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4834504ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4838594ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4843748ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4846535ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4852238ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4857534ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4863095ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4867452ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4871847ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4877520ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4882849ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4886456ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4889087ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4894604ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4897623ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4901079ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4905755ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4910103ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4914476ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4918278ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4923904ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4928796ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4934716ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4937909ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4942589ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4945541ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4951334ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4956585ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4958996ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4961697ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4967227ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4971260ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4973983ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4977801ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4983597ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4986585ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4991182ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4993888ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 4996567ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5000427ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5005178ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5009462ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5013181ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5015781ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5019200ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5022770ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5025950ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5030130ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5034348ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5037187ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5041037ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5045026ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5048380ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5053923ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5056953ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5062376ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5065601ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5069347ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5072393ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5076027ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5079115ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5081518ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5087098ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5090958ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5094084ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5099689ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5103910ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5107082ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5110541ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5112946ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5118018ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5120253ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5122821ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5127402ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5130628ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5134780ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5137002ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5142412ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5146424ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5148689ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5153087ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5158789ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5161313ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5165491ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5166498ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5167531ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5168541ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5169545ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5170548ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5171568ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5172642ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5173678ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5174713ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5175771ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5176890ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5178085ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5179679ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5180954ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5183659ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5185963ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5191625ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5194723ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5200626ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5204628ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5210212ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5212323ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5214817ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5219055ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5224796ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5228762ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5233418ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5237871ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5241948ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5247577ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5251207ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5256585ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5259571ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5263403ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5267324ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5273070ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5275466ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5278714ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5281968ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5287855ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5293852ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5298655ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5304156ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5307383ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5312957ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5315369ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5318221ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5320296ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5324084ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5327795ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5331511ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5336918ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5339090ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:3002/@vite/client:1034
+[ 5340237ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5342000ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5345260ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5345263ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5346764ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5346764ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5346773ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5347415ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5351776ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5351777ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5351888ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5352938ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5352939ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5352939ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5357141ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5357941ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5357942ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5359996ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5359997ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5359999ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5362968ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5365001ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5365002ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5366213ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5366214ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5366214ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5368645ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5371217ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5371220ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5372302ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5372859ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5372859ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5372860ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5374380ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5377864ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5377865ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5379687ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5380474ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5380474ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5380474ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5382376ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5385477ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5385478ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5386386ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5388750ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5388752ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5388754ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5391032ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5393761ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5393764ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5394368ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5397289ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5397290ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5397290ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5397430ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5401188ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5402291ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5402292ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5404733ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5405679ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5405680ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5405680ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5410562ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5410682ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5410683ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5413774ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5413775ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5413775ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5414712ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5418778ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5418779ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5419494ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5422960ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5422963ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5422964ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5423414ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5427968ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5427970ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5429088ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5430067ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5430068ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5430069ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5433409ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5435071ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5435072ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5435640ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5437702ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5437702ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5437703ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5440198ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5442708ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5442710ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5442956ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5446596ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5446598ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5446600ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5447929ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5451092ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5451605ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5451606ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5454660ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5454662ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5454668ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5456432ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5458520ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5459671ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5459671ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5460988ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5462288ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5462288ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5462288ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5464032ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5467290ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5467291ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5469776ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5471312ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5471316ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5471318ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5471999ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5474278ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5476324ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5476325ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5479735ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5480538ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5480539ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5480540ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5485542ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5485543ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5485623ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5486990ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5486991ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5486991ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5488326ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5491995ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5491997ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5494270ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5496399ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5496400ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5496402ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5498974ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5501090ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5501406ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5501407ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5504535ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5504539ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5504544ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5507027ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5509552ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5509554ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5511079ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5513458ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5513461ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5513462ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5515179ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5518467ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5518469ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5520432ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5520432ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5520433ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5520733ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5525436ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5525441ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5526298ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5529661ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5529663ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5529664ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5531984ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5534402ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5534668ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5534669ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5537126ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5537128ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5537129ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5537799ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5540363ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5542133ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5542134ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5543567ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5543569ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5543570ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5546007ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5548573ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5548577ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5548753ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5551636ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5551637ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5551639ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5553947ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5556280ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5556644ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5556644ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5558265ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5558265ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5558265ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5558723ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5563268ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5563269ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5564108ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5565102ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5565104ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5565106ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5568521ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5570108ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5570109ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5571225ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5572695ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5572697ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5572697ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5573398ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5576068ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5577700ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5577700ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5579117ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5579118ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5579119ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5580276ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5584121ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5584122ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5585476ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5587893ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5587895ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5587899ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5591490ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5592903ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5592904ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5596660ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5596662ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5596663ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5596886ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5599474ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5601666ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5601667ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5603766ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5603911ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5603912ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5603913ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5607266ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5608915ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5608916ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5610366ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5610366ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5610367ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5610739ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5614594ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5615370ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5615370ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5618179ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5619959ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5619959ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5619961ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5623919ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5624963ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5624964ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5627812ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5627815ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5627818ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5629188ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5632274ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5632826ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5632827ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5635607ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5635608ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5635608ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5638242ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5640612ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5640613ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5641607ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5644519ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5644519ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5644521ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5645809ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5646813ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5647825ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5648834ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5649526ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5649529ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5649544ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5649546ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5649547ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5649840ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5650866ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5651877ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5652892ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5653923ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5654550ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5654551ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5654605ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5654605ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5654607ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5655001ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5656177ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5657351ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5658612ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5659610ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5659610ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5661422ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5661422ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5661423ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5663470ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5665946ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5666426ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5666429ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5668603ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5668606ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5668611ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5669524ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5672874ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5673614ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5673614ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5677233ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5677874ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5677874ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5677874ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5682876ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5682879ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5682928ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5685738ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5686220ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5686221ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5686222ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5689217ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5691225ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5691226ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5692448ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5692448ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5692449ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5695073ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5697451ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5697453ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5697673ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5699038ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5699038ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5699039ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5703256ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5704042ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5704042ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5707331ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5708910ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5708913ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5708914ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5710986ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5713917ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5713919ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5715406ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5716357ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5716358ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5716358ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5720985ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5721360ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5721363ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5724100ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5726184ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5726185ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5726187ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5726837ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5731192ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5731193ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5731794ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5733826ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5734367ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5734368ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5734370ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5735962ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5738369ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5739374ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5739374ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5740611ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5743061ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5744288ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5744288ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5744288ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5748622ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5749289ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5749290ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5750666ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5750666ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5750668ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5752568ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5755084ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5755671ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5755671ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5759430ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5759431ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5759432ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5759841ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5764437ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5764440ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5765740ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5768024ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5768026ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5768028ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5768643ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5770716ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5773032ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5773035ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5774575ms] [ERROR] WebSocket connection to 'ws://localhost:3002/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/src/contexts/WebSocketContext.tsx:46
+[ 5774575ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[ 5774576ms] [LOG] [WebSocket] Disconnected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:86
+[ 5775101ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5777384ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034
+[ 5779577ms] [LOG] [WebSocket] Attempting to reconnect... @ http://localhost:3002/src/contexts/WebSocketContext.tsx:91
+[ 5779580ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[ 5780594ms] [ERROR] WebSocket connection to 'ws://localhost:3002/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/@vite/client:1034

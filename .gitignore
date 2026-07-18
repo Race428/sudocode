@@ -9,3 +9,6 @@ dist/
 .sudocode/deploy-config.json
 .cursor
 __pycache__/
+# Absolute Node path written by scripts/pin-node.sh / link.sh (machine-local)
+.node-path
+**/.node-path

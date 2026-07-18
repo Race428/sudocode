@@ -205,6 +205,19 @@ export const relationshipsApi = {
 }
 
 /**
+ * System API
+ */
+export interface ResyncResult {
+  specs: { added: number; updated: number; deleted: number }
+  issues: { added: number; updated: number; deleted: number }
+}
+
+export const systemApi = {
+  // Re-import JSONL into the server's SQLite cache (for use with SUDOCODE_WATCH=false)
+  resync: () => post<ResyncResult>('/resync'),
+}
+
+/**
  * Feedback API
  */
 export const feedbackApi = {

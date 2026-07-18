@@ -1,0 +1,84 @@
+[    5719ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-OV3OP4JJ.js?v=b5622718:21608
+[    5884ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=b5622718:4412
+[    5884ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=b5622718:4412
+[    5885ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[    5886ms] [WARNING] WebSocket connection to 'ws://localhost:3002/ws' failed: WebSocket is closed before the connection is established. @ http://localhost:3002/src/contexts/WebSocketContext.tsx:107
+[    5887ms] [LOG] [WebSocket] Connecting to: ws://localhost:3002/ws @ http://localhost:3002/src/contexts/WebSocketContext.tsx:44
+[    5925ms] [ERROR] [WebSocket] Error: Event @ http://localhost:3002/src/contexts/WebSocketContext.tsx:83
+[    6015ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3002/api/update/check:0
+[    6015ms] [ERROR] API Error: AxiosError @ http://localhost:3002/src/lib/api.ts:43
+[    6098ms] [LOG] [WebSocket] Connected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:48
+[    6121ms] [WARNING] [WebSocket] Cannot subscribe: no project selected @ http://localhost:3002/src/contexts/WebSocketContext.tsx:118
+[    6121ms] [LOG] [WebSocket] Message received: pong projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[    7024ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3002/api/update/check:0
+[    7025ms] [ERROR] API Error: AxiosError @ http://localhost:3002/src/lib/api.ts:43
+[   14599ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14600ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14600ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14600ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14600ms] [LOG] [WebSocket] Project changed: null -> sudocode-c540190b @ http://localhost:3002/src/contexts/WebSocketContext.tsx:186
+[   14600ms] [LOG] [WebSocket] Ready for new project subscriptions @ http://localhost:3002/src/contexts/WebSocketContext.tsx:202
+[   14600ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   14600ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14601ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14601ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   14604ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   14605ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23018ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23019ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:i-3dcj @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23019ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:all:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23022ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   23022ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:issue:i-3dcj @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   23035ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23036ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:i-3dcj @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23203ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:all:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   23204ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:all:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23211ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23223ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23223ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23223ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23223ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23223ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23223ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23280ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:all:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   23281ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:all:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   23286ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23286ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23291ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   23291ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26462ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:issue:i-3dcj @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26463ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26465ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:all:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26547ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26551ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26551ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26551ms] [LOG] [WebSocket] Unsubscribed from: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:156
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:execution:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:issue:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26551ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:spec:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26552ms] [LOG] [WebSocket] Subscribed to: sudocode-c540190b:workflow:* @ http://localhost:3002/src/contexts/WebSocketContext.tsx:131
+[   26565ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26565ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: unsubscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65
+[   26566ms] [LOG] [WebSocket] Message received: subscribed projectId: undefined @ http://localhost:3002/src/contexts/WebSocketContext.tsx:65

@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { SpecCard } from '@/components/specs/SpecCard'
 import type { Spec } from '@/types/api'
+import { formatCreatedAt } from '@/utils/dates'
 
 // Mock useProjectRoutes hook
 vi.mock('@/hooks/useProjectRoutes', () => ({
@@ -113,5 +114,22 @@ describe('SpecCard', () => {
     )
     badge = screen.getByText('P3')
     expect(badge).toHaveClass('bg-blue-600')
+  })
+
+  it('should render created date for older specs', () => {
+    renderWithRouter(<SpecCard spec={mockSpec} />)
+    expect(screen.getByText(formatCreatedAt(mockSpec.created_at))).toBeInTheDocument()
+  })
+
+  it('should render relative created time for recent specs', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2024-06-01T12:00:00Z'))
+
+    const recentSpec = { ...mockSpec, created_at: '2024-06-01T11:30:00Z' }
+    renderWithRouter(<SpecCard spec={recentSpec} />)
+
+    expect(screen.getByText('30m ago')).toBeInTheDocument()
+
+    vi.useRealTimers()
   })
 })

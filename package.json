@@ -31,7 +31,7 @@
     "build:sea": "node build-scripts/esbuild-cli.js && node build-scripts/esbuild-mcp.js && node build-scripts/esbuild-server.js",
     "package:sea": "node build-scripts/package-sea.js",
     "clean": "npm run clean --workspaces --if-present",
-    "dev": "npm run dev --workspaces --if-present",
+    "dev": "trap 'kill 0' EXIT; tsx watch server/src/index.ts & npm run dev --workspace=frontend",
     "dev:server": "SUDOCODE_DIR=$(pwd)/.sudocode npm run dev --workspace=server",
     "dev:frontend": "npm run dev --workspace=frontend",
     "start:server": "SUDOCODE_DIR=$(pwd)/.sudocode npm start --workspace=server",

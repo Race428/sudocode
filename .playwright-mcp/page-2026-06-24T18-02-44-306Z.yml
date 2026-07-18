@@ -1,0 +1,386 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - img "Logo" [ref=e6]
+      - button "Open Project" [ref=e8] [cursor=pointer]:
+        - img [ref=e9]
+      - navigation [ref=e11]:
+        - link [ref=e12] [cursor=pointer]:
+          - /url: /issues
+          - img [ref=e13]
+        - link [ref=e16] [cursor=pointer]:
+          - /url: /specs
+          - img [ref=e17]
+        - link [ref=e20] [cursor=pointer]:
+          - /url: /workflows
+          - img [ref=e21]
+        - link [ref=e26] [cursor=pointer]:
+          - /url: /executions
+          - img [ref=e27]
+        - link [ref=e30] [cursor=pointer]:
+          - /url: /worktrees
+          - img [ref=e31]
+      - generic [ref=e36]:
+        - button "Help" [ref=e37] [cursor=pointer]:
+          - img [ref=e38]
+        - button "Settings" [ref=e41] [cursor=pointer]:
+          - img [ref=e43]
+    - main [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Projects" [level=1] [ref=e50]
+          - generic [ref=e51]:
+            - button "Open Existing" [ref=e52] [cursor=pointer]:
+              - img [ref=e53]
+              - text: Open Existing
+            - button "New Project" [ref=e55] [cursor=pointer]:
+              - img [ref=e56]
+              - text: New Project
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - heading "Recent Projects" [level=2] [ref=e59]
+            - generic [ref=e60]:
+              - generic [ref=e61]:
+                - generic [ref=e62] [cursor=pointer]:
+                  - generic [ref=e63]:
+                    - generic [ref=e64]:
+                      - heading "sudocode" [level=3] [ref=e65]
+                      - button [ref=e66]:
+                        - img [ref=e67]
+                    - generic [ref=e70]: Open
+                  - paragraph [ref=e71]: /Users/race/development/projects/sudocode
+                  - paragraph [ref=e72]: "Last opened: 6/24/2026"
+                - generic [ref=e73]:
+                  - button "Switch To" [ref=e74] [cursor=pointer]
+                  - button "Close" [ref=e75] [cursor=pointer]:
+                    - img [ref=e76]
+                    - text: Close
+                  - button [ref=e79] [cursor=pointer]:
+                    - img [ref=e80]
+              - generic [ref=e83]:
+                - generic [ref=e84] [cursor=pointer]:
+                  - generic [ref=e85]:
+                    - generic [ref=e86]:
+                      - heading "headless-api" [level=3] [ref=e87]
+                      - button [ref=e88]:
+                        - img [ref=e89]
+                    - generic [ref=e92]:
+                      - img [ref=e93]
+                      - text: Closed
+                  - paragraph [ref=e95]: /Users/race/development/noggn/headless-api
+                  - paragraph [ref=e96]: "Last opened: 6/24/2026"
+                - generic [ref=e97]:
+                  - button "Open" [ref=e98] [cursor=pointer]:
+                    - img [ref=e99]
+                    - text: Open
+                  - button [ref=e101] [cursor=pointer]:
+                    - img [ref=e102]
+              - generic [ref=e105]:
+                - generic [ref=e106] [cursor=pointer]:
+                  - generic [ref=e107]:
+                    - generic [ref=e108]:
+                      - heading "supernova-cc-v2" [level=3] [ref=e109]
+                      - button [ref=e110]:
+                        - img [ref=e111]
+                    - generic [ref=e114]:
+                      - img [ref=e115]
+                      - text: Closed
+                  - paragraph [ref=e117]: /Users/race/development/nova-lighting/nova-lighting-core/supernova-cc-v2
+                  - paragraph [ref=e118]: "Last opened: 6/22/2026"
+                - generic [ref=e119]:
+                  - button "Open" [ref=e120] [cursor=pointer]:
+                    - img [ref=e121]
+                    - text: Open
+                  - button [ref=e123] [cursor=pointer]:
+                    - img [ref=e124]
+          - generic [ref=e127]:
+            - heading "All Projects" [level=2] [ref=e128]
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - generic [ref=e131] [cursor=pointer]:
+                  - generic [ref=e132]:
+                    - generic [ref=e133]:
+                      - heading "spec-kit-test" [level=3] [ref=e134]
+                      - button [ref=e135]:
+                        - img [ref=e136]
+                    - generic [ref=e139]:
+                      - img [ref=e140]
+                      - text: Closed
+                  - paragraph [ref=e142]: /Users/race/development/projects/spec-kit-test
+                  - paragraph [ref=e143]: "Last opened: 6/10/2026"
+                - generic [ref=e144]:
+                  - button "Open" [ref=e145] [cursor=pointer]:
+                    - img [ref=e146]
+                    - text: Open
+                  - button [ref=e148] [cursor=pointer]:
+                    - img [ref=e149]
+              - generic [ref=e152]:
+                - generic [ref=e153] [cursor=pointer]:
+                  - generic [ref=e154]:
+                    - generic [ref=e155]:
+                      - heading "Nova-Loveable" [level=3] [ref=e156]
+                      - button [ref=e157]:
+                        - img [ref=e158]
+                    - generic [ref=e161]:
+                      - img [ref=e162]
+                      - text: Closed
+                  - paragraph [ref=e164]: /Users/race/development/nova-lighting/Nova-Loveable
+                  - paragraph [ref=e165]: "Last opened: 6/10/2026"
+                - generic [ref=e166]:
+                  - button "Open" [ref=e167] [cursor=pointer]:
+                    - img [ref=e168]
+                    - text: Open
+                  - button [ref=e170] [cursor=pointer]:
+                    - img [ref=e171]
+              - generic [ref=e174]:
+                - generic [ref=e175] [cursor=pointer]:
+                  - generic [ref=e176]:
+                    - generic [ref=e177]:
+                      - heading "vendor-sync" [level=3] [ref=e178]
+                      - button [ref=e179]:
+                        - img [ref=e180]
+                    - generic [ref=e183]:
+                      - img [ref=e184]
+                      - text: Closed
+                  - paragraph [ref=e186]: /Users/race/development/nova-lighting/vendor-sync
+                  - paragraph [ref=e187]: "Last opened: 6/10/2026"
+                - generic [ref=e188]:
+                  - button "Open" [ref=e189] [cursor=pointer]:
+                    - img [ref=e190]
+                    - text: Open
+                  - button [ref=e192] [cursor=pointer]:
+                    - img [ref=e193]
+              - generic [ref=e196]:
+                - generic [ref=e197] [cursor=pointer]:
+                  - generic [ref=e198]:
+                    - generic [ref=e199]:
+                      - heading "may-24-supabase" [level=3] [ref=e200]
+                      - button [ref=e201]:
+                        - img [ref=e202]
+                    - generic [ref=e205]:
+                      - img [ref=e206]
+                      - text: Closed
+                  - paragraph [ref=e208]: /Users/race/development/nova-lighting/may-24-supabase
+                  - paragraph [ref=e209]: "Last opened: 6/10/2026"
+                - generic [ref=e210]:
+                  - button "Open" [ref=e211] [cursor=pointer]:
+                    - img [ref=e212]
+                    - text: Open
+                  - button [ref=e214] [cursor=pointer]:
+                    - img [ref=e215]
+              - generic [ref=e218]:
+                - generic [ref=e219] [cursor=pointer]:
+                  - generic [ref=e220]:
+                    - generic [ref=e221]:
+                      - heading "nova-admin-tools" [level=3] [ref=e222]
+                      - button [ref=e223]:
+                        - img [ref=e224]
+                    - generic [ref=e227]:
+                      - img [ref=e228]
+                      - text: Closed
+                  - paragraph [ref=e230]: /Users/race/development/nova-lighting/nova-admin-tools
+                  - paragraph [ref=e231]: "Last opened: 6/10/2026"
+                - generic [ref=e232]:
+                  - button "Open" [ref=e233] [cursor=pointer]:
+                    - img [ref=e234]
+                    - text: Open
+                  - button [ref=e236] [cursor=pointer]:
+                    - img [ref=e237]
+              - generic [ref=e240]:
+                - generic [ref=e241] [cursor=pointer]:
+                  - generic [ref=e242]:
+                    - generic [ref=e243]:
+                      - heading "vendor-sync" [level=3] [ref=e244]
+                      - button [ref=e245]:
+                        - img [ref=e246]
+                    - generic [ref=e249]:
+                      - img [ref=e250]
+                      - text: Closed
+                  - paragraph [ref=e252]: /Users/race/development/nova-lighting/nova-lighting-core/vendor-sync
+                  - paragraph [ref=e253]: "Last opened: 6/13/2026"
+                - generic [ref=e254]:
+                  - button "Open" [ref=e255] [cursor=pointer]:
+                    - img [ref=e256]
+                    - text: Open
+                  - button [ref=e258] [cursor=pointer]:
+                    - img [ref=e259]
+              - generic [ref=e262]:
+                - generic [ref=e263] [cursor=pointer]:
+                  - generic [ref=e264]:
+                    - generic [ref=e265]:
+                      - heading "Nova-Loveable" [level=3] [ref=e266]
+                      - button [ref=e267]:
+                        - img [ref=e268]
+                    - generic [ref=e271]:
+                      - img [ref=e272]
+                      - text: Closed
+                  - paragraph [ref=e274]: /Users/race/development/nova-lighting/nova-lighting-core/Nova-Loveable
+                  - paragraph [ref=e275]: "Last opened: 6/11/2026"
+                - generic [ref=e276]:
+                  - button "Open" [ref=e277] [cursor=pointer]:
+                    - img [ref=e278]
+                    - text: Open
+                  - button [ref=e280] [cursor=pointer]:
+                    - img [ref=e281]
+              - generic [ref=e284]:
+                - generic [ref=e285] [cursor=pointer]:
+                  - generic [ref=e286]:
+                    - generic [ref=e287]:
+                      - heading "may-24-supabase" [level=3] [ref=e288]
+                      - button [ref=e289]:
+                        - img [ref=e290]
+                    - generic [ref=e293]:
+                      - img [ref=e294]
+                      - text: Closed
+                  - paragraph [ref=e296]: /Users/race/development/nova-lighting/nova-lighting-core/may-24-supabase
+                  - paragraph [ref=e297]: "Last opened: 6/13/2026"
+                - generic [ref=e298]:
+                  - button "Open" [ref=e299] [cursor=pointer]:
+                    - img [ref=e300]
+                    - text: Open
+                  - button [ref=e302] [cursor=pointer]:
+                    - img [ref=e303]
+              - generic [ref=e306]:
+                - generic [ref=e307] [cursor=pointer]:
+                  - generic [ref=e308]:
+                    - generic [ref=e309]:
+                      - heading "nova-lighting-core" [level=3] [ref=e310]
+                      - button [ref=e311]:
+                        - img [ref=e312]
+                    - generic [ref=e315]:
+                      - img [ref=e316]
+                      - text: Closed
+                  - paragraph [ref=e318]: /Users/race/development/nova-lighting/nova-lighting-core
+                  - paragraph [ref=e319]: "Last opened: 6/13/2026"
+                - generic [ref=e320]:
+                  - button "Open" [ref=e321] [cursor=pointer]:
+                    - img [ref=e322]
+                    - text: Open
+                  - button [ref=e324] [cursor=pointer]:
+                    - img [ref=e325]
+              - generic [ref=e328]:
+                - generic [ref=e329] [cursor=pointer]:
+                  - generic [ref=e330]:
+                    - generic [ref=e331]:
+                      - heading "supernova-cc-v2" [level=3] [ref=e332]
+                      - button [ref=e333]:
+                        - img [ref=e334]
+                    - generic [ref=e337]:
+                      - img [ref=e338]
+                      - text: Closed
+                  - paragraph [ref=e340]: /Users/race/development/nova-lighting/nova-lighting-core/supernova-cc-v2
+                  - paragraph [ref=e341]: "Last opened: 6/22/2026"
+                - generic [ref=e342]:
+                  - button "Open" [ref=e343] [cursor=pointer]:
+                    - img [ref=e344]
+                    - text: Open
+                  - button [ref=e346] [cursor=pointer]:
+                    - img [ref=e347]
+              - generic [ref=e350]:
+                - generic [ref=e351] [cursor=pointer]:
+                  - generic [ref=e352]:
+                    - generic [ref=e353]:
+                      - heading "honolulu" [level=3] [ref=e354]
+                      - button [ref=e355]:
+                        - img [ref=e356]
+                    - generic [ref=e359]:
+                      - img [ref=e360]
+                      - text: Closed
+                  - paragraph [ref=e362]: /Users/race/conductor/workspaces/supernova-cc-v2/honolulu
+                  - paragraph [ref=e363]: "Last opened: 6/15/2026"
+                - generic [ref=e364]:
+                  - button "Open" [ref=e365] [cursor=pointer]:
+                    - img [ref=e366]
+                    - text: Open
+                  - button [ref=e368] [cursor=pointer]:
+                    - img [ref=e369]
+              - generic [ref=e372]:
+                - generic [ref=e373] [cursor=pointer]:
+                  - generic [ref=e374]:
+                    - generic [ref=e375]:
+                      - heading "richmond" [level=3] [ref=e376]
+                      - button [ref=e377]:
+                        - img [ref=e378]
+                    - generic [ref=e381]:
+                      - img [ref=e382]
+                      - text: Closed
+                  - paragraph [ref=e384]: /Users/race/conductor/workspaces/supernova-cc-v2/richmond
+                  - paragraph [ref=e385]: "Last opened: 6/16/2026"
+                - generic [ref=e386]:
+                  - button "Open" [ref=e387] [cursor=pointer]:
+                    - img [ref=e388]
+                    - text: Open
+                  - button [ref=e390] [cursor=pointer]:
+                    - img [ref=e391]
+              - generic [ref=e394]:
+                - generic [ref=e395] [cursor=pointer]:
+                  - generic [ref=e396]:
+                    - generic [ref=e397]:
+                      - heading "corner-checklists" [level=3] [ref=e398]
+                      - button [ref=e399]:
+                        - img [ref=e400]
+                    - generic [ref=e403]:
+                      - img [ref=e404]
+                      - text: Closed
+                  - paragraph [ref=e406]: /Users/race/development/corner/corner-checklists
+                  - paragraph [ref=e407]: "Last opened: 6/22/2026"
+                - generic [ref=e408]:
+                  - button "Open" [ref=e409] [cursor=pointer]:
+                    - img [ref=e410]
+                    - text: Open
+                  - button [ref=e412] [cursor=pointer]:
+                    - img [ref=e413]
+              - generic [ref=e416]:
+                - generic [ref=e417] [cursor=pointer]:
+                  - generic [ref=e418]:
+                    - generic [ref=e419]:
+                      - heading "tel-aviv" [level=3] [ref=e420]
+                      - button [ref=e421]:
+                        - img [ref=e422]
+                    - generic [ref=e425]:
+                      - img [ref=e426]
+                      - text: Closed
+                  - paragraph [ref=e428]: /Users/race/conductor/workspaces/headless-api/tel-aviv
+                  - paragraph [ref=e429]: "Last opened: 6/22/2026"
+                - generic [ref=e430]:
+                  - button "Open" [ref=e431] [cursor=pointer]:
+                    - img [ref=e432]
+                    - text: Open
+                  - button [ref=e434] [cursor=pointer]:
+                    - img [ref=e435]
+              - generic [ref=e438]:
+                - generic [ref=e439] [cursor=pointer]:
+                  - generic [ref=e440]:
+                    - generic [ref=e441]:
+                      - heading "headless-api" [level=3] [ref=e442]
+                      - button [ref=e443]:
+                        - img [ref=e444]
+                    - generic [ref=e447]:
+                      - img [ref=e448]
+                      - text: Closed
+                  - paragraph [ref=e450]: /Users/race/development/noggn/headless-api
+                  - paragraph [ref=e451]: "Last opened: 6/24/2026"
+                - generic [ref=e452]:
+                  - button "Open" [ref=e453] [cursor=pointer]:
+                    - img [ref=e454]
+                    - text: Open
+                  - button [ref=e456] [cursor=pointer]:
+                    - img [ref=e457]
+              - generic [ref=e460]:
+                - generic [ref=e461] [cursor=pointer]:
+                  - generic [ref=e462]:
+                    - generic [ref=e463]:
+                      - heading "sudocode" [level=3] [ref=e464]
+                      - button [ref=e465]:
+                        - img [ref=e466]
+                    - generic [ref=e469]: Open
+                  - paragraph [ref=e470]: /Users/race/development/projects/sudocode
+                  - paragraph [ref=e471]: "Last opened: 6/24/2026"
+                - generic [ref=e472]:
+                  - button "Switch To" [ref=e473] [cursor=pointer]
+                  - button "Close" [ref=e474] [cursor=pointer]:
+                    - img [ref=e475]
+                    - text: Close
+                  - button [ref=e478] [cursor=pointer]:
+                    - img [ref=e479]
+  - region "Notifications alt+T"

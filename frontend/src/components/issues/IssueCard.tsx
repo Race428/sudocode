@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { toast } from 'sonner'
 import { ExecutionPreview } from '@/components/executions/ExecutionPreview'
+import { CreatedAtLabel } from '@/components/ui/created-at-label'
 import { WorkflowIndicator } from './WorkflowIndicator'
 import { SyncIndicator } from './SyncIndicator'
 import { getColorFromId } from '@/utils/colors'
@@ -236,6 +237,8 @@ export function IssueCard({
             />
           </div>
         )}
+
+        {issue.created_at && <CreatedAtLabel date={issue.created_at} className="mt-auto" />}
       </div>
     </KanbanCard>
   )

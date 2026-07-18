@@ -9,8 +9,12 @@ import {
   PlayCircle,
   GitBranch,
   Network,
+  Share2,
+  RefreshCw,
 } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
+import { systemApi } from '@/lib/api'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { ProjectSwitcher } from '@/components/projects/ProjectSwitcher'
 import { SettingsDialog } from './SettingsDialog'
@@ -26,11 +30,28 @@ interface SidebarProps {
 
 export default function Sidebar({ open, collapsed, onClose }: SidebarProps) {
   const location = useLocation()
+  const queryClient = useQueryClient()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const { updateInfo } = useUpdateCheck()
   const hasUpdate = updateInfo?.updateAvailable ?? false
   const { paths } = useProjectRoutes()
+
+  // Re-import on-disk JSONL into the server cache, then refetch all views.
+  // Pairs with running the server SUDOCODE_WATCH=false (no file watcher).
+  const handleRefresh = async () => {
+    if (refreshing) return
+    setRefreshing(true)
+    try {
+      await systemApi.resync()
+      await queryClient.invalidateQueries()
+    } catch (error) {
+      console.error('Resync failed:', error)
+    } finally {
+      setRefreshing(false)
+    }
+  }
 
   // Check if current path matches the nav item (handles both old and new URL patterns)
   const isActive = (basePath: string) => {
@@ -52,6 +73,12 @@ export default function Sidebar({ open, collapsed, onClose }: SidebarProps) {
       basePath: '/specs',
       label: 'Specs',
       icon: FileText,
+    },
+    {
+      path: paths.graph(),
+      basePath: '/graph',
+      label: 'Graph',
+      icon: Share2,
     },
     {
       path: paths.workflows(),
@@ -158,6 +185,38 @@ export default function Sidebar({ open, collapsed, onClose }: SidebarProps) {
         {/* Bottom section with help and settings */}
         <div>
           <div className={cn('space-y-1 p-2', collapsed ? 'px-2' : 'px-3')}>
+            {/* Refresh button */}
+            {collapsed ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={handleRefresh}
+                    disabled={refreshing}
+                    className={cn(
+                      'flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:opacity-50',
+                      collapsed && 'justify-center px-2'
+                    )}
+                    aria-label="Refresh"
+                  >
+                    <RefreshCw className={cn('h-5 w-5 flex-shrink-0', refreshing && 'animate-spin')} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="right">Refresh from disk</TooltipContent>
+              </Tooltip>
+            ) : (
+              <button
+                onClick={handleRefresh}
+                disabled={refreshing}
+                className={cn(
+                  'flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:opacity-50'
+                )}
+                aria-label="Refresh"
+              >
+                <RefreshCw className={cn('h-5 w-5 flex-shrink-0', refreshing && 'animate-spin')} />
+                <span>Refresh</span>
+              </button>
+            )}
+
             {/* Help button */}
             {collapsed ? (
               <Tooltip>

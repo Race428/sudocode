@@ -11,8 +11,8 @@
     "./dist/*": "./dist/*"
   },
   "bin": {
-    "sudocode": "dist/cli.js",
-    "sdc": "dist/cli.js"
+    "sudocode": "bin/sudocode",
+    "sdc": "bin/sdc"
   },
   "scripts": {
     "build": "tsc && chmod +x dist/cli.js",
@@ -69,6 +69,7 @@
     "vitest": "^3.2.4"
   },
   "files": [
+    "bin/**/*",
     "dist/**/*"
   ],
   "optionalDependencies": {

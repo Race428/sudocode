@@ -1,4 +1,5 @@
-import { ArrowRight, Trash2 } from 'lucide-react'
+import { ArrowRight, Network, Trash2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import type { Relationship, EntityType } from '@/types/api'
 import {
   RELATIONSHIP_LABELS,
@@ -10,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { EntityBadge } from '@/components/entities'
+import { useProjectRoutes } from '@/hooks/useProjectRoutes'
 
 interface RelationshipListProps {
   relationships: Relationship[]
@@ -31,10 +33,24 @@ export function RelationshipList({
   showGroupHeaders = true,
 }: RelationshipListProps) {
   const grouped = groupRelationships(relationships, currentEntityId)
+  const { paths } = useProjectRoutes()
+
+  const graphLink = (
+    <Link
+      to={paths.graph(currentEntityId)}
+      className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
+    >
+      <Network className="h-3.5 w-3.5" />
+      See in graph
+    </Link>
+  )
 
   if (relationships.length === 0 && showEmpty) {
     return (
-      <div className="py-8 text-center text-sm text-muted-foreground">No relationships yet</div>
+      <div className="space-y-2 py-4 text-center">
+        <p className="text-sm text-muted-foreground">No relationships yet</p>
+        {graphLink}
+      </div>
     )
   }
 
@@ -101,6 +117,7 @@ export function RelationshipList({
     return (
       <TooltipProvider delayDuration={300}>
         <div>
+          <div className="mb-2 flex justify-end">{graphLink}</div>
           {allRelationships.map(({ rel, direction }) => renderRelationship(rel, direction))}
         </div>
       </TooltipProvider>
@@ -110,6 +127,8 @@ export function RelationshipList({
   return (
     <TooltipProvider delayDuration={300}>
       <div className="space-y-2">
+        <div className="flex justify-end">{graphLink}</div>
+
         {/* Outgoing relationships */}
         {grouped.outgoing.length > 0 && (
           <div>

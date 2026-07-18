@@ -4,36 +4,27 @@
  * This module sets up the MCP server with tools and resources.
  */
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import {Server} from "@modelcontextprotocol/sdk/server/index.js";
+import {StdioServerTransport} from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequestSchema,
   ListResourcesRequestSchema,
   ListToolsRequestSchema,
   ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { SudocodeClient } from "./client.js";
+import {SudocodeClient} from "./client.js";
 import * as issueTools from "./tools/issues.js";
 import * as specTools from "./tools/specs.js";
 import * as relationshipTools from "./tools/relationships.js";
 import * as feedbackTools from "./tools/feedback.js";
 import * as referenceTools from "./tools/references.js";
-import { SudocodeMCPServerConfig } from "./types.js";
-import { existsSync } from "fs";
-import { join } from "path";
-import {
-  type Scope,
-  type ScopeConfig,
-  resolveScopes,
-  getUsableScopes,
-  hasExtendedScopes,
-} from "./scopes.js";
-import { SudocodeAPIClient } from "./api-client.js";
-import {
-  getToolsForScopes as getToolDefsForScopes,
-  getToolByName,
-  getHandlerType,
-} from "./tool-registry.js";
+import {SudocodeMCPServerConfig} from "./types.js";
+import {existsSync} from "fs";
+import {join} from "path";
+import {type Scope, type ScopeConfig, resolveScopes, getUsableScopes, hasExtendedScopes} from "./scopes.js";
+import {SudocodeAPIClient} from "./api-client.js";
+import {getToolsForScopes as getToolDefsForScopes, getToolByName, getHandlerType} from "./tool-registry.js";
+import {installHostLifecycleGuards} from "./lifecycle.js";
 
 export class SudocodeMCPServer {
   private server: Server;
@@ -49,17 +40,10 @@ export class SudocodeMCPServer {
 
     // Resolve scopes from config
     const scopeArg = this.config.scope || "default";
-    this.scopeConfig = resolveScopes(
-      scopeArg,
-      this.config.serverUrl,
-      this.config.projectId
-    );
+    this.scopeConfig = resolveScopes(scopeArg, this.config.serverUrl, this.config.projectId);
 
     // Determine which scopes are actually usable (have prerequisites met)
-    this.usableScopes = getUsableScopes(
-      this.scopeConfig.enabledScopes,
-      this.config.serverUrl
-    );
+    this.usableScopes = getUsableScopes(this.scopeConfig.enabledScopes, this.config.serverUrl);
 
     // Create API client if server URL is configured and extended scopes are enabled
     if (this.config.serverUrl && hasExtendedScopes(this.usableScopes)) {
@@ -82,7 +66,7 @@ export class SudocodeMCPServer {
           tools: {},
           resources: {},
         },
-      }
+      },
     );
 
     this.client = new SudocodeClient(config);
@@ -104,7 +88,7 @@ export class SudocodeMCPServer {
 
     // Handle tool calls - route to CLI or API based on tool scope
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
-      const { name, arguments: args } = request.params;
+      const {name, arguments: args} = request.params;
 
       // Get tool definition
       const tool = getToolByName(name);
@@ -174,9 +158,7 @@ export class SudocodeMCPServer {
           ],
         };
       } catch (error) {
-        let errorText = `Error: ${
-          error instanceof Error ? error.message : String(error)
-        }`;
+        let errorText = `Error: ${error instanceof Error ? error.message : String(error)}`;
 
         // Include stderr if this is a sudocode error
         if (error instanceof Error && "stderr" in error && error.stderr) {
@@ -202,8 +184,7 @@ export class SudocodeMCPServer {
           {
             uri: "sudocode://quickstart",
             name: "sudocode Quickstart Guide",
-            description:
-              "Introduction to sudocode workflow and best practices for agents",
+            description: "Introduction to sudocode workflow and best practices for agents",
             mimeType: "text/markdown",
           },
         ],
@@ -211,18 +192,16 @@ export class SudocodeMCPServer {
     });
 
     // Read resource content
-    this.server.setRequestHandler(
-      ReadResourceRequestSchema,
-      async (request) => {
-        const { uri } = request.params;
+    this.server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+      const {uri} = request.params;
 
-        if (uri === "sudocode://quickstart") {
-          return {
-            contents: [
-              {
-                uri,
-                mimeType: "text/markdown",
-                text: `# sudocode Quickstart
+      if (uri === "sudocode://quickstart") {
+        return {
+          contents: [
+            {
+              uri,
+              mimeType: "text/markdown",
+              text: `# sudocode Quickstart
 
 sudocode is a git-native spec and issue management system designed for AI-assisted development.
 
@@ -261,23 +240,19 @@ sudocode is a git-native spec and issue management system designed for AI-assist
 - \`discovered-from\`: New work found during implementation
 - \`related\`: General relationship
 `,
-              },
-            ],
-          };
-        }
-
-        throw new Error(`Unknown resource: ${uri}`);
+            },
+          ],
+        };
       }
-    );
+
+      throw new Error(`Unknown resource: ${uri}`);
+    });
   }
 
   /**
    * Handle CLI-based tools (default scope).
    */
-  private async handleCliTool(
-    name: string,
-    args: Record<string, unknown>
-  ): Promise<unknown> {
+  private async handleCliTool(name: string, args: Record<string, unknown>): Promise<unknown> {
     switch (name) {
       case "ready":
         return issueTools.ready(this.client, args as any);
@@ -307,14 +282,9 @@ sudocode is a git-native spec and issue management system designed for AI-assist
   /**
    * Handle API-based tools (extended scopes).
    */
-  private async handleApiTool(
-    name: string,
-    args: Record<string, unknown>
-  ): Promise<unknown> {
+  private async handleApiTool(name: string, args: Record<string, unknown>): Promise<unknown> {
     if (!this.apiClient) {
-      throw new Error(
-        `Tool '${name}' requires --server-url to be configured.`
-      );
+      throw new Error(`Tool '${name}' requires --server-url to be configured.`);
     }
 
     switch (name) {
@@ -364,7 +334,7 @@ sudocode is a git-native spec and issue management system designed for AI-assist
       // Voice - speak is a no-op on the MCP side; actual narration
       // happens server-side when parsing the agent's output stream
       case "speak":
-        return { success: true, message: "Narration queued" };
+        return {success: true, message: "Narration queued"};
 
       default:
         throw new Error(`Unknown API tool: ${name}`);
@@ -400,9 +370,7 @@ sudocode is a git-native spec and issue management system designed for AI-assist
       // Try to auto-import from JSONL files if they exist
       if (existsSync(issuesPath) || existsSync(specsPath)) {
         try {
-          console.error(
-            "Found .sudocode directory but no cache.db, running import..."
-          );
+          console.error("Found .sudocode directory but no cache.db, running import...");
           await this.client.exec(["import"]);
           console.error("✓ Successfully imported data to cache.db");
           return {
@@ -414,16 +382,12 @@ sudocode is a git-native spec and issue management system designed for AI-assist
           return {
             initialized: false,
             sudocodeExists: true,
-            message: `Failed to import: ${
-              error instanceof Error ? error.message : String(error)
-            }`,
+            message: `Failed to import: ${error instanceof Error ? error.message : String(error)}`,
           };
         }
       } else {
         try {
-          console.error(
-            "Found .sudocode directory but no issues.jsonl or specs.jsonl, running init..."
-          );
+          console.error("Found .sudocode directory but no issues.jsonl or specs.jsonl, running init...");
           await this.client.exec(["init"]);
           console.error("✓ Successfully initialized sudocode");
           await this.client.exec(["import"]);
@@ -436,9 +400,7 @@ sudocode is a git-native spec and issue management system designed for AI-assist
           return {
             initialized: false,
             sudocodeExists: true,
-            message: `Failed to initialize: ${
-              error instanceof Error ? error.message : String(error)
-            }`,
+            message: `Failed to initialize: ${error instanceof Error ? error.message : String(error)}`,
           };
         }
       }
@@ -485,6 +447,9 @@ sudocode is a git-native spec and issue management system designed for AI-assist
   }
 
   async run() {
+    // Exit when Cursor/Claude closes the session instead of leaking forever.
+    installHostLifecycleGuards("sudocode-mcp");
+
     // Check if sudocode is initialized (non-blocking warning)
     await this.checkInitialization();
 
@@ -502,9 +467,7 @@ sudocode is a git-native spec and issue management system designed for AI-assist
     if (this.apiClient && this.config.workingDir) {
       try {
         const workingDir = this.config.workingDir;
-        const absolutePath = workingDir.startsWith("/")
-          ? workingDir
-          : join(process.cwd(), workingDir);
+        const absolutePath = workingDir.startsWith("/") ? workingDir : join(process.cwd(), workingDir);
 
         console.error(`[mcp] Opening project at ${absolutePath}...`);
         const result = await this.apiClient.openProject(absolutePath);

@@ -47,6 +47,8 @@ export function useProjectRoutes() {
       workflows: () => buildPath('/workflows'),
       workflow: (id: string) => buildPath(`/workflows/${id}`),
       worktrees: () => buildPath('/worktrees'),
+      graph: (focusId?: string) =>
+        buildPath(focusId ? `/graph?focus=${focusId}` : '/graph'),
     }),
     [buildPath]
   )
@@ -86,6 +88,8 @@ export function useProjectRoutes() {
       workflow: (id: string, options?: { replace?: boolean }) =>
         navigate(paths.workflow(id), options),
       worktrees: (options?: { replace?: boolean }) => navigate(paths.worktrees(), options),
+      graph: (focusId?: string, options?: { replace?: boolean }) =>
+        navigate(paths.graph(focusId), options),
     }),
     [navigate, paths]
   )
