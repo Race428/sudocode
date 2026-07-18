@@ -20,6 +20,7 @@ import {
   getIncomingRelationships,
 } from "../operations/relationships.js";
 import { getTags, setTags } from "../operations/tags.js";
+import { materializeContentReferences } from "../operations/references.js";
 import { listFeedback } from "../operations/feedback.js";
 import { exportToJSONL } from "../export.js";
 import { syncJSONLToMarkdown } from "../sync.js";
@@ -70,6 +71,14 @@ export async function handleIssueCreate(
       setTags(ctx.db, issueId, "issue", tags);
     }
 
+    // Materialize [[id]] references in the description as relationships
+    const refResult = materializeContentReferences(
+      ctx.db,
+      issueId,
+      "issue",
+      issue.content
+    );
+
     await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
 
     // Also update the markdown file to keep it in sync
@@ -83,7 +92,18 @@ export async function handleIssueCreate(
 
     if (ctx.jsonOutput) {
       console.log(
-        JSON.stringify({ id: issueId, title, status: "open" }, null, 2)
+        JSON.stringify(
+          {
+            id: issueId,
+            title,
+            status: "open",
+            ...(refResult.warnings.length > 0
+              ? { reference_warnings: refResult.warnings }
+              : {}),
+          },
+          null,
+          2
+        )
       );
     } else {
       console.log(chalk.green("✓ Created issue"), chalk.cyan(issueId));
@@ -91,6 +111,9 @@ export async function handleIssueCreate(
       console.log(chalk.gray(`  File: issues/${fileName}`));
       if (options.assignee) {
         console.log(chalk.gray(`  Assignee: ${options.assignee}`));
+      }
+      for (const warning of refResult.warnings) {
+        console.log(chalk.yellow(`  ⚠ ${warning}`));
       }
     }
     await trackCommand(ctx.outputDir, "issue_create", { title }, true, Date.now() - startTime);
@@ -321,6 +344,7 @@ export interface IssueUpdateOptions {
   description?: string;
   parent?: string;
   archived?: string;
+  tags?: string;
 }
 
 export async function handleIssueUpdate(
@@ -352,7 +376,37 @@ export async function handleIssueUpdate(
       updates.archived = options.archived === 'true';
     }
 
-    const issue = updateIssue(ctx.db, id, updates);
+    let issue;
+    try {
+      issue = updateIssue(ctx.db, id, updates);
+    } catch (error) {
+      // Stale cache: the issue may exist in JSONL (e.g., created by another
+      // agent/worktree) but not yet in this cache.db. Re-import and retry once.
+      if (
+        error instanceof Error &&
+        error.message.includes(`Issue not found: ${id}`)
+      ) {
+        const { importFromJSONL } = await import("../import.js");
+        await importFromJSONL(ctx.db, { inputDir: ctx.outputDir });
+        issue = updateIssue(ctx.db, id, updates);
+      } else {
+        throw error;
+      }
+    }
+
+    if (options.tags !== undefined) {
+      const tags = options.tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+      setTags(ctx.db, id, "issue", tags);
+    }
+
+    // Materialize [[id]] references in updated description as relationships
+    const refResult =
+      updates.content !== undefined
+        ? materializeContentReferences(ctx.db, id, "issue", issue.content)
+        : { linked: [], warnings: [] };
 
     await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
 
@@ -365,12 +419,23 @@ export async function handleIssueUpdate(
     await syncJSONLToMarkdown(ctx.db, id, 'issue', mdPath);
 
     if (ctx.jsonOutput) {
-      console.log(JSON.stringify(issue, null, 2));
+      console.log(
+        JSON.stringify(
+          refResult.warnings.length > 0
+            ? { ...issue, reference_warnings: refResult.warnings }
+            : issue,
+          null,
+          2
+        )
+      );
     } else {
       console.log(chalk.green("✓ Updated issue"), chalk.cyan(id));
       Object.keys(updates).forEach((key) => {
         console.log(chalk.gray(`  ${key}: ${updates[key]}`));
       });
+      for (const warning of refResult.warnings) {
+        console.log(chalk.yellow(`  ⚠ ${warning}`));
+      }
     }
     await trackCommand(ctx.outputDir, "issue_update", { id, status: options.status, archived: options.archived === 'true' }, true, Date.now() - startTime);
   } catch (error) {
@@ -471,6 +536,19 @@ export async function handleIssueDelete(
           const { deleteIssue } = await import("../operations/issues.js");
           const deleted = deleteIssue(ctx.db, id);
           if (deleted) {
+            // Remove the markdown file too, so the watcher doesn't
+            // re-import the entity from the leftover file
+            const mdFile = findExistingEntityFile(
+              id,
+              path.join(ctx.outputDir, "issues")
+            );
+            if (mdFile) {
+              try {
+                fs.unlinkSync(mdFile);
+              } catch {
+                // File already gone or locked - not fatal
+              }
+            }
             results.push({ id, success: true, action: "hard_delete" });
             if (!ctx.jsonOutput) {
               console.log(

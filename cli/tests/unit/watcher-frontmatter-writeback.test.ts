@@ -63,17 +63,17 @@ describe("File Watcher - Orphaned Files and Frontmatter", () => {
     }
   });
 
-  it("should delete orphaned spec file without frontmatter (no DB entry)", async () => {
+  it("should preserve orphaned spec file without frontmatter (never delete user files)", async () => {
     const logs: string[] = [];
     const errors: Error[] = [];
 
     // Create a spec file WITHOUT frontmatter (and no DB entry)
-    // Since DB/JSONL is source of truth, this file should be deleted as orphaned
+    // The watcher cannot map it to an entity - it must be left alone
     const specPath = path.join(tempDir, "specs", "new-spec-without-fm.md");
     const content = `# Test New Spec
 
 This is a test spec without any frontmatter and no DB entry.
-It should be deleted as orphaned.
+The watcher should leave it alone.
 `;
     fs.writeFileSync(specPath, content, "utf8");
 
@@ -92,24 +92,24 @@ It should be deleted as orphaned.
     // Wait for watcher to process the file
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // File should be deleted as orphaned (no DB entry)
-    expect(fs.existsSync(specPath)).toBe(false);
+    // File must NOT be deleted
+    expect(fs.existsSync(specPath)).toBe(true);
 
-    // Verify orphaned file handling was logged
+    // Verify it was logged as ignored
     expect(
-      logs.some((log) => log.includes("Orphaned file detected") || log.includes("Deleted orphaned"))
+      logs.some((log) => log.includes("Ignoring") && log.includes("new-spec-without-fm"))
     ).toBe(true);
 
     // No errors should occur
     expect(errors.length).toBe(0);
   });
 
-  it("should delete orphaned spec file with frontmatter but no DB entry", async () => {
+  it("should preserve orphaned spec file with invalid-format id (never delete user files)", async () => {
     const logs: string[] = [];
     const errors: Error[] = [];
 
-    // Create a spec file WITH frontmatter but WITHOUT a DB entry
-    // Since the ID doesn't exist in DB, it should be deleted as orphaned
+    // Create a spec file WITH frontmatter but an id that doesn't match the
+    // hash-id format (s-xxxx). It can't be imported, but must not be deleted.
     const specPath = path.join(tempDir, "specs", "existing-fm.md");
     const content = `---
 id: SPEC-999
@@ -120,7 +120,7 @@ created_at: '2025-01-01 00:00:00'
 
 # Orphaned Spec
 
-This spec has frontmatter but no DB entry, so it's orphaned.
+This spec has frontmatter but an invalid-format id and no DB entry.
 `;
     fs.writeFileSync(specPath, content, "utf8");
 
@@ -139,15 +139,56 @@ This spec has frontmatter but no DB entry, so it's orphaned.
     // Wait for watcher to process
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // File should be deleted as orphaned (no DB entry for SPEC-999)
-    expect(fs.existsSync(specPath)).toBe(false);
+    // File must NOT be deleted
+    expect(fs.existsSync(specPath)).toBe(true);
 
-    // Verify orphaned file handling was logged
+    // Verify it was logged as ignored
     expect(
-      logs.some((log) => log.includes("Orphaned file detected") || log.includes("Deleted orphaned"))
+      logs.some((log) => log.includes("Ignoring") && log.includes("existing-fm"))
     ).toBe(true);
 
     // No errors should occur
+    expect(errors.length).toBe(0);
+  });
+
+  it("should import orphaned spec file with valid hash id instead of deleting it", async () => {
+    const logs: string[] = [];
+    const errors: Error[] = [];
+
+    // Create a spec file with a valid hash-format id that the DB doesn't know
+    // (e.g., hand-authored by an agent, or cache.db is stale). The watcher
+    // should import it, preserving the declared id - never delete or re-mint.
+    const specPath = path.join(tempDir, "specs", "hand-authored.md");
+    const content = `---
+id: s-zz99
+title: Hand Authored Spec
+priority: 1
+created_at: '2025-01-01 00:00:00'
+---
+
+# Hand Authored Spec
+
+Created directly as markdown by an agent.
+`;
+    fs.writeFileSync(specPath, content, "utf8");
+
+    control = startWatcher({
+      db,
+      baseDir: tempDir,
+      ignoreInitial: false,
+      onLog: (msg) => logs.push(msg),
+      onError: (err) => errors.push(err),
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    // File preserved and entity imported with its declared id
+    expect(fs.existsSync(specPath)).toBe(true);
+    const { getSpec } = await import("../../src/operations/specs.js");
+    const imported = getSpec(db, "s-zz99");
+    expect(imported).not.toBeNull();
+    expect(imported?.title).toBe("Hand Authored Spec");
+
     expect(errors.length).toBe(0);
   });
 

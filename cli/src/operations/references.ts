@@ -2,6 +2,63 @@
  * Operations for managing cross-references in markdown content
  */
 
+import type Database from "better-sqlite3";
+import { extractCrossReferences } from "../markdown.js";
+import { addRelationship } from "./relationships.js";
+
+export interface MaterializeReferencesResult {
+  /** Relationships created or confirmed, as "type:target-id" */
+  linked: string[];
+  /** References that could not be materialized, with the reason */
+  warnings: string[];
+}
+
+/**
+ * Scan markdown content for [[id]] / [[id]]{ type } cross-references and
+ * materialize them as relationship edges from the given entity.
+ *
+ * Unresolvable references (target not in DB, invalid relationship type) are
+ * reported as warnings instead of being silently dropped, so callers can
+ * surface them to the user/agent.
+ */
+export function materializeContentReferences(
+  db: Database.Database,
+  entityId: string,
+  entityType: "spec" | "issue",
+  content: string
+): MaterializeReferencesResult {
+  const result: MaterializeReferencesResult = { linked: [], warnings: [] };
+  if (!content) return result;
+
+  // Extract without db so references to unknown targets are still visible
+  // (extractCrossReferences with a db silently drops them)
+  const refs = extractCrossReferences(content);
+
+  for (const ref of refs) {
+    if (ref.id === entityId) continue;
+    const relType = ref.relationshipType || "references";
+    try {
+      addRelationship(db, {
+        from_id: entityId,
+        from_type: entityType,
+        to_id: ref.id,
+        to_type: ref.type,
+        relationship_type: relType as any,
+        metadata: ref.anchor ? JSON.stringify({ anchor: ref.anchor }) : undefined,
+      });
+      result.linked.push(`${relType}:${ref.id}`);
+    } catch (error) {
+      result.warnings.push(
+        `[[${ref.id}]] not linked (${relType}): ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+
+  return result;
+}
+
 export interface AddReferenceOptions {
   referenceId: string;
   displayText?: string;

@@ -398,23 +398,24 @@ This spec will have its markdown deleted but DB entry preserved.
       expect(errors.length).toBe(0);
     });
 
-    it("should delete orphaned markdown file without frontmatter (no corresponding DB entry)", async () => {
+    it("should preserve orphaned markdown file without frontmatter (never delete user files)", async () => {
       const logs: string[] = [];
       const errors: Error[] = [];
 
       // Create a markdown file WITHOUT frontmatter BEFORE starting watcher
-      // Since DB/JSONL is source of truth, this file has no corresponding DB entry
+      // It has no id, so the watcher cannot map it to an entity - it must be
+      // left alone (may be mid-authoring), not deleted
       const specPath = path.join(tempDir, "specs", "no-frontmatter-orphan.md");
       const content = `# No Frontmatter Orphan Test
 
-This spec has no frontmatter and no DB entry, so it should be deleted as orphaned.
+This spec has no frontmatter and no DB entry; the watcher should leave it alone.
 `;
       fs.writeFileSync(specPath, content, "utf8");
 
       // Verify file exists before watcher starts
       expect(fs.existsSync(specPath)).toBe(true);
 
-      // Start watcher with ignoreInitial: false to detect and clean up orphaned files
+      // Start watcher with ignoreInitial: false to detect existing files
       control = startWatcher({
         db,
         baseDir: tempDir,
@@ -423,17 +424,16 @@ This spec has no frontmatter and no DB entry, so it should be deleted as orphane
         onError: (err) => errors.push(err),
       });
 
-      // Wait for watcher to start and process the orphaned file
+      // Wait for watcher to start and process the file
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      // Verify orphaned file was deleted (DB/JSONL is source of truth)
-      expect(fs.existsSync(specPath)).toBe(false);
+      // File must NOT be deleted
+      expect(fs.existsSync(specPath)).toBe(true);
 
-      // Verify orphaned file deletion was logged
-      expect(logs.some((log) => log.includes("Orphaned file detected"))).toBe(
-        true
-      );
-      expect(logs.some((log) => log.includes("Deleted orphaned"))).toBe(true);
+      // Verify it was logged as ignored
+      expect(
+        logs.some((log) => log.includes("Ignoring") && log.includes("no-frontmatter-orphan"))
+      ).toBe(true);
 
       // No errors should occur
       expect(errors.length).toBe(0);
