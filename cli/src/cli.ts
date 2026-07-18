@@ -77,21 +77,26 @@ import { VERSION } from "./version.js";
 // Global state
 let db: Database.Database | null = null;
 let dbPath: string = "";
+let dbWasMissing: boolean = false;
 let outputDir: string = ".sudocode";
 let jsonOutput: boolean = false;
 
 /**
  * Find database path
- * Searches for .sudocode/cache.db in current directory and parent directories
+ * Searches for a .sudocode project directory in the current directory and
+ * parents. The project boundary is the .sudocode DIRECTORY itself - not
+ * cache.db, which is gitignored and may not exist yet (fresh clone/worktree).
+ * Keying on cache.db would walk past the local project and silently bind to
+ * an unrelated ancestor project's database.
  */
 function findDatabasePath(): string | null {
   let currentDir = process.cwd();
   const root = path.parse(currentDir).root;
 
   while (currentDir !== root) {
-    const potentialPath = path.join(currentDir, ".sudocode", "cache.db");
-    if (fs.existsSync(potentialPath)) {
-      return potentialPath;
+    const sudocodeDir = path.join(currentDir, ".sudocode");
+    if (fs.existsSync(sudocodeDir) && fs.statSync(sudocodeDir).isDirectory()) {
+      return path.join(sudocodeDir, "cache.db");
     }
     currentDir = path.dirname(currentDir);
   }
@@ -118,11 +123,44 @@ function initDB() {
   try {
     // Ensure the database directory exists before opening/creating the database
     fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+    dbWasMissing = !fs.existsSync(dbPath);
     db = initDatabase({ path: dbPath });
   } catch (error) {
     console.error(chalk.red("Error: Failed to open database"));
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
+  }
+}
+
+/**
+ * If the git-tracked JSONL files are newer than the SQLite cache (e.g., after
+ * git pull, or in a fresh worktree where cache.db is gitignored), re-import so
+ * commands see current data instead of failing with "not found" on entities
+ * that exist.
+ */
+async function maybeImportStaleJSONL(): Promise<void> {
+  if (!db || !dbPath) return;
+  try {
+    const mtime = (p: string) =>
+      fs.existsSync(p) ? fs.statSync(p).mtimeMs : 0;
+
+    // WAL mode: writes may only touch the -wal file, so take the max
+    const dbTime = Math.max(mtime(dbPath), mtime(`${dbPath}-wal`));
+    const jsonlTime = Math.max(
+      mtime(path.join(outputDir, "issues.jsonl")),
+      mtime(path.join(outputDir, "specs.jsonl"))
+    );
+
+    // Fresh cache (just created by this process) must always import, since
+    // its mtime is "now" and the mtime comparison would wrongly skip it.
+    // Otherwise, 1s tolerance: export sets JSONL mtime from updated_at,
+    // which can land marginally after the db write during normal operation
+    if ((dbWasMissing && jsonlTime > 0) || jsonlTime > dbTime + 1000) {
+      const { importFromJSONL } = await import("./import.js");
+      await importFromJSONL(db, { inputDir: outputDir });
+    }
+  } catch {
+    // Staleness check is best-effort; commands still work on the cache as-is
   }
 }
 
@@ -146,7 +184,7 @@ program
   .version(VERSION)
   .option("--db <path>", "Database path (default: auto-discover)")
   .option("--json", "Output in JSON format")
-  .hook("preAction", (thisCommand: Command) => {
+  .hook("preAction", async (thisCommand: Command, actionCommand: Command) => {
     // Get global options
     const opts = thisCommand.optsWithGlobals();
     if (opts.db) dbPath = opts.db;
@@ -155,6 +193,10 @@ program
     // Skip DB init for init command
     if (thisCommand.name() !== "init") {
       initDB();
+      // Skip for import/sync commands, which manage the cache themselves
+      if (!["init", "import", "sync", "export"].includes(actionCommand.name())) {
+        await maybeImportStaleJSONL();
+      }
     }
   })
   .hook("postAction", () => {
@@ -298,6 +340,7 @@ issue
   .option("--description <desc>", "New description")
   .option("--parent <id>", "New parent issue ID")
   .option("--archived <bool>", "Archive status (true/false)")
+  .option("--tags <tags>", "Comma-separated tags (replaces existing)")
   .action(async (id, options) => {
     await handleIssueUpdate(getContext(), id, options);
   });

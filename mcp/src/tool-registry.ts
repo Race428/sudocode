@@ -107,7 +107,7 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
     name: "upsert_issue",
     scope: "default",
     description:
-      "Create or update an issue (agent's actionable work item). **Issues implement specs** - use 'link' with type='implements' to connect issue to spec. **Before closing:** provide feedback on the spec using 'add_feedback' if this issue implements a spec. If issue_id is provided, updates the issue; otherwise creates a new one. To close an issue, set status='closed'. To archive an issue, set archived=true.",
+      "Create or update an issue (agent's actionable work item). **Issues implement specs** - use 'link' with type='implements' to connect issue to spec, or write inline [[spec-id]]{ implements } references in the description (they are materialized as relationships; unresolvable ones are returned in reference_warnings - check it). **Before closing:** provide feedback on the spec using 'add_feedback' if this issue implements a spec. If issue_id is provided, updates that issue (never creates; errors if the id doesn't exist). Otherwise creates a new one. Providing tags on update replaces the issue's tags. To close an issue, set status='closed'. To archive an issue, set archived=true.",
     inputSchema: {
       type: "object",
       properties: {
@@ -193,7 +193,7 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
     name: "upsert_spec",
     scope: "default",
     description:
-      "Create or update a spec (user's requirements/intent/context document). If spec_id is provided, updates the spec; otherwise creates a new one with a hash-based ID.",
+      "Create or update a spec (user's requirements/intent/context document). If spec_id is provided, updates that spec (never creates; errors if the id doesn't exist). Otherwise creates a new one with a hash-based ID. Inline [[id]] references in the description are materialized as relationships; unresolvable ones are returned in reference_warnings - check it.",
     inputSchema: {
       type: "object",
       properties: {

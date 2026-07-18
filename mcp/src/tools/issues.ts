@@ -138,6 +138,9 @@ export async function upsertIssue(
     if (params.archived !== undefined) {
       args.push("--archived", params.archived.toString());
     }
+    if (params.tags !== undefined) {
+      args.push("--tags", params.tags.join(","));
+    }
 
     return client.exec(args);
   } else {

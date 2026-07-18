@@ -18,6 +18,7 @@ import {
   getIncomingRelationships,
 } from "../operations/relationships.js";
 import { getTags, setTags } from "../operations/tags.js";
+import { materializeContentReferences } from "../operations/references.js";
 import { listFeedback } from "../operations/feedback.js";
 import { exportToJSONL } from "../export.js";
 import { writeMarkdownFile } from "../markdown.js";
@@ -93,18 +94,35 @@ export async function handleSpecCreate(
 
     writeMarkdownFile(path.join(ctx.outputDir, filePath), frontmatter, content);
 
+    // Materialize [[id]] references in the description as relationships
+    const refResult = materializeContentReferences(ctx.db, specId, "spec", content);
+
     // Export to JSONL
     await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
 
     // Output result
     if (ctx.jsonOutput) {
       console.log(
-        JSON.stringify({ id: specId, title, file_path: filePath }, null, 2)
+        JSON.stringify(
+          {
+            id: specId,
+            title,
+            file_path: filePath,
+            ...(refResult.warnings.length > 0
+              ? { reference_warnings: refResult.warnings }
+              : {}),
+          },
+          null,
+          2
+        )
       );
     } else {
       console.log(chalk.green("✓ Created spec"), chalk.cyan(specId));
       console.log(chalk.gray(`  Title: ${title}`));
       console.log(chalk.gray(`  File: ${filePath}`));
+      for (const warning of refResult.warnings) {
+        console.log(chalk.yellow(`  ⚠ ${warning}`));
+      }
     }
     await trackCommand(ctx.outputDir, "spec_create", { title }, true, Date.now() - startTime);
   } catch (error) {
@@ -304,7 +322,14 @@ export async function handleSpecUpdate(
 ): Promise<void> {
   const startTime = Date.now();
   try {
-    const spec = getSpec(ctx.db, id);
+    let spec = getSpec(ctx.db, id);
+    if (!spec) {
+      // Stale cache: the spec may exist in JSONL (e.g., created by another
+      // agent/worktree) but not yet in this cache.db. Re-import and retry once.
+      const { importFromJSONL } = await import("../import.js");
+      await importFromJSONL(ctx.db, { inputDir: ctx.outputDir });
+      spec = getSpec(ctx.db, id);
+    }
     if (!spec) {
       console.error(chalk.red(`✗ Spec not found: ${id}`));
       process.exit(1);
@@ -380,17 +405,34 @@ export async function handleSpecUpdate(
       writeMarkdownFile(fullPath, frontmatter, markdownContent);
     }
 
+    // Materialize [[id]] references in updated description as relationships
+    const refResult =
+      options.description !== undefined
+        ? materializeContentReferences(ctx.db, id, "spec", updated.content)
+        : { linked: [], warnings: [] };
+
     // Export to JSONL
     await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
 
     // Output result
     if (ctx.jsonOutput) {
-      console.log(JSON.stringify(updated, null, 2));
+      console.log(
+        JSON.stringify(
+          refResult.warnings.length > 0
+            ? { ...updated, reference_warnings: refResult.warnings }
+            : updated,
+          null,
+          2
+        )
+      );
     } else {
       console.log(chalk.green("✓ Updated spec"), chalk.cyan(id));
       if (options.title) console.log(chalk.gray(`  Title: ${updated.title}`));
       if (options.priority)
         console.log(chalk.gray(`  Priority: ${updated.priority}`));
+      for (const warning of refResult.warnings) {
+        console.log(chalk.yellow(`  ⚠ ${warning}`));
+      }
     }
     await trackCommand(ctx.outputDir, "spec_update", { id }, true, Date.now() - startTime);
   } catch (error) {

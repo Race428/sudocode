@@ -630,13 +630,32 @@ export function startWatcher(options: WatcherOptions): WatcherControl {
               }
             }
           } catch (error) {
-            // If parsing fails, treat as orphaned file
-            syncDirection = "orphaned";
+            // Parse failure is NOT proof the file is orphaned - it may be a
+            // mid-write read (another process still flushing) or a transient
+            // state. Deleting or creating entities from a failed parse causes
+            // data loss / phantom entities. Skip; a later event will re-process.
+            onLog(
+              `[watch] Skipping ${relPath}: parse failed (possibly mid-write): ${error}`
+            );
+            syncDirection = "skip";
           }
 
           // Handle orphaned files (no corresponding DB entry)
           if (syncDirection === "orphaned") {
             const config = getConfig(baseDir);
+
+            // Never create or delete based on an empty file - likely a
+            // mid-write 'add' event before content is flushed
+            try {
+              if (fs.readFileSync(filePath, "utf8").trim() === "") {
+                onLog(
+                  `[watch] Skipping empty file ${relPath} (possibly mid-write)`
+                );
+                return;
+              }
+            } catch {
+              return; // File vanished between events
+            }
 
             if (isMarkdownFirst(config)) {
               // Markdown is source of truth - CREATE entity from markdown file
@@ -691,19 +710,65 @@ export function startWatcher(options: WatcherOptions): WatcherControl {
                   )
                 );
               }
-            } else {
-              // JSONL/DB is source of truth - delete orphaned file
+            } else if (entityId && /^[is]-[0-9a-z]{4,8}$/i.test(entityId)) {
+              // JSONL/DB is source of truth, but the file carries a valid
+              // entity id that the DB doesn't know. Deleting it would destroy
+              // a hand-authored entity (agents are told markdown editing
+              // syncs). Import it instead, preserving the declared id.
+              // autoInitialize=false guarantees no new id is ever minted here.
               onLog(
-                `[watch] Orphaned file detected: ${relPath} (no corresponding DB entry)`
+                `[watch] Importing ${entityType} ${entityId} from new markdown file: ${relPath}`
               );
               try {
-                fs.unlinkSync(filePath);
-                onLog(`[watch] Deleted orphaned file: ${relPath}`);
+                const result = await syncMarkdownToJSONL(db, filePath, {
+                  outputDir: baseDir,
+                  autoExport: true,
+                  autoInitialize: false,
+                  writeBackFrontmatter: false,
+                });
+
+                if (result.success && result.entityId) {
+                  updateFilePathCache(filePath, result.entityId, entityType);
+
+                  if (onEntitySync) {
+                    const entity =
+                      entityType === "spec"
+                        ? getSpec(db, result.entityId)
+                        : getIssue(db, result.entityId);
+
+                    await onEntitySync({
+                      entityType,
+                      entityId: result.entityId,
+                      action: "created",
+                      filePath,
+                      baseDir,
+                      source: "markdown",
+                      timestamp: new Date(),
+                      entity: entity ?? undefined,
+                      version: 1,
+                    });
+                  }
+                } else {
+                  onError(
+                    new Error(
+                      `Failed to import ${entityType} from file ${relPath}: ${result.error || "Unknown error"}`
+                    )
+                  );
+                }
               } catch (err) {
                 onError(
-                  new Error(`Failed to delete orphaned file ${relPath}: ${err}`)
+                  new Error(
+                    `Failed to import ${entityType} from file ${relPath}: ${err}`
+                  )
                 );
               }
+            } else {
+              // JSONL/DB is source of truth and the file has no valid id - do
+              // NOT delete (may be mid-authoring) and do NOT mint an id from
+              // the watcher. An explicit `sudocode sync` can adopt it later.
+              onLog(
+                `[watch] Ignoring markdown file without valid id: ${relPath} (JSONL is source of truth; run 'sudocode sync' to adopt it)`
+              );
             }
             return;
           }
@@ -1129,10 +1194,48 @@ export function startWatcher(options: WatcherOptions): WatcherControl {
             );
           }
         } else {
-          // JSONL is source of truth - delete orphaned file
-          fs.unlinkSync(filePath);
-          orphanedCount++;
-          onLog(`[watch] Deleted orphaned ${entityType} file: ${relPath}`);
+          // JSONL is source of truth. If the file declares a valid entity id
+          // the DB doesn't know (hand-authored entity, stale cache), import it
+          // instead of deleting it - deleting destroys agent/user work.
+          let entityId: string | undefined;
+          try {
+            entityId = parseMarkdownFile(filePath, db, baseDir).data.id;
+          } catch {
+            entityId = undefined;
+          }
+
+          if (entityId && /^[is]-[0-9a-z]{4,8}$/i.test(entityId)) {
+            try {
+              const result = await syncMarkdownToJSONL(db, filePath, {
+                outputDir: baseDir,
+                autoExport: false, // Batch export after startup sweep
+                autoInitialize: false, // Never mint ids from the watcher
+                writeBackFrontmatter: false,
+              });
+              if (result.success && result.entityId) {
+                createdCount++;
+                onLog(
+                  `[watch] Imported ${entityType} ${result.entityId} from markdown file: ${relPath}`
+                );
+                updateFilePathCache(filePath, result.entityId, entityType);
+              } else {
+                onLog(
+                  `[watch] Warning: Failed to import ${entityType} from ${relPath}: ${result.error || "Unknown error"}`
+                );
+              }
+            } catch (err) {
+              onLog(
+                `[watch] Warning: Failed to import ${entityType} from ${relPath}: ${err}`
+              );
+            }
+          } else {
+            // No valid id - leave the file alone (may be mid-authoring);
+            // an explicit `sudocode sync` can adopt it later
+            orphanedCount++;
+            onLog(
+              `[watch] Ignoring ${entityType} file without valid id: ${relPath} (run 'sudocode sync' to adopt it)`
+            );
+          }
         }
       };
 
@@ -1159,9 +1262,9 @@ export function startWatcher(options: WatcherOptions): WatcherControl {
               // Try to create entity even from invalid file (autoInitialize will handle it)
               await handleOrphanedFile(filePath, "spec", `specs/${file}`);
             } else {
-              fs.unlinkSync(filePath);
-              orphanedCount++;
-              onLog(`[watch] Deleted orphaned spec file (invalid): specs/${file}`);
+              // Never delete on parse failure - could be mid-write or a
+              // recoverable formatting problem
+              onLog(`[watch] Ignoring unparseable spec file: specs/${file}`);
             }
           }
         }
@@ -1189,9 +1292,9 @@ export function startWatcher(options: WatcherOptions): WatcherControl {
             if (markdownFirst) {
               await handleOrphanedFile(filePath, "issue", `issues/${file}`);
             } else {
-              fs.unlinkSync(filePath);
-              orphanedCount++;
-              onLog(`[watch] Deleted orphaned issue file (invalid): issues/${file}`);
+              // Never delete on parse failure - could be mid-write or a
+              // recoverable formatting problem
+              onLog(`[watch] Ignoring unparseable issue file: issues/${file}`);
             }
           }
         }

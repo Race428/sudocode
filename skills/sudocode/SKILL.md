@@ -21,21 +21,31 @@ Spec-driven development and issue management system. Work persists across sessio
 
 ### Two Ways to Modify Specs/Issues
 
-**Option 1: Direct Markdown Editing** (For content-heavy edits)
-- Edit markdown files in `.sudocode/specs/` or `.sudocode/issues/`
-- Frontmatter contains metadata (id, title, status, relationships, tags)
-- Content after frontmatter is the body
-- System syncs bidirectionally
-- Use direct markdown editing when possible to maintain file structure and reduce content churn
-
-**Option 2: MCP Tools** (Recommended for structured operations)
+**Option 1: MCP Tools** (Default - use these)
 - Use `upsert_issue`, `upsert_spec`, `link`, `add_feedback` tools
 - Automatically syncs to markdown/sqlite/jsonl
 - Validates relationships and IDs
+- Inline `[[id]]` references in descriptions are materialized as relationships
+  immediately; unresolvable ones are returned in `reference_warnings`
+
+**Option 2: Direct Markdown Editing** (For content-heavy edits to EXISTING entities)
+- Edit markdown files in `.sudocode/specs/` or `.sudocode/issues/`
+- Frontmatter contains metadata (id, title, status, relationships, tags)
+- Content after frontmatter is the body
+- Keep the `id` field in frontmatter intact - it is how the sync maps the file
+  to the entity
+- Do NOT hand-create new entity files without an id; use the MCP tools to
+  create entities (they generate collision-safe ids)
 
 **When to use each:**
-- **MCP tools:** Status changes, creating entities, adding relationships, adding feedback
-- **Direct editing:** Writing detailed content, refactoring descriptions, bulk editing
+- **MCP tools:** Creating entities, status changes, adding relationships, adding feedback
+- **Direct editing:** Writing detailed content or refactoring descriptions of existing entities
+
+**Contract guarantees:**
+- `upsert_issue`/`upsert_spec` with an `issue_id`/`spec_id` ALWAYS updates that
+  entity or errors - it never creates a new one. If you get "not found", the id
+  is wrong (check with `list_issues`); do not retry by creating a duplicate.
+- Updates with `tags` replace the entity's tags.
 
 ### Obsidian-Style Mentions
 
@@ -62,10 +72,19 @@ Formats supported:
 **Relationship types in mentions:** `blocks`, `implements`, `depends-on`, `discovered-from`
 
 **Why use inline mentions:**
-- Bidirectionally links entities without separate `link` tool call
+- Links entities without a separate `link` tool call
 - Colocate with informational context
-- Automatically creates relationships during sync
+- Materialized as relationships when the description is written via
+  `upsert_issue`/`upsert_spec` (check `reference_warnings` in the response for
+  any that could not be resolved)
 - Makes content more readable
+
+**Caveats:**
+- A mention of an id that doesn't exist yet is NOT linked - create the target
+  first, or re-save the description afterward. Watch `reference_warnings`.
+- For load-bearing edges (`blocks` ordering that gates `ready`), prefer the
+  explicit `link` tool and verify with `show_issue` - mentions are best for
+  documentation-grade links (`references`, `implements`).
 
 ## Quick Reference
 
