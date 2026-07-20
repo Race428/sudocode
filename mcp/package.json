@@ -1,6 +1,6 @@
 {
   "name": "@sudocode-ai/mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "MCP server for sudocode, git-native context management for AI-assisted development",
   "type": "module",
   "main": "dist/index.js",
@@ -55,8 +55,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
-    "@sudocode-ai/cli": "^0.2.0",
-    "@sudocode-ai/types": "^0.2.0",
+    "@sudocode-ai/cli": "^0.3.0",
+    "@sudocode-ai/types": "^0.3.0",
     "vite": "^6.4.1"
   },
   "devDependencies": {
