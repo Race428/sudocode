@@ -118,17 +118,33 @@ describe('SpecCard', () => {
 
   it('should render created date for older specs', () => {
     renderWithRouter(<SpecCard spec={mockSpec} />)
-    expect(screen.getByText(formatCreatedAt(mockSpec.created_at))).toBeInTheDocument()
+    expect(screen.getAllByText(formatCreatedAt(mockSpec.created_at))).toHaveLength(2)
+  })
+
+  it('should render updated date badge', () => {
+    const spec = {
+      ...mockSpec,
+      created_at: '2024-01-01T00:00:00Z',
+      updated_at: '2024-01-15T00:00:00Z',
+    }
+    renderWithRouter(<SpecCard spec={spec} />)
+    expect(screen.getByText(formatCreatedAt(spec.created_at))).toBeInTheDocument()
+    expect(screen.getByText(formatCreatedAt(spec.updated_at))).toBeInTheDocument()
   })
 
   it('should render relative created time for recent specs', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2024-06-01T12:00:00Z'))
 
-    const recentSpec = { ...mockSpec, created_at: '2024-06-01T11:30:00Z' }
+    const recentSpec = {
+      ...mockSpec,
+      created_at: '2024-06-01T11:30:00Z',
+      updated_at: '2024-06-01T11:45:00Z',
+    }
     renderWithRouter(<SpecCard spec={recentSpec} />)
 
     expect(screen.getByText('30m ago')).toBeInTheDocument()
+    expect(screen.getByText('15m ago')).toBeInTheDocument()
 
     vi.useRealTimers()
   })

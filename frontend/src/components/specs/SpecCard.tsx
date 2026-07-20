@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { SyncIndicator } from '@/components/issues/SyncIndicator'
-import { CreatedAtLabel } from '@/components/ui/created-at-label'
+import { EntityTimestamps } from '@/components/ui/created-at-label'
 import { toast } from 'sonner'
 import type { Spec } from '@/types/api'
 import type { Workflow } from '@/types/workflow'
@@ -164,7 +164,7 @@ export function SpecCard({
             {spec.file_path && (
               <p className="truncate font-mono text-xs text-muted-foreground">{spec.file_path}</p>
             )}
-            {spec.created_at && <CreatedAtLabel date={spec.created_at} />}
+            <EntityTimestamps createdAt={spec.created_at} updatedAt={spec.updated_at} />
           </div>
         </div>
       </Card>

@@ -29,33 +29,37 @@ function formatRelativeHoursAndMinutes(diffMs: number): string {
   return `${hours}h ${minutes}m ago`
 }
 
-/** Format created-at for cards: relative within 12h, absolute date/time otherwise. */
-export function formatCreatedAt(date: string | Date, now: Date = new Date()): string {
-  const createdAt = parseApiDate(date)
-  const diffMs = now.getTime() - createdAt.getTime()
+/** Format a timestamp for cards: relative within 12h, absolute date/time otherwise. */
+export function formatTimestamp(date: string | Date, now: Date = new Date()): string {
+  const timestamp = parseApiDate(date)
+  const diffMs = now.getTime() - timestamp.getTime()
 
   if (diffMs >= 0 && diffMs < TWELVE_HOURS_MS) {
     return formatRelativeHoursAndMinutes(diffMs)
   }
 
-  return createdAt.toLocaleString('en-US', {
+  return timestamp.toLocaleString('en-US', {
     dateStyle: 'short',
     timeStyle: 'short',
   })
 }
 
-export function isWithinRelativeCreatedAtWindow(
+export function isWithinRelativeTimestampWindow(
   date: string | Date,
   now: Date = new Date()
 ): boolean {
-  const createdAt = parseApiDate(date)
-  const diffMs = now.getTime() - createdAt.getTime()
+  const timestamp = parseApiDate(date)
+  const diffMs = now.getTime() - timestamp.getTime()
   return diffMs >= 0 && diffMs < TWELVE_HOURS_MS
 }
 
-export function getCreatedAtTooltip(date: string | Date): string {
+export function getTimestampTooltip(date: string | Date): string {
   return parseApiDate(date).toLocaleString('en-US', {
     dateStyle: 'medium',
     timeStyle: 'medium',
   })
 }
+
+export const formatCreatedAt = formatTimestamp
+export const isWithinRelativeCreatedAtWindow = isWithinRelativeTimestampWindow
+export const getCreatedAtTooltip = getTimestampTooltip
