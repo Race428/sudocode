@@ -7,4 +7,20 @@ while [[ -L "$SOURCE" ]]; do
   [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 PKG_ROOT="$(cd -P "$(dirname "$SOURCE")/.." && pwd)"
+
+# ponytail: dev-only staleness guard. Rebuilds when any source in the types->cli->mcp
+# chain is newer than dist. No-ops in the published package, which ships no src/.
+# Build output must go to stderr: stdout is the MCP stdio channel.
+if [[ -d "$PKG_ROOT/src" ]]; then
+  REPO_ROOT="$(cd -P "$PKG_ROOT/.." && pwd)"
+  SRC_DIRS=("$REPO_ROOT/types/src" "$REPO_ROOT/cli/src" "$PKG_ROOT/src")
+  if [[ ! -f "$PKG_ROOT/dist/index.js" ]] || \
+     [[ -n "$(find "${SRC_DIRS[@]}" -name '*.ts' -newer "$PKG_ROOT/dist/index.js" -print -quit 2>/dev/null)" ]]; then
+    echo "sudocode-mcp: sources changed, rebuilding..." >&2
+    npm --prefix "$REPO_ROOT" run build --workspace=types >&2
+    npm --prefix "$REPO_ROOT" run build --workspace=cli >&2
+    npm --prefix "$REPO_ROOT" run build --workspace=mcp >&2
+  fi
+fi
+
 exec "$PKG_ROOT/../scripts/run-with-pinned-node.sh" "$PKG_ROOT" dist/index.js "$@"

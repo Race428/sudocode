@@ -25,6 +25,7 @@ import {type Scope, type ScopeConfig, resolveScopes, getUsableScopes, hasExtende
 import {SudocodeAPIClient} from "./api-client.js";
 import {getToolsForScopes as getToolDefsForScopes, getToolByName, getHandlerType} from "./tool-registry.js";
 import {installHostLifecycleGuards} from "./lifecycle.js";
+import {getVersion} from "./version.js";
 
 export class SudocodeMCPServer {
   private server: Server;
@@ -59,7 +60,7 @@ export class SudocodeMCPServer {
     this.server = new Server(
       {
         name: "sudocode",
-        version: "0.1.1",
+        version: getVersion(),
       },
       {
         capabilities: {
@@ -486,6 +487,6 @@ sudocode is a git-native spec and issue management system designed for AI-assist
 
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error("sudocode MCP server running on stdio");
+    console.error(`sudocode MCP server ${getVersion()} running on stdio`);
   }
 }
