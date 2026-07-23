@@ -25,13 +25,14 @@ export function installHostLifecycleGuards(label = "sudocode-mcp"): void {
   process.once("SIGHUP", () => onSignal("SIGHUP"));
 
   // Stdio MCP: when the host closes the pipe, we must die.
+  // NB: do NOT resume() stdin here. This runs before StdioServerTransport
+  // connects, and resuming puts stdin in flowing mode with no reader — Node
+  // then reads and discards the client's `initialize` message, so the handshake
+  // never gets a reply and the host times out. The transport resumes stdin
+  // itself on connect, which is what delivers the EOF these listeners need.
   if (process.stdin) {
     process.stdin.on("end", () => shutdown("stdin end"));
     process.stdin.on("close", () => shutdown("stdin close"));
-    // Ensure we actually receive EOF instead of sitting forever.
-    if (typeof process.stdin.resume === "function") {
-      process.stdin.resume();
-    }
   }
 
   const timer = setInterval(() => {
