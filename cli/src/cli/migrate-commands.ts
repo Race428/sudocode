@@ -74,13 +74,33 @@ export async function handleMigrate(ctx: MigrateCtx): Promise<void> {
     }
   }
 
-  // Build the shared cache.db from the copied JSONL.
-  const db = initDatabase({ path: path.join(target, "cache.db") });
-  try {
-    const { importFromJSONL } = await import("../import.js");
-    await importFromJSONL(db, { inputDir: target, resolveCollisions: true });
-  } finally {
-    db.close();
+  // Prefer copying the live cache.db directly so EVERY table carries over —
+  // including cache-only data that JSONL doesn't hold (executions, the event
+  // audit log, prompt_templates). A JSONL rebuild would silently drop those.
+  // Use SQLite's online backup so the copy is consistent even if a tool is mid-
+  // write, and it folds in any WAL. Fall back to a JSONL rebuild only when there
+  // is no legacy cache.db (fresh/partial store).
+  const targetDb = path.join(target, "cache.db");
+  const legacyDb = path.join(legacy, "cache.db");
+  if (fs.existsSync(legacyDb)) {
+    const Database = (await import("better-sqlite3")).default;
+    const src = new Database(legacyDb, { readonly: true });
+    try {
+      await src.backup(targetDb);
+    } finally {
+      src.close();
+    }
+    // Open once to run any pending migrations idempotently (schema stays current).
+    initDatabase({ path: targetDb }).close();
+    copied.push("cache.db");
+  } else {
+    const db = initDatabase({ path: targetDb });
+    try {
+      const { importFromJSONL } = await import("../import.js");
+      await importFromJSONL(db, { inputDir: target, resolveCollisions: true });
+    } finally {
+      db.close();
+    }
   }
 
   installBackupHook(cwd);
