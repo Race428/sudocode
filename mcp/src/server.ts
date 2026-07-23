@@ -351,66 +351,43 @@ sudocode is a git-native spec and issue management system designed for AI-assist
     sudocodeExists: boolean;
     message?: string;
   }> {
-    const workingDir = this.client["workingDir"] || process.cwd();
-    const sudocodeDir = join(workingDir, ".sudocode");
-    const cacheDbPath = join(sudocodeDir, "cache.db");
-    const issuesPath = join(sudocodeDir, "issues.jsonl");
-    const specsPath = join(sudocodeDir, "specs.jsonl");
+    // Detect the store git-awarely via the CLI. `store-path` is read-only and
+    // resolves the real location (which may be <repo>/.git/sudocode, not
+    // <cwd>/.sudocode), creating nothing — so we never rebuild the cache or mint
+    // a stray store just to check.
+    try {
+      const status = await this.client.exec(["store-path"]);
+      if (status.initialized) {
+        return { initialized: true, sudocodeExists: true };
+      }
 
-    // Check if .sudocode directory exists
-    if (!existsSync(sudocodeDir)) {
+      // Not set up in this project — bootstrap hands-free (this is what makes a
+      // plugin-only install work with no terminal step). `init` is idempotent and
+      // now creates the shared git-common store, installs the pre-push backup
+      // hook, and auto-restores from a sudocode-store backup ref if one exists.
+      console.error("sudocode not initialized here — running init...");
+      await this.client.exec(["init"]);
+
+      const after = await this.client.exec(["store-path"]);
+      if (after.initialized) {
+        return {
+          initialized: true,
+          sudocodeExists: true,
+          message: "Initialized sudocode",
+        };
+      }
       return {
         initialized: false,
         sudocodeExists: false,
-        message: "No .sudocode directory found",
+        message: "init did not produce a usable store",
+      };
+    } catch (error) {
+      return {
+        initialized: false,
+        sudocodeExists: false,
+        message: error instanceof Error ? error.message : String(error),
       };
     }
-
-    // .sudocode exists, check for cache.db
-    if (!existsSync(cacheDbPath)) {
-      // Try to auto-import from JSONL files if they exist
-      if (existsSync(issuesPath) || existsSync(specsPath)) {
-        try {
-          console.error("Found .sudocode directory but no cache.db, running import...");
-          await this.client.exec(["import"]);
-          console.error("✓ Successfully imported data to cache.db");
-          return {
-            initialized: true,
-            sudocodeExists: true,
-            message: "Auto-imported from JSONL files",
-          };
-        } catch (error) {
-          return {
-            initialized: false,
-            sudocodeExists: true,
-            message: `Failed to import: ${error instanceof Error ? error.message : String(error)}`,
-          };
-        }
-      } else {
-        try {
-          console.error("Found .sudocode directory but no issues.jsonl or specs.jsonl, running init...");
-          await this.client.exec(["init"]);
-          console.error("✓ Successfully initialized sudocode");
-          await this.client.exec(["import"]);
-          return {
-            initialized: true,
-            sudocodeExists: true,
-            message: "Initialized sudocode",
-          };
-        } catch (error) {
-          return {
-            initialized: false,
-            sudocodeExists: true,
-            message: `Failed to initialize: ${error instanceof Error ? error.message : String(error)}`,
-          };
-        }
-      }
-    }
-
-    return {
-      initialized: true,
-      sudocodeExists: true,
-    };
   }
 
   /**

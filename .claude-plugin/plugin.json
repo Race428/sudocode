@@ -1,14 +1,14 @@
 {
-  "name": "sudocode",
-  "description": "Git-native spec and issue management for AI-assisted development. Track issues, specs, and feedback with smart anchoring.",
-  "version": "0.3.0",
+  "name": "race428-sudocode",
+  "description": "Git-native spec and issue management for AI-assisted development, with a shared .git-anchored store so every worktree and tool agrees automatically. Fork of sudocode.",
+  "version": "0.3.1",
   "author": {
-    "name": "sudocode AI",
-    "url": "https://github.com/sudocode-ai"
+    "name": "Race Acheson",
+    "url": "https://github.com/race428"
   },
-  "repository": "https://github.com/sudocode-ai/sudocode",
+  "repository": "https://github.com/race428/sudocode",
   "license": "Apache-2.0",
-  "homepage": "https://sudocode.ai",
+  "homepage": "https://github.com/race428/sudocode",
   "keywords": [
     "issue-tracker",
     "spec-management",
@@ -20,7 +20,7 @@
     "context-as-code"
   ],
   "mcpServers": {
-    "sudocode": {
+    "race428-sudocode": {
       "command": "${CLAUDE_PLUGIN_ROOT}/.claude-plugin/run-mcp.sh",
       "args": [],
       "env": {}

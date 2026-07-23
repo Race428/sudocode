@@ -1,15 +1,15 @@
 {
-  "name": "sudocode-marketplace",
-  "description": "Local marketplace for sudocode plugins",
+  "name": "race428-sudocode-marketplace",
+  "description": "Marketplace for the race428-sudocode plugin (fork of sudocode)",
   "owner": {
-    "name": "sudocode AI"
+    "name": "Race Acheson"
   },
   "plugins": [
     {
-      "name": "sudocode",
+      "name": "race428-sudocode",
       "source": "./",
-      "description": "Git-native spec and issue management for AI-assisted development",
-      "version": "0.3.0"
+      "description": "Git-native spec and issue management with a shared .git-anchored store for effortless worktrees",
+      "version": "0.3.1"
     }
   ]
 }

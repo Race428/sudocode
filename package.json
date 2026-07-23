@@ -17,6 +17,7 @@
     "build": "npm run build --workspace=types && npm run build --workspace=cli && npm run build --workspace=mcp && npm run build --workspace=frontend && npm run build --workspace=server",
     "build:cli": "npm run build --workspace=cli",
     "build:mcp": "npm run build --workspace=mcp",
+    "build:plugin": "npm run build --workspace=types && npm run build --workspace=cli && npm run build --workspace=mcp",
     "build:server": "npm run build:frontend && npm run build --workspace=server",
     "build:frontend": "npm run build --workspace=frontend",
     "build:plugins": "npm run build --workspace=plugins/integration-beads && npm run build --workspace=plugins/integration-speckit && npm run build --workspace=plugins/integration-openspec && npm run build --workspace=plugins/integration-github",

@@ -53,43 +53,33 @@ describe("SudocodeMCPServer", () => {
   });
 
   describe("checkForInit", () => {
-    it("should return not initialized when .sudocode directory does not exist", async () => {
-      mockExistsSync.mockReturnValue(false);
-
+    it("reports initialized without side effects when store-path says so", async () => {
       const server = new SudocodeMCPServer();
-      // Access private method for testing
-      const result = await (server as any).checkForInit();
-
-      expect(result).toEqual({
-        initialized: false,
-        sudocodeExists: false,
-        message: "No .sudocode directory found",
-      });
-    });
-
-    it("should auto-init when .sudocode exists but no cache.db or JSONL files", async () => {
-      mockExistsSync.mockImplementation((p: string) => {
-        // Only .sudocode directory exists, nothing else
-        if (p === "/test/working/dir/.sudocode") {
-          return true;
-        }
-        return false; // cache.db, issues.jsonl, specs.jsonl do not exist
-      });
-
-      const server = new SudocodeMCPServer();
-      const mockExec = vi.fn().mockResolvedValue({ success: true });
+      const mockExec = vi.fn().mockResolvedValue({ initialized: true });
       (server as any).client.exec = mockExec;
 
       const result = await (server as any).checkForInit();
 
-      expect(mockExec).toHaveBeenCalledWith(["init"]);
-      expect(mockExec).toHaveBeenCalledWith(["import"]);
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Found .sudocode directory but no issues.jsonl or specs.jsonl, running init..."
-      );
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "✓ Successfully initialized sudocode"
-      );
+      // Only the read-only store-path probe runs; no init.
+      expect(mockExec).toHaveBeenCalledTimes(1);
+      expect(mockExec).toHaveBeenCalledWith(["store-path"]);
+      expect(result).toEqual({ initialized: true, sudocodeExists: true });
+    });
+
+    it("auto-inits when the store is not yet set up, then re-verifies", async () => {
+      const server = new SudocodeMCPServer();
+      const mockExec = vi
+        .fn()
+        .mockResolvedValueOnce({ initialized: false }) // store-path (before)
+        .mockResolvedValueOnce({ success: true }) // init
+        .mockResolvedValueOnce({ initialized: true }); // store-path (after)
+      (server as any).client.exec = mockExec;
+
+      const result = await (server as any).checkForInit();
+
+      expect(mockExec).toHaveBeenNthCalledWith(1, ["store-path"]);
+      expect(mockExec).toHaveBeenNthCalledWith(2, ["init"]);
+      expect(mockExec).toHaveBeenNthCalledWith(3, ["store-path"]);
       expect(result).toEqual({
         initialized: true,
         sudocodeExists: true,
@@ -97,76 +87,60 @@ describe("SudocodeMCPServer", () => {
       });
     });
 
-    it("should return initialized when cache.db exists", async () => {
-      mockExistsSync.mockImplementation((p: string) => {
-        // .sudocode dir and cache.db exist
-        return p.includes(".sudocode");
-      });
-
+    it("reports failure when init does not produce a usable store", async () => {
       const server = new SudocodeMCPServer();
-      const result = await (server as any).checkForInit();
-
-      expect(result).toEqual({
-        initialized: true,
-        sudocodeExists: true,
-      });
-    });
-
-    it("should auto-import when .sudocode exists with JSONL but no cache.db", async () => {
-      mockExistsSync.mockImplementation((p: string) => {
-        if (p.includes("cache.db")) return false; // No cache.db
-        if (p.includes("issues.jsonl")) return true; // issues.jsonl exists
-        if (p.includes(".sudocode")) return true; // .sudocode exists
-        return false;
-      });
-
-      const server = new SudocodeMCPServer();
-      const mockExec = vi.fn().mockResolvedValue({ success: true });
-      (server as any).client.exec = mockExec;
-
-      const result = await (server as any).checkForInit();
-
-      expect(mockExec).toHaveBeenCalledWith(["import"]);
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Found .sudocode directory but no cache.db, running import..."
-      );
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "✓ Successfully imported data to cache.db"
-      );
-      expect(result).toEqual({
-        initialized: true,
-        sudocodeExists: true,
-        message: "Auto-imported from JSONL files",
-      });
-    });
-
-    it("should handle import failure gracefully", async () => {
-      mockExistsSync.mockImplementation((p: string) => {
-        if (p.includes("cache.db")) return false;
-        if (p.includes("specs.jsonl")) return true;
-        if (p.includes(".sudocode")) return true;
-        return false;
-      });
-
-      const server = new SudocodeMCPServer();
-      const mockExec = vi.fn().mockRejectedValue(new Error("Import failed"));
+      const mockExec = vi
+        .fn()
+        .mockResolvedValueOnce({ initialized: false }) // store-path (before)
+        .mockResolvedValueOnce({ success: true }) // init
+        .mockResolvedValueOnce({ initialized: false }); // store-path (after)
       (server as any).client.exec = mockExec;
 
       const result = await (server as any).checkForInit();
 
       expect(result).toEqual({
         initialized: false,
-        sudocodeExists: true,
-        message: "Failed to import: Import failed",
+        sudocodeExists: false,
+        message: "init did not produce a usable store",
+      });
+    });
+
+    it("handles a CLI failure gracefully", async () => {
+      const server = new SudocodeMCPServer();
+      const mockExec = vi.fn().mockRejectedValue(new Error("boom"));
+      (server as any).client.exec = mockExec;
+
+      const result = await (server as any).checkForInit();
+
+      expect(result).toEqual({
+        initialized: false,
+        sudocodeExists: false,
+        message: "boom",
       });
     });
   });
 
   describe("checkInitialization", () => {
-    it("should set isInitialized to true when initialized", async () => {
-      mockExistsSync.mockReturnValue(true); // All files exist
+    // store-path already reports an initialized store.
+    const execInitialized = () => vi.fn().mockResolvedValue({ initialized: true });
+    // store-path false → init → store-path true (successful auto-init).
+    const execAutoInit = () =>
+      vi
+        .fn()
+        .mockResolvedValueOnce({ initialized: false })
+        .mockResolvedValueOnce({ success: true })
+        .mockResolvedValueOnce({ initialized: true });
+    // store-path false → init → store-path still false (init failed to produce).
+    const execInitFails = () =>
+      vi
+        .fn()
+        .mockResolvedValueOnce({ initialized: false })
+        .mockResolvedValueOnce({ success: true })
+        .mockResolvedValueOnce({ initialized: false });
 
+    it("should set isInitialized to true when initialized", async () => {
       const server = new SudocodeMCPServer();
+      (server as any).client.exec = execInitialized();
       await (server as any).checkInitialization();
 
       expect((server as any).isInitialized).toBe(true);
@@ -175,10 +149,9 @@ describe("SudocodeMCPServer", () => {
       );
     });
 
-    it("should set isInitialized to false when not initialized", async () => {
-      mockExistsSync.mockReturnValue(false); // Nothing exists
-
+    it("should set isInitialized to false when init cannot produce a store", async () => {
       const server = new SudocodeMCPServer();
+      (server as any).client.exec = execInitFails();
       await (server as any).checkInitialization();
 
       expect((server as any).isInitialized).toBe(false);
@@ -187,10 +160,9 @@ describe("SudocodeMCPServer", () => {
       );
     });
 
-    it("should display init command when .sudocode does not exist", async () => {
-      mockExistsSync.mockReturnValue(false);
-
+    it("should display init command when no store can be produced", async () => {
       const server = new SudocodeMCPServer();
+      (server as any).client.exec = execInitFails();
       await (server as any).checkInitialization();
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
@@ -201,65 +173,47 @@ describe("SudocodeMCPServer", () => {
       );
     });
 
-    it("should auto-init when .sudocode exists but is incomplete", async () => {
-      mockExistsSync.mockImplementation((p: string) => {
-        // Only .sudocode directory exists, no cache.db or JSONL files
-        if (p === "/test/working/dir/.sudocode") return true;
-        return false;
-      });
-
+    it("should auto-init when the project has no store yet", async () => {
       const server = new SudocodeMCPServer();
-      const mockExec = vi.fn().mockResolvedValue({ success: true });
+      const mockExec = execAutoInit();
       (server as any).client.exec = mockExec;
 
       await (server as any).checkInitialization();
 
       expect(mockExec).toHaveBeenCalledWith(["init"]);
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Found .sudocode directory but no issues.jsonl or specs.jsonl, running init..."
-      );
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "✓ Successfully initialized sudocode"
+        "sudocode not initialized here — running init..."
       );
       expect((server as any).isInitialized).toBe(true);
     });
 
-    it("should display auto-import success message", async () => {
-      mockExistsSync.mockImplementation((p: string) => {
-        if (p.includes("cache.db")) return false;
-        if (p.includes("issues.jsonl")) return true;
-        if (p.includes(".sudocode")) return true;
-        return false;
-      });
-
+    it("should surface the init success message", async () => {
       const server = new SudocodeMCPServer();
-      const mockExec = vi.fn().mockResolvedValue({ success: true });
-      (server as any).client.exec = mockExec;
-
+      (server as any).client.exec = execAutoInit();
       await (server as any).checkInitialization();
 
       expect((server as any).isInitialized).toBe(true);
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "  Auto-imported from JSONL files"
-      );
+      expect(consoleErrorSpy).toHaveBeenCalledWith("  Initialized sudocode");
     });
   });
 
   describe("tool handler with isInitialized check", () => {
-    it("should return error when isInitialized is false and project still not initialized", async () => {
-      mockExistsSync.mockReturnValue(false);
+    const execInitFails = () =>
+      vi
+        .fn()
+        .mockResolvedValueOnce({ initialized: false })
+        .mockResolvedValueOnce({ success: true })
+        .mockResolvedValueOnce({ initialized: false });
 
+    it("should return error when isInitialized is false and project still not initialized", async () => {
       const server = new SudocodeMCPServer();
+      (server as any).client.exec = execInitFails();
       await (server as any).checkInitialization();
 
-      // Simulate calling the tool handler
       expect((server as any).isInitialized).toBe(false);
 
-      // Verify the error message format that would be returned
       const expectedErrorPattern = /sudocode is not initialized/;
       const workingDir = (server as any).client.workingDir || process.cwd();
-
-      // This validates the logic that would be in the actual handler
       const errorMessage = `⚠️  sudocode is not initialized in this directory.\n\nWorking directory: ${workingDir}\n\nPlease run 'sudocode init' in your project root first.`;
 
       expect(errorMessage).toMatch(expectedErrorPattern);
@@ -267,46 +221,35 @@ describe("SudocodeMCPServer", () => {
     });
 
     it("should allow tools to proceed when isInitialized is true", async () => {
-      mockExistsSync.mockReturnValue(true);
-
       const server = new SudocodeMCPServer();
+      (server as any).client.exec = vi.fn().mockResolvedValue({ initialized: true });
       await (server as any).checkInitialization();
 
       expect((server as any).isInitialized).toBe(true);
-      // When initialized, tools should be allowed to proceed
     });
 
     it("should re-check and update isInitialized when project is initialized after server start", async () => {
-      // Start with project not initialized
-      mockExistsSync.mockReturnValue(false);
-
       const server = new SudocodeMCPServer();
+      // First: init cannot produce a store → not initialized.
+      (server as any).client.exec = execInitFails();
       await (server as any).checkInitialization();
-
       expect((server as any).isInitialized).toBe(false);
 
-      // Now simulate project being initialized after server started
-      // (e.g., user ran `sudocode init` in another terminal)
-      mockExistsSync.mockReturnValue(true);
-
-      // Re-check should detect the initialization
+      // Later: store now resolves as initialized.
+      (server as any).client.exec = vi.fn().mockResolvedValue({ initialized: true });
       const result = await (server as any).checkForInit();
       expect(result.initialized).toBe(true);
-
-      // In the actual tool handler, this would update isInitialized
       if (result.initialized) {
         (server as any).isInitialized = true;
       }
-
       expect((server as any).isInitialized).toBe(true);
     });
   });
 
   describe("run method", () => {
     it("should call checkInitialization before starting server", async () => {
-      mockExistsSync.mockReturnValue(true);
-
       const server = new SudocodeMCPServer();
+      (server as any).client.exec = vi.fn().mockResolvedValue({ initialized: true });
       const checkInitSpy = vi.spyOn(server as any, "checkInitialization");
 
       // Mock the connect method to prevent actual connection
@@ -315,8 +258,9 @@ describe("SudocodeMCPServer", () => {
       await server.run();
 
       expect(checkInitSpy).toHaveBeenCalled();
+      // The banner includes the version (e.g. "sudocode MCP server 0.3.1 running on stdio").
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "sudocode MCP server running on stdio"
+        expect.stringContaining("running on stdio")
       );
     });
   });
