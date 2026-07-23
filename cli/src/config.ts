@@ -37,6 +37,7 @@ export interface ConfigLoadResult {
  */
 const PROJECT_CONFIG_FIELDS: (keyof ProjectConfig)[] = [
   "sourceOfTruth",
+  "storeRef",
   "integrations",
   "telemetry",
 ];

@@ -364,6 +364,13 @@ export type StorageMode = "jsonl" | "markdown";
 export interface ProjectConfig {
   /** Source of truth for entity data (default: "jsonl") */
   sourceOfTruth?: StorageMode;
+  /**
+   * Explicit store location override. When set, store resolution binds here
+   * instead of computing the git-common-dir/legacy location. Path is resolved
+   * relative to the .sudocode dir holding this config. Escape hatch — normally
+   * absent so resolution stays dynamic and machine-independent.
+   */
+  storeRef?: string;
   /** Integration configurations (shared across team) */
   integrations?: IntegrationsConfig;
   /** Telemetry configuration (project-level, git-tracked) */

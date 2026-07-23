@@ -8,6 +8,8 @@ import * as path from "path";
 import { initDatabase } from "../db.js";
 import type Database from "better-sqlite3";
 import { PROJECT_CONFIG_FILE, LOCAL_CONFIG_FILE, getProjectConfig } from "../config.js";
+import { storeDirForInit } from "../store-resolution.js";
+import { installBackupHook, restoreBackup, findRestorableBackupRef } from "../backup.js";
 import type { StorageMode } from "@sudocode-ai/types";
 
 /**
@@ -65,8 +67,23 @@ export function isInitialized(dir: string): boolean {
 export async function performInitialization(
   options: InitOptions = {}
 ): Promise<void> {
-  const dir = options.dir || path.join(process.cwd(), ".sudocode");
   const jsonOutput = options.jsonOutput || false;
+
+  // With no explicit dir, resolve git-awarely: git repos get a shared store under
+  // the common .git dir (every worktree/tool agrees on it, JSONL untracked by
+  // construction); non-git dirs keep the legacy cwd/.sudocode layout. An explicit
+  // dir (tests, `--dir`) is honored verbatim.
+  let underGit = false;
+  let linkedWorktree = false;
+  let dir: string;
+  if (options.dir) {
+    dir = options.dir;
+  } else {
+    const loc = storeDirForInit();
+    dir = loc.dir;
+    underGit = loc.underGit;
+    linkedWorktree = loc.linkedWorktree;
+  }
 
   // Create directory structure
   fs.mkdirSync(dir, { recursive: true });
@@ -89,6 +106,22 @@ export async function performInitialization(
     // Ensure the database directory exists before creating the database
     fs.mkdirSync(path.dirname(dbPath), { recursive: true });
     database = initDatabase({ path: dbPath });
+  }
+
+  // Fresh shared store on a clone: the store lives under .git (not cloned), but
+  // the data rides the sudocode-store backup ref (local, or origin/* after
+  // clone). Restore it so `git clone` + `sudocode init` = data present, not an
+  // empty store.
+  let restoredFromBackup = false;
+  if (!dbExists && underGit && findRestorableBackupRef(process.cwd())) {
+    restoredFromBackup = await restoreBackup({
+      storeDir: dir,
+      cwd: process.cwd(),
+      db: database,
+    });
+    if (restoredFromBackup && !jsonOutput) {
+      console.log(chalk.blue("Restored store from backup ref (sudocode-store)"));
+    }
   }
 
   // Create config.json (project config, git-tracked)
@@ -150,7 +183,9 @@ export async function performInitialization(
     fs.writeFileSync(issuesPath, "", "utf8");
   }
 
-  if (hasSpecsData || hasIssuesData) {
+  // Skip the local-JSONL import when we already restored from the backup ref
+  // (restoreBackup imported into the db and wrote these same JSONL files).
+  if ((hasSpecsData || hasIssuesData) && !restoredFromBackup) {
     try {
       if (!jsonOutput) {
         console.log(chalk.blue("Importing from existing JSONL files..."));
@@ -195,24 +230,67 @@ export async function performInitialization(
     }
   }
 
-  // Generate .gitignore based on sourceOfTruth config
-  const gitignorePath = path.join(dir, ".gitignore");
-  const projectConfig = getProjectConfig(dir);
-  const sourceOfTruth: StorageMode = projectConfig.sourceOfTruth || "jsonl";
-  const gitignoreContent = buildGitignore(sourceOfTruth);
-  fs.writeFileSync(gitignorePath, gitignoreContent, "utf8");
+  // Generate .gitignore based on sourceOfTruth config. Under the git common dir
+  // (.git/sudocode) everything is already outside every branch's work tree, so
+  // there is nothing for git to track and a .gitignore there is inert — skip it.
+  if (!underGit) {
+    const gitignorePath = path.join(dir, ".gitignore");
+    const projectConfig = getProjectConfig(dir);
+    const sourceOfTruth: StorageMode = projectConfig.sourceOfTruth || "jsonl";
+    const gitignoreContent = buildGitignore(sourceOfTruth);
+    fs.writeFileSync(gitignorePath, gitignoreContent, "utf8");
+  }
 
   database.close();
 
-  if (!jsonOutput) {
-    console.log(chalk.green("✓ Initialized sudocode in"), chalk.cyan(dir));
-    console.log(chalk.gray(`  Database: ${dbPath}`));
+  // Under the shared .git store, install the pre-push backup hook (the store is
+  // untracked, so this is its only durable/off-machine path). Idempotent.
+  if (underGit) {
+    installBackupHook(process.cwd());
+  }
 
-    if (preserved.length > 0) {
-      console.log(
-        chalk.yellow(`  Preserved existing: ${preserved.join(", ")}`)
-      );
-    }
+  if (jsonOutput) {
+    // Emit a machine-readable summary so callers (e.g. the MCP server) can parse
+    // init's result over stdio instead of scraping human text.
+    console.log(
+      JSON.stringify(
+        {
+          success: true,
+          storeDir: dir,
+          dbPath,
+          initialized: true,
+          underGit,
+          linkedWorktree,
+          restoredFromBackup,
+          preserved,
+        },
+        null,
+        2
+      )
+    );
+    return;
+  }
+
+  if (linkedWorktree) {
+    console.log(
+      chalk.green("✓ sudocode store (shared via .git) is"),
+      chalk.cyan(dir)
+    );
+    console.log(
+      chalk.gray("  This linked worktree shares the main checkout's store.")
+    );
+  } else {
+    console.log(chalk.green("✓ Initialized sudocode in"), chalk.cyan(dir));
+  }
+  console.log(chalk.gray(`  Database: ${dbPath}`));
+  if (underGit) {
+    console.log(
+      chalk.gray("  Shared across all worktrees; untracked (backed up via `sudocode backup`).")
+    );
+  }
+
+  if (preserved.length > 0) {
+    console.log(chalk.yellow(`  Preserved existing: ${preserved.join(", ")}`));
   }
 }
 

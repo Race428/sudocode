@@ -9,14 +9,21 @@ import { runMigrations } from "@sudocode-ai/types/migrations";
 export interface DatabaseOptions {
   path: string;
   verbose?: boolean;
+  /** busy_timeout in ms for cross-process writers sharing one cache.db (default: 5000) */
+  timeout?: number;
 }
 
 /**
  * Initialize and configure the SQLite database
  */
 export function initDatabase(options: DatabaseOptions): Database.Database {
+  // WAL (set via schema.DB_CONFIG) lets readers and one writer coexist, but a
+  // second writer still gets SQLITE_BUSY immediately. With a shared store under
+  // .git/, many worktree/agent processes hit the same cache.db, so a busy_timeout
+  // is required to make concurrent writers wait for the lock instead of throwing.
   const db = new Database(options.path, {
     verbose: options.verbose ? console.log : undefined,
+    timeout: options.timeout ?? 5000,
   });
 
   // Apply database configuration

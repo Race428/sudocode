@@ -9,6 +9,7 @@ import chalk from "chalk";
 import * as path from "path";
 import * as fs from "fs";
 import { initDatabase } from "./db.js";
+import { resolveStore } from "./store-resolution.js";
 import type Database from "better-sqlite3";
 
 // Import command handlers
@@ -42,6 +43,8 @@ import {
 } from "./cli/feedback-commands.js";
 import { handleServerStart } from "./cli/server-commands.js";
 import { handleInit } from "./cli/init-commands.js";
+import { handleMigrate } from "./cli/migrate-commands.js";
+import { handleBackup } from "./cli/backup-commands.js";
 import { handleUpdate, handleUpdateCheck } from "./cli/update-commands.js";
 import {
   handlePluginList,
@@ -82,42 +85,20 @@ let outputDir: string = ".sudocode";
 let jsonOutput: boolean = false;
 
 /**
- * Find database path
- * Searches for a .sudocode project directory in the current directory and
- * parents. The project boundary is the .sudocode DIRECTORY itself - not
- * cache.db, which is gitignored and may not exist yet (fresh clone/worktree).
- * Keying on cache.db would walk past the local project and silently bind to
- * an unrelated ancestor project's database.
- */
-function findDatabasePath(): string | null {
-  let currentDir = process.cwd();
-  const root = path.parse(currentDir).root;
-
-  while (currentDir !== root) {
-    const sudocodeDir = path.join(currentDir, ".sudocode");
-    if (fs.existsSync(sudocodeDir) && fs.statSync(sudocodeDir).isDirectory()) {
-      return path.join(sudocodeDir, "cache.db");
-    }
-    currentDir = path.dirname(currentDir);
-  }
-
-  return null;
-}
-
-/**
- * Initialize database connection
+ * Initialize database connection.
+ *
+ * Store location comes from resolveStore() (git-aware: explicit override →
+ * SUDOCODE_WORKING_DIR → config storeRef → git-common-dir store → legacy
+ * .sudocode walk → cwd). An explicit --db/SUDOCODE_DB path set on `dbPath`
+ * before this runs takes precedence.
  */
 function initDB() {
   if (!dbPath) {
-    const found = findDatabasePath();
-    if (found) {
-      dbPath = found;
-      outputDir = path.dirname(found);
-    } else {
-      // Default location
-      outputDir = path.join(process.cwd(), ".sudocode");
-      dbPath = path.join(outputDir, "cache.db");
-    }
+    const resolved = resolveStore();
+    dbPath = resolved.dbPath;
+    outputDir = resolved.storeDir;
+  } else {
+    outputDir = path.dirname(dbPath);
   }
 
   try {
@@ -188,13 +169,18 @@ program
     // Get global options
     const opts = thisCommand.optsWithGlobals();
     if (opts.db) dbPath = opts.db;
+    else if (process.env.SUDOCODE_DB) dbPath = process.env.SUDOCODE_DB;
     if (opts.json) jsonOutput = true;
 
-    // Skip DB init for init command
-    if (thisCommand.name() !== "init") {
+    // Skip DB init for commands that must not create a store as a side effect.
+    // NOTE: thisCommand is the program ("sudocode"), so the subcommand name is on
+    // actionCommand — using thisCommand here would run initDB() for init too and
+    // pre-create a stray .sudocode before init resolves its real (git-aware)
+    // location. store-path is read-only and must never mkdir a store.
+    if (!["init", "store-path"].includes(actionCommand.name())) {
       initDB();
       // Skip for import/sync commands, which manage the cache themselves
-      if (!["init", "import", "sync", "export"].includes(actionCommand.name())) {
+      if (!["init", "import", "sync", "export", "backup", "migrate"].includes(actionCommand.name())) {
         await maybeImportStaleJSONL();
       }
     }
@@ -215,7 +201,48 @@ program
   .command("init")
   .description("Initialize .sudocode directory structure")
   .action(async () => {
-    await handleInit({});
+    // jsonOutput is set from the global --json flag in the preAction hook.
+    await handleInit({ jsonOutput });
+  });
+
+program
+  .command("store-path")
+  .description("Print the resolved store location (read-only; creates nothing)")
+  .action(() => {
+    // Resolve without side effects. dbPath may be set from --db/SUDOCODE_DB.
+    const resolved = resolveStore(dbPath ? { dbPath } : {});
+    const initialized = fs.existsSync(resolved.dbPath);
+    if (jsonOutput) {
+      console.log(
+        JSON.stringify(
+          {
+            storeDir: resolved.storeDir,
+            dbPath: resolved.dbPath,
+            source: resolved.source,
+            initialized,
+          },
+          null,
+          2
+        )
+      );
+    } else {
+      console.log(resolved.storeDir);
+    }
+  });
+
+program
+  .command("migrate")
+  .description("Move an existing .sudocode store to the shared store under .git (all worktrees agree)")
+  .action(async () => {
+    await handleMigrate(getContext());
+  });
+
+program
+  .command("backup")
+  .description("Back up the store to the sudocode-store ref (or --restore from it)")
+  .option("--restore", "Restore the store from the backup ref instead of backing up")
+  .action(async (options: { restore?: boolean }) => {
+    await handleBackup(getContext(), options);
   });
 
 // ============================================================================
