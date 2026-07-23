@@ -7,9 +7,12 @@ import { Feedback, FeedbackType } from "../types.js";
 
 // Tool parameter types
 export interface AddFeedbackParams {
+  /** Target ID receiving the feedback (spec or issue) — canonical */
+  id?: string;
+  to_id?: string; // alias for id
+  entity_id?: string; // alias for id
   /** Issue ID that's providing the feedback (optional for anonymous feedback) */
   issue_id?: string;
-  to_id: string;
   content: string;
   type?: FeedbackType;
   line?: number;
@@ -26,8 +29,13 @@ export async function addFeedback(
   params: AddFeedbackParams
 ): Promise<Feedback> {
   // Build CLI args: feedback add <target-id> [issue-id]
-  // target-id (to_id) is required, issue_id is optional
-  const args = ["feedback", "add", params.to_id];
+  const targetId = params.id ?? params.to_id ?? params.entity_id;
+  if (!targetId) {
+    throw new Error(
+      "add_feedback requires 'id' (the spec/issue receiving the feedback)."
+    );
+  }
+  const args = ["feedback", "add", targetId];
 
   if (params.issue_id) {
     args.push(params.issue_id);

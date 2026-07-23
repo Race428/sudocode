@@ -118,6 +118,51 @@ export class SudocodeMCPServer {
         };
       }
 
+      const argObj = (args ?? {}) as Record<string, unknown>;
+
+      // Structured error so agents can self-correct instead of parsing prose.
+      const paramError = (
+        code: string,
+        message: string,
+        extra: Record<string, unknown> = {}
+      ) => ({
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify({ error: { code, message, ...extra } }, null, 2),
+          },
+        ],
+        isError: true,
+      });
+
+      // Reject misnamed params (only when the tool opts into strictness) so a
+      // dropped param fails loudly instead of silently forking the tracker —
+      // e.g. an unrecognized `id` used to fall through upsert to create.
+      if (tool.inputSchema.additionalProperties === false) {
+        const allowed = Object.keys(tool.inputSchema.properties ?? {});
+        const unknown = Object.keys(argObj).filter((k) => !allowed.includes(k));
+        if (unknown.length > 0) {
+          return paramError(
+            "UNKNOWN_PARAM",
+            `Unknown parameter(s) for '${name}': ${unknown.join(", ")}. Allowed: ${allowed.join(", ")}.`,
+            { param: unknown, allowed }
+          );
+        }
+      }
+
+      // Enforce the declared schema's required params, so a missing param fails
+      // as a contract error here instead of as "not found: undefined" downstream.
+      const missing = (tool.inputSchema.required ?? []).filter(
+        (key) => argObj[key] === undefined
+      );
+      if (missing.length > 0) {
+        return paramError(
+          "MISSING_PARAM",
+          `Missing required parameter(s) for '${name}': ${missing.join(", ")}.`,
+          { param: missing }
+        );
+      }
+
       // Check initialization for CLI tools
       const handlerType = getHandlerType(tool);
       if (handlerType === "cli" && !this.isInitialized) {
@@ -263,12 +308,18 @@ sudocode is a git-native spec and issue management system designed for AI-assist
         return issueTools.showIssue(this.client, args as any);
       case "upsert_issue":
         return issueTools.upsertIssue(this.client, args as any);
+      case "delete_issue":
+        return issueTools.deleteIssue(this.client, args as any);
+      case "claim_issue":
+        return issueTools.claimIssue(this.client, args as any);
       case "list_specs":
         return specTools.listSpecs(this.client, args as any);
       case "show_spec":
         return specTools.showSpec(this.client, args as any);
       case "upsert_spec":
         return specTools.upsertSpec(this.client, args as any);
+      case "delete_spec":
+        return specTools.deleteSpec(this.client, args as any);
       case "link":
         return relationshipTools.link(this.client, args as any);
       case "add_reference":

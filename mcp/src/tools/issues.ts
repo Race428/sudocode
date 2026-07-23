@@ -2,8 +2,28 @@
  * MCP tools for issue management
  */
 
+import { execSync } from "node:child_process";
 import { SudocodeClient } from "../client.js";
 import { Issue, IssueStatus } from "../types.js";
+
+/**
+ * Lease-holder id for claim_issue when the caller omits `agent`.
+ * $SUDOCODE_AGENT, else the current git branch (the intended worktree/branch
+ * holder), else a constant. ponytail: no per-session identity exists yet.
+ */
+function defaultAgentId(): string {
+  if (process.env.SUDOCODE_AGENT) return process.env.SUDOCODE_AGENT;
+  try {
+    const branch = execSync("git rev-parse --abbrev-ref HEAD", {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+    if (branch && branch !== "HEAD") return branch;
+  } catch {
+    // not a git repo / git unavailable — fall through
+  }
+  return "mcp-agent";
+}
 
 // Tool parameter types
 export interface ReadyParams {}
@@ -17,19 +37,27 @@ export interface ListIssuesParams {
 }
 
 export interface ShowIssueParams {
-  issue_id: string;
+  id?: string;
+  issue_id?: string; // alias for id
 }
 
 export interface UpsertIssueParams {
-  issue_id?: string; // If provided, update; otherwise create
+  id?: string; // If provided, update in place; otherwise create
+  issue_id?: string; // alias for id
   title?: string; // Required for create, optional for update
-  description?: string;
+  content?: string;
+  description?: string; // alias for content
   priority?: number;
   parent?: string;
   tags?: string[];
   status?: IssueStatus;
   archived?: boolean;
   // TODO: Reintroduce assignee later on when first-class agents are supported.
+}
+
+export interface DeleteIssueParams {
+  id: string | string[];
+  hard?: boolean;
 }
 
 // Tool implementations
@@ -96,6 +124,29 @@ export async function listIssues(
   return issues;
 }
 
+export interface ClaimIssueParams {
+  id?: string;
+  issue_id?: string; // alias for id
+  agent?: string;
+}
+
+/**
+ * Atomically claim an issue for an agent. Returns { claimed, issue, held_by }.
+ * In --json mode (always set by client.exec) the CLI exits 0 even on a lost
+ * claim, so the structured result comes back cleanly without special-casing.
+ */
+export async function claimIssue(
+  client: SudocodeClient,
+  params: ClaimIssueParams
+): Promise<any> {
+  const id = params.id ?? params.issue_id;
+  if (!id) {
+    throw new Error("claim_issue requires 'id' (the issue to claim).");
+  }
+  const agent = params.agent ?? defaultAgentId();
+  return client.exec(["issue", "claim", id, "--agent", agent]);
+}
+
 /**
  * Show detailed issue information including relationships and feedback
  */
@@ -103,22 +154,30 @@ export async function showIssue(
   client: SudocodeClient,
   params: ShowIssueParams
 ): Promise<any> {
-  const args = ["issue", "show", params.issue_id];
-  return client.exec(args);
+  const id = params.id ?? params.issue_id;
+  if (!id) {
+    throw new Error("show_issue requires 'id'.");
+  }
+  return client.exec(["issue", "show", id]);
 }
 
 /**
- * Upsert an issue (create if no issue_id, update if issue_id provided)
+ * Upsert an issue: update in place when `id` is given, else create.
+ * Always returns the full issue (via show) so the caller can verify the write
+ * landed — this is what would have caught the dropped-content/forked-id bugs.
  */
 export async function upsertIssue(
   client: SudocodeClient,
   params: UpsertIssueParams
-): Promise<Issue> {
-  const isUpdate = !!params.issue_id;
+): Promise<any> {
+  const id = params.id ?? params.issue_id;
+  const content = params.content ?? params.description;
+  let writeResult: any;
+  let resolvedId: string | undefined = id;
 
-  if (isUpdate) {
+  if (id) {
     // Update mode
-    const args = ["issue", "update", params.issue_id!];
+    const args = ["issue", "update", id];
 
     if (params.status) {
       args.push("--status", params.status);
@@ -129,8 +188,8 @@ export async function upsertIssue(
     if (params.title) {
       args.push("--title", params.title);
     }
-    if (params.description) {
-      args.push("--description", params.description);
+    if (content !== undefined) {
+      args.push("--description", content);
     }
     if (params.parent) {
       args.push("--parent", params.parent);
@@ -142,7 +201,7 @@ export async function upsertIssue(
       args.push("--tags", params.tags.join(","));
     }
 
-    return client.exec(args);
+    writeResult = await client.exec(args);
   } else {
     // Create mode
     if (!params.title) {
@@ -151,8 +210,8 @@ export async function upsertIssue(
 
     const args = ["issue", "create", params.title];
 
-    if (params.description) {
-      args.push("--description", params.description);
+    if (content !== undefined) {
+      args.push("--description", content);
     }
     if (params.priority !== undefined) {
       args.push("--priority", params.priority.toString());
@@ -164,6 +223,33 @@ export async function upsertIssue(
       args.push("--tags", params.tags.join(","));
     }
 
-    return client.exec(args);
+    writeResult = await client.exec(args);
+    resolvedId = writeResult?.id;
   }
+
+  if (resolvedId) {
+    const full = await showIssue(client, { id: resolvedId });
+    const warnings = writeResult?.reference_warnings;
+    return warnings ? { ...full, reference_warnings: warnings } : full;
+  }
+  return writeResult;
+}
+
+/**
+ * Delete one or more issues. hard=false (default) soft-deletes (closes);
+ * hard=true permanently removes from the store.
+ */
+export async function deleteIssue(
+  client: SudocodeClient,
+  params: DeleteIssueParams
+): Promise<any> {
+  const ids = Array.isArray(params.id) ? params.id : [params.id];
+  if (ids.length === 0 || ids.some((i) => !i)) {
+    throw new Error("delete_issue requires 'id' (a string or array of ids).");
+  }
+  const args = ["issue", "delete", ...ids];
+  if (params.hard) {
+    args.push("--hard");
+  }
+  return client.exec(args);
 }

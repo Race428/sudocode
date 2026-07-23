@@ -18,6 +18,10 @@ export interface ToolInputSchema {
   type: "object";
   properties: Record<string, unknown>;
   required?: string[];
+  // When false, the dispatcher rejects any argument key not in `properties`,
+  // turning a misnamed param into a loud error instead of a silent drop (which
+  // used to fork the tracker: a dropped `id` fell through to create).
+  additionalProperties?: boolean;
 }
 
 /**
@@ -94,37 +98,51 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
       "Get full details about a specific issue. Use this to understand what the issue implements (which specs), what blocks it (dependencies), its current status, and related work. Essential for understanding context before starting implementation.",
     inputSchema: {
       type: "object",
+      additionalProperties: false,
       properties: {
-        issue_id: {
+        id: {
           type: "string",
           description: 'Issue ID with format "i-xxxx" (e.g., "i-x7k9")',
         },
+        issue_id: {
+          type: "string",
+          description: "Alias for `id` (deprecated; prefer `id`).",
+        },
       },
-      required: ["issue_id"],
+      required: [],
     },
   },
   {
     name: "upsert_issue",
     scope: "default",
     description:
-      "Create or update an issue (agent's actionable work item). **Issues implement specs** - use 'link' with type='implements' to connect issue to spec, or write inline [[spec-id]]{ implements } references in the description (they are materialized as relationships; unresolvable ones are returned in reference_warnings - check it). **Before closing:** provide feedback on the spec using 'add_feedback' if this issue implements a spec. If issue_id is provided, updates that issue (never creates; errors if the id doesn't exist). Otherwise creates a new one. Providing tags on update replaces the issue's tags. To close an issue, set status='closed'. To archive an issue, set archived=true.",
+      "Create or update an issue (agent's actionable work item). **Issues implement specs** - use 'link' with type='implements' to connect issue to spec, or write inline [[spec-id]]{ implements } references in the content (they are materialized as relationships; unresolvable ones are returned in reference_warnings - check it). **Before closing:** provide feedback on the spec using 'add_feedback' if this issue implements a spec. If `id` is provided, updates that issue in place (never creates; errors if the id doesn't exist). Otherwise creates a new one. Providing tags on update replaces the issue's tags. To close, set status='closed'; to reopen, status='open'; to archive, archived=true. Returns the full issue after the write. Misnamed params are rejected, not ignored.",
     inputSchema: {
       type: "object",
+      additionalProperties: false,
       properties: {
-        issue_id: {
+        id: {
           type: "string",
           description:
-            'Issue ID in format "i-xxxx". Omit to create new issue (auto-generates ID). Provide to update existing issue.',
+            'Issue ID in format "i-xxxx". Omit to create a new issue (auto-generates ID). Provide to update the existing issue in place.',
+        },
+        issue_id: {
+          type: "string",
+          description: "Alias for `id` (deprecated; prefer `id`).",
         },
         title: {
           type: "string",
           description:
             "Concise issue title describing the work (e.g., 'Implement OAuth login flow'). Required when creating, optional when updating.",
         },
-        description: {
+        content: {
           type: "string",
           description:
-            "Detailed description of the work to be done. Supports markdown and inline references using [[id]] syntax.",
+            "Issue body/description. Supports markdown and inline references using [[id]] syntax. Persisted on both create and update.",
+        },
+        description: {
+          type: "string",
+          description: "Alias for `content` (deprecated; prefer `content`).",
         },
         priority: {
           type: "number",
@@ -150,6 +168,32 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
           description: "Set to true to archive completed/obsolete issues.",
         },
       },
+    },
+  },
+  {
+    name: "claim_issue",
+    scope: "default",
+    description:
+      "Atomically claim an issue to work on it, so parallel agents never grab the same task. Call this after 'ready' returns a task and BEFORE starting work. Succeeds if the issue is unclaimed, already yours, or the previous holder's lease expired (they died); returns claimed=false with held_by if another agent holds a live lease — in that case pick a different task. Sets the issue to in_progress and stamps your agent id, so 'ready' stops offering it to others. Re-call periodically on a long task to refresh the lease (heartbeat).",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        id: {
+          type: "string",
+          description: 'Issue ID to claim, format "i-xxxx".',
+        },
+        issue_id: {
+          type: "string",
+          description: "Alias for `id` (deprecated; prefer `id`).",
+        },
+        agent: {
+          type: "string",
+          description:
+            "Optional lease holder id (worktree/branch/session name), shown in 'held_by' to others. Defaults to $SUDOCODE_AGENT, else the current git branch, else 'mcp-agent'.",
+        },
+      },
+      required: [],
     },
   },
   {
@@ -180,27 +224,37 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
       "Get full details about a specific spec including its content, relationships, and all anchored feedback. Use this to understand requirements before implementing.",
     inputSchema: {
       type: "object",
+      additionalProperties: false,
       properties: {
-        spec_id: {
+        id: {
           type: "string",
           description: 'Spec ID with format "s-xxxx" (e.g., "s-14sh").',
         },
+        spec_id: {
+          type: "string",
+          description: "Alias for `id` (deprecated; prefer `id`).",
+        },
       },
-      required: ["spec_id"],
+      required: [],
     },
   },
   {
     name: "upsert_spec",
     scope: "default",
     description:
-      "Create or update a spec (user's requirements/intent/context document). If spec_id is provided, updates that spec (never creates; errors if the id doesn't exist). Otherwise creates a new one with a hash-based ID. Inline [[id]] references in the description are materialized as relationships; unresolvable ones are returned in reference_warnings - check it.",
+      "Create or update a spec (user's requirements/intent/context document). If `id` is provided, updates that spec in place (never creates; errors if the id doesn't exist). Otherwise creates a new one with a hash-based ID. Inline [[id]] references in the content are materialized as relationships; unresolvable ones are returned in reference_warnings - check it. Returns the full spec after the write. Misnamed params are rejected, not ignored.",
     inputSchema: {
       type: "object",
+      additionalProperties: false,
       properties: {
-        spec_id: {
+        id: {
           type: "string",
           description:
-            'Spec ID in format "s-xxxx". Omit to create new spec (auto-generates hash-based ID).',
+            'Spec ID in format "s-xxxx". Omit to create a new spec (auto-generates hash-based ID). Provide to update in place.',
+        },
+        spec_id: {
+          type: "string",
+          description: "Alias for `id` (deprecated; prefer `id`).",
         },
         title: {
           type: "string",
@@ -210,9 +264,14 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
           type: "number",
           description: "Priority level: 0 (highest) to 4 (lowest).",
         },
+        content: {
+          type: "string",
+          description:
+            "Full specification content in markdown. Persisted on both create and update.",
+        },
         description: {
           type: "string",
-          description: "Full specification content in markdown format.",
+          description: "Alias for `content` (deprecated; prefer `content`).",
         },
         parent: {
           type: "string",
@@ -222,6 +281,10 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
           type: "array",
           items: { type: "string" },
           description: "Array of tag strings for categorization.",
+        },
+        archived: {
+          type: "boolean",
+          description: "Set to true to archive completed/obsolete specs.",
         },
       },
     },
@@ -312,17 +375,28 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
     name: "add_feedback",
     scope: "default",
     description:
-      "**REQUIRED when closing issues that implement specs.** Document implementation results by providing feedback on a spec or issue.",
+      "**REQUIRED when closing issues that implement specs.** Document implementation results by providing feedback on a spec or issue. Anchor the target with `id` (the spec/issue receiving the feedback).",
     inputSchema: {
       type: "object",
+      additionalProperties: false,
       properties: {
-        issue_id: {
+        id: {
           type: "string",
-          description: "Issue ID that's providing the feedback.",
+          description:
+            "Target ID receiving the feedback (spec 's-xxxx' or issue 'i-xxxx').",
         },
         to_id: {
           type: "string",
-          description: "Target ID receiving the feedback (spec or issue).",
+          description: "Alias for `id` (deprecated; prefer `id`).",
+        },
+        entity_id: {
+          type: "string",
+          description: "Alias for `id` (deprecated; prefer `id`).",
+        },
+        issue_id: {
+          type: "string",
+          description:
+            "Issue ID that's providing the feedback (the author). Optional.",
         },
         content: {
           type: "string",
@@ -342,7 +416,54 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
           description: "Text to anchor feedback to.",
         },
       },
-      required: ["to_id"],
+      required: [],
+    },
+  },
+  {
+    name: "delete_issue",
+    scope: "default",
+    description:
+      "Delete one or more issues. Default (hard=false) is a soft delete — the issue is closed, staying in history. hard=true permanently removes it from the store. Prefer closing (upsert_issue status='closed') for normal completion; use this to remove mistakes or obsolete entries.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        id: {
+          description:
+            'Issue ID "i-xxxx", or an array of IDs to delete in one call.',
+          anyOf: [
+            { type: "string" },
+            { type: "array", items: { type: "string" } },
+          ],
+        },
+        hard: {
+          type: "boolean",
+          description:
+            "true = permanently remove from the store; false (default) = soft delete (close).",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "delete_spec",
+    scope: "default",
+    description:
+      "Permanently delete one or more specs from the store. Specs have no closed/soft state — to soft-remove instead, archive via upsert_spec (archived=true).",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        id: {
+          description:
+            'Spec ID "s-xxxx", or an array of IDs to delete in one call.',
+          anyOf: [
+            { type: "string" },
+            { type: "array", items: { type: "string" } },
+          ],
+        },
+      },
+      required: ["id"],
     },
   },
 ];

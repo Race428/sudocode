@@ -22,13 +22,16 @@ describe("tool-registry", () => {
       expect(names).toContain("list_issues");
       expect(names).toContain("show_issue");
       expect(names).toContain("upsert_issue");
+      expect(names).toContain("claim_issue");
       expect(names).toContain("list_specs");
       expect(names).toContain("show_spec");
       expect(names).toContain("upsert_spec");
       expect(names).toContain("link");
       expect(names).toContain("add_reference");
       expect(names).toContain("add_feedback");
-      expect(defaultTools).toHaveLength(10);
+      expect(names).toContain("delete_issue");
+      expect(names).toContain("delete_spec");
+      expect(defaultTools).toHaveLength(13);
     });
 
     it("contains overview tools", () => {
@@ -106,7 +109,7 @@ describe("tool-registry", () => {
 
     it("returns only default tools for default scope", () => {
       const result = getToolsForScopes(new Set(["default"]));
-      expect(result).toHaveLength(10);
+      expect(result).toHaveLength(13);
       expect(result.every((t) => t.scope === "default")).toBe(true);
     });
 
@@ -238,9 +241,10 @@ describe("tool-registry", () => {
       expect(tool.inputSchema.properties).toHaveProperty("search");
     });
 
-    it("show_issue requires issue_id", () => {
+    it("show_issue accepts id (with issue_id as alias)", () => {
       const tool = getToolByName("show_issue")!;
-      expect(tool.inputSchema.required).toContain("issue_id");
+      expect(tool.inputSchema.properties).toHaveProperty("id");
+      expect(tool.inputSchema.properties).toHaveProperty("issue_id");
     });
 
     it("start_execution requires issue_id", () => {
