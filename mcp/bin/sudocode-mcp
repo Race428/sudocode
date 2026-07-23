@@ -10,16 +10,38 @@ PKG_ROOT="$(cd -P "$(dirname "$SOURCE")/.." && pwd)"
 
 # ponytail: dev-only staleness guard. Rebuilds when any source in the types->cli->mcp
 # chain is newer than dist. No-ops in the published package, which ships no src/.
-# Build output must go to stderr: stdout is the MCP stdio channel.
+# Build output must go to stderr/a log, never stdout: stdout is the MCP stdio channel.
 if [[ -d "$PKG_ROOT/src" ]]; then
   REPO_ROOT="$(cd -P "$PKG_ROOT/.." && pwd)"
   SRC_DIRS=("$REPO_ROOT/types/src" "$REPO_ROOT/cli/src" "$PKG_ROOT/src")
-  if [[ ! -f "$PKG_ROOT/dist/index.js" ]] || \
-     [[ -n "$(find "${SRC_DIRS[@]}" -name '*.ts' -newer "$PKG_ROOT/dist/index.js" -print -quit 2>/dev/null)" ]]; then
-    echo "sudocode-mcp: sources changed, rebuilding..." >&2
-    npm --prefix "$REPO_ROOT" run build --workspace=types >&2
-    npm --prefix "$REPO_ROOT" run build --workspace=cli >&2
-    npm --prefix "$REPO_ROOT" run build --workspace=mcp >&2
+  build_chain() {
+    npm --prefix "$REPO_ROOT" run build --workspace=types \
+      && npm --prefix "$REPO_ROOT" run build --workspace=cli \
+      && npm --prefix "$REPO_ROOT" run build --workspace=mcp
+  }
+  if [[ ! -f "$PKG_ROOT/dist/index.js" ]]; then
+    # No dist to serve — a background build would race an exec of a missing file,
+    # so this first-ever build must block. GUI clients without npm get a clear error.
+    if command -v npm >/dev/null 2>&1; then
+      echo "sudocode-mcp: no dist, building (blocks first startup)..." >&2
+      build_chain >&2 && echo "sudocode-mcp: build complete." >&2 \
+        || echo "sudocode-mcp: build failed." >&2
+    else
+      echo "sudocode-mcp: no dist and npm not on PATH; cannot start." >&2
+    fi
+  elif [[ -n "$(find "${SRC_DIRS[@]}" -name '*.ts' -newer "$PKG_ROOT/dist/index.js" -print -quit 2>/dev/null)" ]]; then
+    # ponytail: stale dist — rebuild in the background so it never blocks the MCP
+    # handshake (a cold 3-package build can exceed the client's 30s connect timeout).
+    # This session serves the existing (stale) dist; the next launch picks up fresh
+    # output. Build output goes to a log, never the inherited stdout/stderr pipes.
+    if command -v npm >/dev/null 2>&1; then
+      LOG="${TMPDIR:-/tmp}/sudocode-mcp-rebuild.log"
+      build_chain >"$LOG" 2>&1 &
+      disown
+      echo "sudocode-mcp: sources changed; rebuilding in background, existing dist serves this session (log: $LOG)." >&2
+    else
+      echo "sudocode-mcp: npm not on PATH; using existing dist (may be stale)." >&2
+    fi
   fi
 fi
 
