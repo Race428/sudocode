@@ -19,6 +19,7 @@ describe("tool-registry", () => {
       const names = defaultTools.map((t) => t.name);
 
       expect(names).toContain("ready");
+      expect(names).toContain("sync");
       expect(names).toContain("list_issues");
       expect(names).toContain("show_issue");
       expect(names).toContain("upsert_issue");
@@ -31,7 +32,7 @@ describe("tool-registry", () => {
       expect(names).toContain("add_feedback");
       expect(names).toContain("delete_issue");
       expect(names).toContain("delete_spec");
-      expect(defaultTools).toHaveLength(13);
+      expect(defaultTools).toHaveLength(14);
     });
 
     it("contains overview tools", () => {
@@ -109,7 +110,7 @@ describe("tool-registry", () => {
 
     it("returns only default tools for default scope", () => {
       const result = getToolsForScopes(new Set(["default"]));
-      expect(result).toHaveLength(13);
+      expect(result).toHaveLength(14);
       expect(result.every((t) => t.scope === "default")).toBe(true);
     });
 

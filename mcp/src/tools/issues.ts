@@ -144,7 +144,48 @@ export async function claimIssue(
     throw new Error("claim_issue requires 'id' (the issue to claim).");
   }
   const agent = params.agent ?? defaultAgentId();
-  return client.exec(["issue", "claim", id, "--agent", agent]);
+  const result = await client.exec(["issue", "claim", id, "--agent", agent]);
+
+  // Surface the lease so callers know who holds it and when it frees up. On a
+  // lost claim, lease_expires_at is when the current holder's lease dies (retry
+  // after that); on a won claim, it's your own heartbeat deadline.
+  // ponytail: 60 mirrors the CLI's CLAIM_LEASE_MINUTES; single source would
+  // require importing across the package boundary — revisit if the lease is
+  // ever made configurable.
+  const LEASE_MINUTES = 60;
+  const claimedAt: string | undefined = result?.issue?.claimed_at ?? undefined;
+  const leaseExpiresAt = leaseExpiry(claimedAt, LEASE_MINUTES);
+  return {
+    ...result,
+    agent,
+    lease_minutes: LEASE_MINUTES,
+    ...(leaseExpiresAt ? { lease_expires_at: leaseExpiresAt } : {}),
+  };
+}
+
+/** SQLite stamps 'YYYY-MM-DD HH:MM:SS' in UTC; add the lease and return ISO. */
+function leaseExpiry(
+  claimedAt: string | undefined,
+  minutes: number
+): string | undefined {
+  if (!claimedAt) return undefined;
+  const ms = Date.parse(claimedAt.replace(" ", "T") + "Z");
+  if (Number.isNaN(ms)) return undefined;
+  return new Date(ms + minutes * 60_000).toISOString();
+}
+
+/**
+ * Reconcile this session's local query cache with the shared, git-tracked store
+ * (imports the JSONL), then returns ready work. Call at session start and after
+ * a `git pull` so concurrent agents' committed specs/issues become visible.
+ */
+export async function sync(
+  client: SudocodeClient,
+  _params: Record<string, never> = {}
+): Promise<any> {
+  await client.exec(["import"]);
+  const readyView = await ready(client);
+  return { synced: true, ...readyView };
 }
 
 /**

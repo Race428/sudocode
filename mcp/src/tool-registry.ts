@@ -55,6 +55,17 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
     },
   },
   {
+    name: "sync",
+    scope: "default",
+    description:
+      "Reconcile your session's local view with the shared, git-tracked store: imports the JSONL into the query cache, then returns ready work. Call this at the START of a session and after a `git pull` — concurrent agents write to a shared store, and without a sync your cache can be stale (missing their committed specs/issues).",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {},
+    },
+  },
+  {
     name: "list_issues",
     scope: "default",
     description:
