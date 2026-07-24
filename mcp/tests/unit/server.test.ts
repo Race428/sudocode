@@ -273,7 +273,7 @@ describe("Scope-based tool filtering", () => {
       const usableScopes = getUsableScopes(enabledScopes, undefined);
       const tools = getToolsForScopes(usableScopes);
 
-      expect(tools).toHaveLength(14);
+      expect(tools).toHaveLength(15);
       expect(tools.map((t) => t.name)).toContain("ready");
       expect(tools.map((t) => t.name)).toContain("list_issues");
       expect(tools.map((t) => t.name)).not.toContain("list_executions");
@@ -287,7 +287,7 @@ describe("Scope-based tool filtering", () => {
       const tools = getToolsForScopes(usableScopes);
 
       // Only default tools should be available
-      expect(tools).toHaveLength(14);
+      expect(tools).toHaveLength(15);
       expect(tools.every((t) => t.scope === "default")).toBe(true);
     });
   });
@@ -415,7 +415,7 @@ describe("Scope-based tool filtering", () => {
       const tools = getToolsForScopes(usableScopes);
 
       // Only default tools should be available
-      expect(tools).toHaveLength(14);
+      expect(tools).toHaveLength(15);
       expect(tools.every((t) => t.scope === "default")).toBe(true);
     });
   });

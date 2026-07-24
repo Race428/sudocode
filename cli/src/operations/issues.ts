@@ -9,6 +9,15 @@ import {
   getIncomingRelationships,
   getOutgoingRelationships,
 } from "./relationships.js";
+import { insertEvent } from "./events.js";
+
+/**
+ * How long a claim lease lasts before it's considered dead and the task
+ * returns to the ready pool. Must stay in sync with the 60-minute window
+ * hardcoded in the ready_issues view (types/src/schema.ts).
+ * ponytail: single constant; make configurable only if runs routinely exceed it.
+ */
+export const CLAIM_LEASE_MINUTES = 60;
 
 /**
  * Parse external_links JSON field from SQLite row
@@ -33,6 +42,7 @@ export interface CreateIssueInput {
   status?: IssueStatus;
   priority?: number;
   assignee?: string;
+  claimed_at?: string | null;
   parent_id?: string;
   archived?: boolean;
   archived_at?: string;
@@ -48,6 +58,7 @@ export interface UpdateIssueInput {
   status?: IssueStatus;
   priority?: number;
   assignee?: string;
+  claimed_at?: string | null;
   parent_id?: string;
   archived?: boolean;
   archived_at?: string;
@@ -62,6 +73,10 @@ export interface ListIssuesOptions {
   assignee?: string;
   parent_id?: string;
   archived?: boolean;
+  /** Case-insensitive substring match against title or content. */
+  search?: string;
+  /** Match issues carrying ANY of these tags. */
+  tags?: string[];
   limit?: number;
   offset?: number;
 }
@@ -113,6 +128,10 @@ export function createIssue(
     "@external_links",
   ];
 
+  if (input.claimed_at !== undefined) {
+    columns.push("claimed_at");
+    values.push("@claimed_at");
+  }
   if (input.created_at) {
     columns.push("created_at");
     values.push("@created_at");
@@ -148,6 +167,7 @@ export function createIssue(
       archived = excluded.archived,
       archived_at = excluded.archived_at,
       external_links = excluded.external_links,
+      ${input.claimed_at !== undefined ? "claimed_at = excluded.claimed_at," : ""}
       ${input.created_at ? "created_at = excluded.created_at," : ""}
       ${input.updated_at ? "updated_at = excluded.updated_at" : "updated_at = CURRENT_TIMESTAMP"}
   `);
@@ -167,6 +187,9 @@ export function createIssue(
       external_links: input.external_links ?? null,
     };
 
+    if (input.claimed_at !== undefined) {
+      params.claimed_at = input.claimed_at;
+    }
     // Add optional timestamp parameters
     if (input.created_at) {
       params.created_at = input.created_at;
@@ -273,6 +296,10 @@ export function updateIssue(
     updates.push("assignee = @assignee");
     params.assignee = input.assignee;
   }
+  if (input.claimed_at !== undefined && input.claimed_at !== existing.claimed_at) {
+    updates.push("claimed_at = @claimed_at");
+    params.claimed_at = input.claimed_at;
+  }
   if (input.parent_id !== undefined && input.parent_id !== existing.parent_id) {
     updates.push("parent_id = @parent_id");
     params.parent_id = input.parent_id;
@@ -335,8 +362,10 @@ export function updateIssue(
     }
 
     // If status changed to 'closed', update any dependent blocked issues
+    // and capture closing evidence (the commit that shipped it).
     if (input.status === "closed" && existing.status !== "closed") {
       updateDependentBlockedIssues(db, id);
+      recordCloseEvidence(db, id);
     }
 
     return updated;
@@ -465,6 +494,98 @@ export function deleteIssue(db: Database.Database, id: string): boolean {
   return result.changes > 0;
 }
 
+export interface ClaimResult {
+  claimed: boolean;
+  issue: Issue;
+  /** Present when claimed=false: who currently holds the live lease. */
+  held_by?: string | null;
+}
+
+/**
+ * Atomically claim an issue for an agent via a single conditional UPDATE.
+ * Succeeds when the issue is unclaimed, already held by this agent (heartbeat/
+ * re-claim), or the existing lease has expired. Otherwise fails without
+ * mutating anything. This is the core multi-agent primitive: two agents racing
+ * to claim the same task, exactly one wins.
+ */
+export function claimIssue(
+  db: Database.Database,
+  id: string,
+  agent: string
+): ClaimResult {
+  const existing = getIssue(db, id);
+  if (!existing) {
+    throw new Error(`Issue not found: ${id}`);
+  }
+
+  const stmt = db.prepare(`
+    UPDATE issues
+    SET assignee = @agent,
+        claimed_at = CURRENT_TIMESTAMP,
+        status = CASE WHEN status = 'open' THEN 'in_progress' ELSE status END,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = @id
+      AND (
+        claimed_at IS NULL
+        OR assignee = @agent
+        OR claimed_at < datetime('now', @lease)
+      )
+  `);
+
+  const res = stmt.run({
+    id,
+    agent,
+    lease: `-${CLAIM_LEASE_MINUTES} minutes`,
+  });
+
+  if (res.changes === 0) {
+    return { claimed: false, issue: existing, held_by: existing.assignee };
+  }
+  return { claimed: true, issue: getIssue(db, id)! };
+}
+
+/**
+ * On close, capture the commit that shipped this issue as an audit event so
+ * "is this actually done, and what shipped it?" is answerable without grepping
+ * the codebase. Pulls the most recent linked execution's after_commit. Silent
+ * no-op when there's no linked execution/commit — closing must never fail over
+ * an audit record.
+ */
+function recordCloseEvidence(db: Database.Database, id: string): void {
+  try {
+    const row = db
+      .prepare(
+        `SELECT id AS execution_id, after_commit
+         FROM executions
+         WHERE issue_id = ? AND after_commit IS NOT NULL
+         ORDER BY COALESCE(completed_at, created_at) DESC
+         LIMIT 1`
+      )
+      .get(id) as
+      | { execution_id: string; after_commit: string }
+      | undefined;
+
+    if (!row) return;
+
+    const issue = getIssue(db, id);
+    if (!issue) return;
+
+    insertEvent(db, {
+      entity_id: id,
+      entity_uuid: issue.uuid,
+      entity_type: "issue",
+      event_type: "status_changed",
+      actor: issue.assignee || "sudocode",
+      new_value: "closed",
+      comment: `Shipped by execution ${row.execution_id}`,
+      git_commit_sha: row.after_commit,
+      source: "close",
+    });
+  } catch {
+    // Executions table may be empty or absent; evidence capture is best-effort.
+  }
+}
+
 /**
  * Close an issue (convenience method)
  */
@@ -508,6 +629,20 @@ export function listIssues(
   if (options.archived !== undefined) {
     conditions.push("archived = @archived");
     params.archived = options.archived ? 1 : 0;
+  }
+  if (options.search !== undefined && options.search !== "") {
+    conditions.push("(title LIKE @search OR content LIKE @search)");
+    params.search = `%${options.search}%`;
+  }
+  if (options.tags !== undefined && options.tags.length > 0) {
+    // Match issues carrying ANY of the given tags.
+    const placeholders = options.tags.map((_, i) => `@tag${i}`);
+    conditions.push(
+      `id IN (SELECT entity_id FROM tags WHERE entity_type = 'issue' AND tag IN (${placeholders.join(", ")}))`
+    );
+    options.tags.forEach((t, i) => {
+      params[`tag${i}`] = t;
+    });
   }
 
   let query = "SELECT * FROM issues";

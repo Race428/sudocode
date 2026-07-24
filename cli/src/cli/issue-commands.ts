@@ -11,7 +11,6 @@ import {
   createIssue,
   getIssue,
   listIssues,
-  searchIssues,
   updateIssue,
   closeIssue,
   claimIssue,
@@ -131,9 +130,12 @@ export interface IssueListOptions {
   status?: string;
   assignee?: string;
   priority?: string;
+  parent?: string;
+  tag?: string;
   grep?: string;
   archived?: string;
   limit: string;
+  offset?: string;
 }
 
 export async function handleIssueList(
@@ -154,21 +156,21 @@ export async function handleIssueList(
     }
 
     // Use search if grep is provided, otherwise use list with filters
-    const issues = options.grep
-      ? searchIssues(ctx.db, options.grep, {
-          status: options.status as any,
-          assignee: options.assignee,
-          priority: options.priority ? parseInt(options.priority) : undefined,
-          archived: options.archived !== undefined ? options.archived === 'true' : false, // Default to excluding archived
-          limit: parseInt(options.limit),
-        })
-      : listIssues(ctx.db, {
-          status: options.status as any,
-          assignee: options.assignee,
-          priority: options.priority ? parseInt(options.priority) : undefined,
-          archived: options.archived !== undefined ? options.archived === 'true' : false, // Default to excluding archived
-          limit: parseInt(options.limit),
-        });
+    // One unified query path handles filters + text search + pagination.
+    const tags = options.tag
+      ? options.tag.split(",").map((t) => t.trim()).filter(Boolean)
+      : undefined;
+    const issues = listIssues(ctx.db, {
+      status: options.status as any,
+      assignee: options.assignee,
+      priority: options.priority ? parseInt(options.priority) : undefined,
+      parent_id: options.parent,
+      tags,
+      search: options.grep,
+      archived: options.archived !== undefined ? options.archived === "true" : false, // Default to excluding archived
+      limit: parseInt(options.limit),
+      offset: options.offset ? parseInt(options.offset) : undefined,
+    });
 
     if (ctx.jsonOutput) {
       console.log(JSON.stringify(issues, null, 2));
@@ -343,6 +345,47 @@ export async function handleIssueShow(
     console.error(chalk.red("✗ Failed to show issue"));
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
+  }
+}
+
+/** Assemble the full detail object for one issue (or null if absent). */
+function gatherIssueDetail(ctx: CommandContext, id: string) {
+  const issue = getIssue(ctx.db, id);
+  if (!issue) return null;
+  const outgoing = getOutgoingRelationships(ctx.db, id, "issue");
+  const incoming = getIncomingRelationships(ctx.db, id, "issue");
+  const tags = getTags(ctx.db, id, "issue");
+  const feedback = listFeedback(ctx.db, { from_id: id });
+  const feedbackReceived = listFeedback(ctx.db, { to_id: id });
+  return {
+    ...issue,
+    relationships: { outgoing, incoming },
+    tags,
+    feedback,
+    feedback_received: feedbackReceived,
+  };
+}
+
+/**
+ * Batch show: with one id, defers to handleIssueShow (unchanged single-object
+ * output). With many, emits a JSON array so an agent can fetch a spec's
+ * children in one call instead of N. Missing ids appear as {id, error}.
+ */
+export async function handleIssueShowMany(
+  ctx: CommandContext,
+  ids: string[]
+): Promise<void> {
+  if (ids.length <= 1) {
+    await handleIssueShow(ctx, ids[0]);
+    return;
+  }
+  if (ctx.jsonOutput) {
+    const details = ids.map(
+      (id) => gatherIssueDetail(ctx, id) ?? { id, error: "not found" }
+    );
+    console.log(JSON.stringify(details, null, 2));
+  } else {
+    for (const id of ids) await handleIssueShow(ctx, id);
   }
 }
 

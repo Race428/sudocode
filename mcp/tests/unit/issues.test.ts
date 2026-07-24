@@ -59,6 +59,7 @@ describe('Issue Tools', () => {
 
       expect(mockClient.exec).toHaveBeenCalledWith([
         'issue', 'list',
+        '--limit', '50',
         '--archived', 'false',
       ]);
     });
@@ -90,6 +91,7 @@ describe('Issue Tools', () => {
 
       expect(mockClient.exec).toHaveBeenCalledWith([
         'issue', 'list',
+        '--limit', '50',
         '--archived', 'false',
       ]);
     });
@@ -103,6 +105,7 @@ describe('Issue Tools', () => {
 
       expect(mockClient.exec).toHaveBeenCalledWith([
         'issue', 'list',
+        '--limit', '50',
         '--archived', 'true',
       ]);
     });
@@ -117,8 +120,31 @@ describe('Issue Tools', () => {
       expect(mockClient.exec).toHaveBeenCalledWith([
         'issue', 'list',
         '--grep', 'authentication',
+        '--limit', '50',
         '--archived', 'false',
       ]);
+    });
+
+    it('paginates: adds --offset from cursor and returns next_cursor on a full page', async () => {
+      // A full page (length === limit) implies more may follow.
+      const page = Array.from({ length: 2 }, (_, i) => ({ id: `i-${i}`, title: `T${i}` }));
+      mockClient.exec.mockResolvedValue(page);
+
+      const result = await issueTools.listIssues(mockClient, { limit: 2, cursor: '4' });
+
+      expect(mockClient.exec).toHaveBeenCalledWith([
+        'issue', 'list',
+        '--limit', '2',
+        '--offset', '4',
+        '--archived', 'false',
+      ]);
+      expect(result.next_cursor).toBe('6');
+    });
+
+    it('returns null next_cursor on the last (partial) page', async () => {
+      mockClient.exec.mockResolvedValue([{ id: 'i-0', title: 'T' }]);
+      const result = await issueTools.listIssues(mockClient, { limit: 50 });
+      expect(result.next_cursor).toBeNull();
     });
 
     it('should redact content field from issues', async () => {
@@ -130,11 +156,42 @@ describe('Issue Tools', () => {
       const result = await issueTools.listIssues(mockClient);
 
       // Verify content field is removed
-      expect(result[0]).not.toHaveProperty('content');
-      expect(result[1]).not.toHaveProperty('content');
+      expect(result.issues[0]).not.toHaveProperty('content');
+      expect(result.issues[1]).not.toHaveProperty('content');
       // Verify other fields are preserved
-      expect(result[0]).toEqual({ id: 'sg-1', title: 'Test Issue', priority: 2 });
-      expect(result[1]).toEqual({ id: 'sg-2', title: 'Another Issue', priority: 1 });
+      expect(result.issues[0]).toEqual({ id: 'sg-1', title: 'Test Issue', priority: 2 });
+      expect(result.issues[1]).toEqual({ id: 'sg-2', title: 'Another Issue', priority: 1 });
+    });
+
+    it('should include the new filters (assignee, parent, tags)', async () => {
+      mockClient.exec.mockResolvedValue([]);
+
+      await issueTools.listIssues(mockClient, {
+        assignee: 'agent-A',
+        parent: 'i-epic',
+        tags: ['urgent', 'security'],
+      });
+
+      expect(mockClient.exec).toHaveBeenCalledWith([
+        'issue', 'list',
+        '--assignee', 'agent-A',
+        '--parent', 'i-epic',
+        '--tag', 'urgent,security',
+        '--limit', '50',
+        '--archived', 'false',
+      ]);
+    });
+  });
+
+  describe('showIssues (batch)', () => {
+    it('calls exec once with all ids', async () => {
+      mockClient.exec.mockResolvedValue([]);
+      await issueTools.showIssues(mockClient, { ids: ['i-1', 'i-2', 'i-3'] });
+      expect(mockClient.exec).toHaveBeenCalledWith(['issue', 'show', 'i-1', 'i-2', 'i-3']);
+    });
+
+    it('throws when no ids given', async () => {
+      await expect(issueTools.showIssues(mockClient, { ids: [] })).rejects.toThrow();
     });
   });
 

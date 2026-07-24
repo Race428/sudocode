@@ -308,6 +308,8 @@ sudocode is a git-native spec and issue management system designed for AI-assist
         return issueTools.listIssues(this.client, args as any);
       case "show_issue":
         return issueTools.showIssue(this.client, args as any);
+      case "show_issues":
+        return issueTools.showIssues(this.client, args as any);
       case "upsert_issue":
         return issueTools.upsertIssue(this.client, args as any);
       case "delete_issue":

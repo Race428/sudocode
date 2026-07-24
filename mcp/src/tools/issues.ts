@@ -31,7 +31,11 @@ export interface ReadyParams {}
 export interface ListIssuesParams {
   status?: IssueStatus;
   priority?: number;
+  assignee?: string;
+  parent?: string;
+  tags?: string[];
   limit?: number;
+  cursor?: string; // opaque pagination token (an offset)
   search?: string;
   archived?: boolean;
 }
@@ -92,7 +96,7 @@ export async function ready(
 export async function listIssues(
   client: SudocodeClient,
   params: ListIssuesParams = {}
-): Promise<Issue[]> {
+): Promise<any> {
   const args = ["issue", "list"];
 
   if (params.status) {
@@ -101,27 +105,58 @@ export async function listIssues(
   if (params.priority !== undefined) {
     args.push("--priority", params.priority.toString());
   }
-  if (params.limit !== undefined) {
-    args.push("--limit", params.limit.toString());
+  if (params.assignee) {
+    args.push("--assignee", params.assignee);
+  }
+  if (params.parent) {
+    args.push("--parent", params.parent);
+  }
+  if (params.tags && params.tags.length > 0) {
+    args.push("--tag", params.tags.join(","));
   }
   if (params.search) {
     args.push("--grep", params.search);
+  }
+  const limit = params.limit ?? 50;
+  args.push("--limit", limit.toString());
+  const offset = params.cursor ? parseInt(params.cursor, 10) || 0 : 0;
+  if (offset > 0) {
+    args.push("--offset", offset.toString());
   }
   // Default to excluding archived unless explicitly specified
   const archived = params.archived !== undefined ? params.archived : false;
   args.push("--archived", archived.toString());
 
   const issues = await client.exec(args);
+  const list = Array.isArray(issues) ? issues : [];
 
-  // Redact content field from issues to keep response shorter
-  if (Array.isArray(issues)) {
-    return issues.map((issue: any) => {
-      const { content, ...rest } = issue;
-      return rest;
-    });
+  // Redact content to keep the response short.
+  const redacted = list.map((issue: any) => {
+    const { content, ...rest } = issue;
+    return rest;
+  });
+
+  // A full page implies there may be more — hand back the next offset as an
+  // opaque cursor. Fewer than `limit` rows means we reached the end.
+  const nextCursor = redacted.length === limit ? String(offset + limit) : null;
+  return { issues: redacted, next_cursor: nextCursor };
+}
+
+/**
+ * Batch read: fetch several issues (with relationships/feedback) in one call
+ * instead of N show_issue round-trips. Returns an array; missing ids appear as
+ * { id, error }.
+ */
+export async function showIssues(
+  client: SudocodeClient,
+  params: { ids?: string[]; id?: string | string[] }
+): Promise<any> {
+  const raw = params.ids ?? params.id;
+  const ids = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  if (ids.length === 0) {
+    throw new Error("show_issues requires 'ids' (an array of issue ids).");
   }
-
-  return issues;
+  return client.exec(["issue", "show", ...ids]);
 }
 
 export interface ClaimIssueParams {

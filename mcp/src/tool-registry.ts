@@ -69,9 +69,10 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
     name: "list_issues",
     scope: "default",
     description:
-      "Search and filter issues. Use this when you need to find specific issues by status, priority, keyword, or when exploring what work exists in the project.",
+      "Search and filter issues by status, priority, assignee, parent, tag, or keyword. Returns { issues, next_cursor }: content is redacted for brevity (use show_issue/show_issues for full bodies). For large trackers, page with limit + cursor — pass the returned next_cursor back as `cursor` for the next page; next_cursor is null on the last page.",
     inputSchema: {
       type: "object",
+      additionalProperties: false,
       properties: {
         status: {
           type: "string",
@@ -84,6 +85,19 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
           description:
             "Filter by priority level where 0=highest priority and 4=lowest priority",
         },
+        assignee: {
+          type: "string",
+          description: "Filter by assignee (exact match).",
+        },
+        parent: {
+          type: "string",
+          description: "Filter by parent issue ID (direct children only).",
+        },
+        tags: {
+          type: "array",
+          items: { type: "string" },
+          description: "Filter to issues carrying ANY of these tags.",
+        },
         archived: {
           type: "boolean",
           description:
@@ -91,8 +105,13 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
         },
         limit: {
           type: "number",
-          description: "Maximum number of results to return. Defaults to 50.",
+          description: "Maximum number of results per page. Defaults to 50.",
           default: 50,
+        },
+        cursor: {
+          type: "string",
+          description:
+            "Opaque pagination token from a previous call's next_cursor. Omit for the first page.",
         },
         search: {
           type: "string",
@@ -121,6 +140,24 @@ const DEFAULT_TOOLS: ToolDefinition[] = [
         },
       },
       required: [],
+    },
+  },
+  {
+    name: "show_issues",
+    scope: "default",
+    description:
+      "Batch version of show_issue: fetch several issues (with relationships and feedback) in ONE call instead of N. Use when walking a spec's children or a set of related ids. Returns an array; a missing id appears as { id, error }.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        ids: {
+          type: "array",
+          items: { type: "string" },
+          description: 'Issue IDs to fetch, e.g. ["i-x7k9", "i-a1b2"].',
+        },
+      },
+      required: ["ids"],
     },
   },
   {

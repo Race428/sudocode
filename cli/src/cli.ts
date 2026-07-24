@@ -23,7 +23,7 @@ import {
 import {
   handleIssueCreate,
   handleIssueList,
-  handleIssueShow,
+  handleIssueShowMany,
   handleIssueUpdate,
   handleIssueClose,
   handleIssueClaim,
@@ -344,18 +344,21 @@ issue
   .option("-s, --status <status>", "Filter by status")
   .option("-a, --assignee <assignee>", "Filter by assignee")
   .option("-p, --priority <priority>", "Filter by priority")
+  .option("--parent <id>", "Filter by parent issue ID")
+  .option("-t, --tag <tags>", "Filter by tag (comma-separated; matches any)")
   .option("-g, --grep <query>", "Search by title or content")
   .option("--archived <bool>", "Filter by archive status (true/false)")
   .option("--limit <num>", "Limit results", "50")
+  .option("--offset <num>", "Skip this many results (pagination)")
   .action(async (options) => {
     await handleIssueList(getContext(), options);
   });
 
 issue
-  .command("show <id>")
-  .description("Show issue details")
-  .action(async (id) => {
-    await handleIssueShow(getContext(), id);
+  .command("show <id...>")
+  .description("Show issue details (accepts multiple ids for a batch read)")
+  .action(async (ids) => {
+    await handleIssueShowMany(getContext(), ids);
   });
 
 issue
