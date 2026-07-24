@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import type Database from "better-sqlite3";
+import { resolveStore } from "@sudocode-ai/cli/dist/store-resolution.js";
 import { ProjectRegistry } from "./project-registry.js";
 import { ProjectContext } from "./project-context.js";
 import { initDatabase } from "./db.js";
@@ -98,7 +99,9 @@ export class ProjectManager {
       const db = await this.getOrCreateDatabase(projectId, projectPath);
 
       // 5. Initialize all services for this project
-      const sudocodeDir = path.join(projectPath, ".sudocode");
+      // Resolve the shared store (git-common .git/sudocode when present), not a
+      // hardcoded per-worktree .sudocode — must match the CLI/MCP write target.
+      const sudocodeDir = resolveStore({ cwd: projectPath }).storeDir;
       const logsStore = new ExecutionLogsStore(db);
       const worktreeConfig = getWorktreeConfig(projectPath);
       const worktreeManager = new WorktreeManager(worktreeConfig);
@@ -172,7 +175,7 @@ export class ProjectManager {
         eventEmitter: workflowEventEmitter,
         config: {
           repoPath: projectPath,
-          dbPath: path.join(projectPath, ".sudocode", "cache.db"),
+          dbPath: resolveStore({ cwd: projectPath }).dbPath,
           serverUrl,
           projectId,
         },
@@ -503,8 +506,8 @@ export class ProjectManager {
       });
     }
 
-    // Check that .sudocode directory exists
-    const sudocodeDir = path.join(projectPath, ".sudocode");
+    // Check that the store directory exists (git-common .git/sudocode or legacy).
+    const sudocodeDir = resolveStore({ cwd: projectPath }).storeDir;
     if (!fs.existsSync(sudocodeDir)) {
       return Err({
         type: "INVALID_PROJECT",
@@ -551,7 +554,7 @@ export class ProjectManager {
     }
 
     // Initialize new database
-    const dbPath = path.join(projectPath, ".sudocode", "cache.db");
+    const dbPath = resolveStore({ cwd: projectPath }).dbPath;
     console.log(`Initializing new database for ${projectId} at ${dbPath}`);
     const db = initDatabase({ path: dbPath });
 

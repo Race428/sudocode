@@ -2,6 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as os from 'os'
 import * as crypto from 'crypto'
+import { resolveStore } from '@sudocode-ai/cli/dist/store-resolution.js'
 import type { ProjectInfo, ProjectsConfig, ProjectError, Result } from '../types/project.js'
 import { Ok, Err } from '../types/project.js'
 
@@ -161,14 +162,19 @@ export class ProjectRegistry {
    */
   registerProject(projectPath: string): ProjectInfo {
     const projectId = this.generateProjectId(projectPath)
-    const sudocodeDir = path.join(projectPath, '.sudocode')
+    // Resolve the SAME store the CLI/MCP write to (git-common .git/sudocode when
+    // present, else legacy .sudocode) instead of hardcoding .sudocode — otherwise
+    // the web UI reads a stale legacy DB while writes land on the shared store.
+    const sudocodeDir = resolveStore({ cwd: projectPath }).storeDir
     const now = new Date().toISOString()
 
     // Check if project already exists
     const existing = this.config.projects[projectId]
     if (existing) {
-      // Update existing project
+      // Update existing project — refresh sudocodeDir too, so entries persisted
+      // before the store moved to .git/sudocode stop pointing at the stale path.
       existing.lastOpenedAt = now
+      existing.sudocodeDir = sudocodeDir
       this.addToRecent(projectId)
       return existing
     }

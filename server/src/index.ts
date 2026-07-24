@@ -29,6 +29,7 @@ import { ProjectRegistry } from "./services/project-registry.js";
 import { ProjectManager } from "./services/project-manager.js";
 import { requireProject } from "./middleware/project-context.js";
 import { importFromJSONL } from "@sudocode-ai/cli/dist/import.js";
+import { resolveStore } from "@sudocode-ai/cli/dist/store-resolution.js";
 import {
   initWebSocketServer,
   getWebSocketStats,
@@ -65,7 +66,9 @@ async function initialize() {
     // 1. If current directory has .sudocode, open it (highest priority)
     // 2. Otherwise, open the most recently opened project (if available)
     const currentDir = process.cwd();
-    const sudocodeDir = path.join(currentDir, ".sudocode");
+    // Resolve the shared store (git-common .git/sudocode) so a worktree with no
+    // local .sudocode still auto-opens the store the CLI/MCP write to.
+    const sudocodeDir = resolveStore({ cwd: currentDir }).storeDir;
     const hasLocalProject = existsSync(sudocodeDir);
 
     if (hasLocalProject) {
