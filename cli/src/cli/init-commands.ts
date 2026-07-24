@@ -247,6 +247,9 @@ export async function performInitialization(
   // untracked, so this is its only durable/off-machine path). Idempotent.
   if (underGit) {
     installBackupHook(process.cwd());
+    // Bridge the store to git: pre-commit refresh+stage, post-merge import.
+    const { installSyncHooks } = await import("../git-hooks.js");
+    installSyncHooks(process.cwd());
   }
 
   if (jsonOutput) {

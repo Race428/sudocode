@@ -86,6 +86,8 @@ export interface Issue {
   content: string;
   priority: number;
   assignee?: string;
+  /** When the current assignee last claimed a lease on this issue (UTC). Null = no live claim. */
+  claimed_at?: string;
   archived?: boolean;
   archived_at?: string;
   created_at: string;
@@ -214,6 +216,8 @@ export type FeedbackType = "comment" | "suggestion" | "request";
 export interface SpecJSONL extends Spec {
   relationships: RelationshipJSONL[];
   tags: string[];
+  /** Anonymous feedback on this spec. Feedback from an issue is stored on that issue instead. */
+  feedback?: FeedbackJSONL[];
 }
 
 export interface IssueJSONL extends Issue {
@@ -364,6 +368,14 @@ export type StorageMode = "jsonl" | "markdown";
 export interface ProjectConfig {
   /** Source of truth for entity data (default: "jsonl") */
   sourceOfTruth?: StorageMode;
+  /**
+   * Whether entity writes auto-export the full JSONL snapshot (default: true).
+   * Set false to decouple runtime writes from the git artifact: SQLite becomes
+   * the live truth and JSONL is materialized explicitly (via `sudocode export`
+   * or the installed pre-commit hook). Recommended for multi-agent stores where
+   * one agent's write should not drag another's in-flight rows into git.
+   */
+  autoExport?: boolean;
   /**
    * Explicit store location override. When set, store resolution binds here
    * instead of computing the git-common-dir/legacy location. Path is resolved

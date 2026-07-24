@@ -18,6 +18,7 @@ import { getOutgoingRelationships } from "./operations/relationships.js";
 import { getTags } from "./operations/tags.js";
 import { listFeedback } from "./operations/feedback.js";
 import { writeJSONL, readJSONLSync } from "./jsonl.js";
+import { withExportLock } from "./file-lock.js";
 
 export interface ExportOptions {
   /**
@@ -63,6 +64,38 @@ function sortFeedback(feedback: FeedbackJSONL[]): FeedbackJSONL[] {
 }
 
 /**
+ * Feedback is stored on the issue that provided it. Anonymous feedback (no from_id)
+ * has no such home, so it is stored on the entity it targets instead — otherwise it
+ * never reaches JSONL and is lost the next time the cache is rebuilt.
+ */
+function feedbackForEntity(
+  db: Database.Database,
+  entityId: string,
+  includeProvided: boolean
+): FeedbackJSONL[] {
+  const provided = includeProvided ? listFeedback(db, { from_id: entityId }) : [];
+  const anonymous = listFeedback(db, { to_id: entityId }).filter((fb) => !fb.from_id);
+
+  return sortFeedback(
+    [...provided, ...anonymous].map((feedback) => ({
+      id: feedback.id,
+      from_id: feedback.from_id,
+      to_id: feedback.to_id,
+      feedback_type: feedback.feedback_type,
+      content: feedback.content,
+      agent: feedback.agent,
+      anchor:
+        feedback.anchor && typeof feedback.anchor === "string"
+          ? JSON.parse(feedback.anchor)
+          : feedback.anchor,
+      dismissed: feedback.dismissed,
+      created_at: feedback.created_at,
+      updated_at: feedback.updated_at,
+    }))
+  );
+}
+
+/**
  * Sort external links for deterministic JSONL output
  * Sorts by: provider, then external_id
  */
@@ -101,11 +134,14 @@ export function specToJSONL(
   // Get external_links - prefer from spec if present, otherwise from existing JSONL
   const externalLinks = spec.external_links ?? existingExternalLinks?.get(spec.id);
 
+  const feedback = feedbackForEntity(db, spec.id, false);
+
   return {
     ...spec,
     // Sort arrays for deterministic output (reduces JSONL churn)
     relationships: sortRelationships(relationshipsJSONL),
     tags: sortTags(tags),
+    feedback: feedback.length > 0 ? feedback : undefined,
     external_links: sortExternalLinks(externalLinks),
   };
 }
@@ -134,29 +170,11 @@ export function issueToJSONL(
   // Get tags
   const tags = getTags(db, issue.id, "issue");
 
-  // Get feedback provided by this issue
-  const feedbackList = listFeedback(db, { from_id: issue.id });
-  const feedbackJSONL: FeedbackJSONL[] = feedbackList.map((feedback) => ({
-    id: feedback.id,
-    from_id: feedback.from_id,
-    to_id: feedback.to_id,
-    feedback_type: feedback.feedback_type,
-    content: feedback.content,
-    agent: feedback.agent,
-    anchor:
-      feedback.anchor && typeof feedback.anchor === "string"
-        ? JSON.parse(feedback.anchor)
-        : feedback.anchor,
-    dismissed: feedback.dismissed,
-    created_at: feedback.created_at,
-    updated_at: feedback.updated_at,
-  }));
+  // Feedback provided by this issue, plus anonymous feedback targeting it
+  const sortedFeedback = feedbackForEntity(db, issue.id, true);
 
   // Get external_links - prefer from issue if present, otherwise from existing JSONL
   const externalLinks = issue.external_links ?? existingExternalLinks?.get(issue.id);
-
-  // Sort arrays for deterministic output (reduces JSONL churn)
-  const sortedFeedback = sortFeedback(feedbackJSONL);
 
   return {
     ...issue,
@@ -247,22 +265,67 @@ export async function exportToJSONL(
   const specsPath = `${outputDir}/${specsFile}`;
   const issuesPath = `${outputDir}/${issuesFile}`;
 
-  // Read existing external_links from JSONL files (to preserve them since SQLite doesn't store them)
-  const existingSpecLinks = readExistingExternalLinks<SpecJSONL>(specsPath);
-  const existingIssueLinks = readExistingExternalLinks<IssueJSONL>(issuesPath);
+  // Hold a cross-process lock across the whole snapshot-then-overwrite so a
+  // concurrent process can't clobber our rows (or vice versa). The snapshot
+  // reads (listSpecs/listIssues) MUST be inside the lock too, not just the
+  // writes — otherwise the read can go stale before the write lands.
+  return withExportLock(outputDir, async () => {
+    // Read existing external_links from JSONL files (to preserve them since SQLite doesn't store them)
+    const existingSpecLinks = readExistingExternalLinks<SpecJSONL>(specsPath);
+    const existingIssueLinks = readExistingExternalLinks<IssueJSONL>(issuesPath);
 
-  // Export specs with preserved external_links
-  const specs = exportSpecsToJSONL(db, options, existingSpecLinks);
-  await writeJSONL(specsPath, specs);
+    // Export specs with preserved external_links
+    const specs = exportSpecsToJSONL(db, options, existingSpecLinks);
+    await writeJSONL(specsPath, specs);
 
-  // Export issues with preserved external_links
-  const issues = exportIssuesToJSONL(db, options, existingIssueLinks);
-  await writeJSONL(issuesPath, issues);
+    // Export issues with preserved external_links
+    const issues = exportIssuesToJSONL(db, options, existingIssueLinks);
+    await writeJSONL(issuesPath, issues);
 
-  return {
-    specsCount: specs.length,
-    issuesCount: issues.length,
-  };
+    return {
+      specsCount: specs.length,
+      issuesCount: issues.length,
+    };
+  });
+}
+
+/**
+ * Export only when the project's `autoExport` config is enabled (the default).
+ * Entity write handlers call this instead of `exportToJSONL` directly, so a
+ * decoupled store (autoExport:false) keeps SQLite as the live truth and leaves
+ * JSONL to explicit `sudocode export` / the pre-commit hook.
+ */
+export async function maybeAutoExport(
+  db: Database.Database,
+  outputDir: string
+): Promise<void> {
+  // Imported lazily to avoid a config<->export import cycle at module load.
+  const { isAutoExportEnabled } = await import("./config.js");
+  if (!isAutoExportEnabled(outputDir)) return;
+  await exportToJSONL(db, { outputDir });
+}
+
+/**
+ * `git add` the store's JSONL files (best-effort). Used by `export --stage` so
+ * the pre-commit hook can refresh + stage the artifact in one call without
+ * needing to know the store path itself. Never throws — staging is advisory.
+ */
+export function stageJSONL(
+  outputDir: string,
+  specsFile = "specs.jsonl",
+  issuesFile = "issues.jsonl"
+): void {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { execFileSync } = require("child_process") as typeof import("child_process");
+    execFileSync(
+      "git",
+      ["add", "--", `${outputDir}/${specsFile}`, `${outputDir}/${issuesFile}`],
+      { stdio: "ignore" }
+    );
+  } catch {
+    // Not a git repo, git missing, or files untracked-by-choice — advisory only.
+  }
 }
 
 /**

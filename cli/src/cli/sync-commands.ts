@@ -121,23 +121,40 @@ export async function handleSync(
 }
 
 export interface ExportOptions {
-  output: string;
+  /** Output dir; defaults to the resolved store (ctx.outputDir) when omitted. */
+  output?: string;
+  /** Also `git add` the JSONL after writing (used by the pre-commit hook). */
+  stage?: boolean;
+  /** Suppress human-readable output (used by hooks). */
+  quiet?: boolean;
 }
 
 export async function handleExport(
   ctx: CommandContext,
   options: ExportOptions
 ): Promise<void> {
+  // Fall back to the resolved store, not a hardcoded ".sudocode" — a git-common
+  // store lives elsewhere, and the pre-commit hook runs `export` with no flag.
+  const output = options.output ?? ctx.outputDir;
   try {
-    await exportToJSONL(ctx.db, { outputDir: options.output });
+    // Explicit export always runs regardless of autoExport — that's the point.
+    await exportToJSONL(ctx.db, { outputDir: output });
+    if (options.stage) {
+      const { stageJSONL } = await import("../export.js");
+      stageJSONL(output);
+    }
 
     if (ctx.jsonOutput) {
       console.log(
-        JSON.stringify({ success: true, outputDir: options.output }, null, 2)
+        JSON.stringify(
+          { success: true, outputDir: output, staged: !!options.stage },
+          null,
+          2
+        )
       );
-    } else {
+    } else if (!options.quiet) {
       console.log(chalk.green("✓ Exported to JSONL"));
-      console.log(chalk.gray(`  Output: ${options.output}`));
+      console.log(chalk.gray(`  Output: ${output}`));
     }
   } catch (error) {
     console.error(chalk.red("✗ Failed to export"));
@@ -147,23 +164,27 @@ export async function handleExport(
 }
 
 export interface ImportOptions {
-  input: string;
+  /** Input dir; defaults to the resolved store (ctx.outputDir) when omitted. */
+  input?: string;
+  /** Suppress human-readable output (used by hooks). */
+  quiet?: boolean;
 }
 
 export async function handleImport(
   ctx: CommandContext,
   options: ImportOptions
 ): Promise<void> {
+  const input = options.input ?? ctx.outputDir;
   try {
-    await importFromJSONL(ctx.db, { inputDir: options.input });
+    await importFromJSONL(ctx.db, { inputDir: input });
 
     if (ctx.jsonOutput) {
       console.log(
-        JSON.stringify({ success: true, inputDir: options.input }, null, 2)
+        JSON.stringify({ success: true, inputDir: input }, null, 2)
       );
-    } else {
+    } else if (!options.quiet) {
       console.log(chalk.green("✓ Imported from JSONL"));
-      console.log(chalk.gray(`  Input: ${options.input}`));
+      console.log(chalk.gray(`  Input: ${input}`));
     }
   } catch (error) {
     console.error(chalk.red("✗ Failed to import"));

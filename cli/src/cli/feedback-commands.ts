@@ -15,7 +15,7 @@ import {
 import { getSpec } from '../operations/specs.js';
 import { getIssue } from '../operations/issues.js';
 import { createFeedbackAnchor, createAnchorByText } from '../operations/feedback-anchors.js';
-import { exportToJSONL } from '../export.js';
+import { maybeAutoExport } from '../export.js';
 import type { FeedbackType } from '../types.js';
 import { getEntityTypeFromId } from '../id-generator.js';
 import {
@@ -119,7 +119,7 @@ export async function handleFeedbackAdd(
       dismissed: false,
     });
 
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     if (ctx.jsonOutput) {
       console.log(JSON.stringify(feedback, null, 2));
@@ -307,7 +307,7 @@ export async function handleFeedbackDismiss(
   try {
     const feedback = dismissFeedback(ctx.db, id);
 
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     if (ctx.jsonOutput) {
       console.log(JSON.stringify(feedback, null, 2));
@@ -433,7 +433,7 @@ export async function handleFeedbackRelocate(
     // Update feedback with new anchor
     const updated = updateFeedback(ctx.db, id, { anchor: newAnchor });
 
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     if (ctx.jsonOutput) {
       console.log(JSON.stringify(updated, null, 2));

@@ -130,7 +130,7 @@ export async function handleConfigSet(
   }
 
   // For other keys, determine which config file to use
-  const projectKeys = ["sourceOfTruth", "integrations"];
+  const projectKeys = ["sourceOfTruth", "autoExport", "integrations"];
   const localKeys = ["worktree", "editor", "voice"];
 
   // Telemetry spans both config files — route subkeys accordingly

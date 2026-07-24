@@ -20,7 +20,7 @@ import {
 import { getTags, setTags } from "../operations/tags.js";
 import { materializeContentReferences } from "../operations/references.js";
 import { listFeedback } from "../operations/feedback.js";
-import { exportToJSONL } from "../export.js";
+import { maybeAutoExport } from "../export.js";
 import { writeMarkdownFile } from "../markdown.js";
 import { generateUniqueFilename } from "../filename-generator.js";
 import { trackCommand } from "../telemetry.js";
@@ -98,7 +98,7 @@ export async function handleSpecCreate(
     const refResult = materializeContentReferences(ctx.db, specId, "spec", content);
 
     // Export to JSONL
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     // Output result
     if (ctx.jsonOutput) {
@@ -267,26 +267,29 @@ export async function handleSpecShow(
         console.log();
         console.log(chalk.bold("Feedback Received:"));
         for (const fb of feedback) {
+          // anchor is null for unanchored feedback (no --line/--text)
           const anchor =
             typeof fb.anchor === "string" ? JSON.parse(fb.anchor) : fb.anchor;
           const statusColor = fb.dismissed ? chalk.gray : chalk.white;
           const anchorStatusColor =
-            anchor.anchor_status === "valid"
+            anchor?.anchor_status === "valid"
               ? chalk.green
-              : anchor.anchor_status === "relocated"
+              : anchor?.anchor_status === "relocated"
                 ? chalk.yellow
                 : chalk.red;
 
           console.log(
-            `  ${chalk.cyan(fb.id)} ← ${chalk.cyan(fb.from_id)}`,
+            `  ${chalk.cyan(fb.id)} ← ${fb.from_id ? chalk.cyan(fb.from_id) : chalk.gray(fb.agent || "anonymous")}`,
             statusColor(`[${fb.dismissed ? "dismissed" : "active"}]`),
-            anchorStatusColor(`[${anchor.anchor_status}]`)
+            anchor ? anchorStatusColor(`[${anchor.anchor_status}]`) : chalk.gray("[unanchored]")
           );
           console.log(
             chalk.gray(
-              `    Type: ${fb.feedback_type} | ${
-                anchor.section_heading || "No section"
-              } (line ${anchor.line_number})`
+              `    Type: ${fb.feedback_type}${
+                anchor
+                  ? ` | ${anchor.section_heading || "No section"} (line ${anchor.line_number})`
+                  : ""
+              }`
             )
           );
           const contentPreview =
@@ -412,7 +415,7 @@ export async function handleSpecUpdate(
         : { linked: [], warnings: [] };
 
     // Export to JSONL
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     // Output result
     if (ctx.jsonOutput) {
@@ -500,7 +503,7 @@ export async function handleSpecDelete(
     }
 
     // Export to JSONL after all deletions
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     if (ctx.jsonOutput) {
       console.log(JSON.stringify(results, null, 2));

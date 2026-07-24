@@ -37,6 +37,7 @@ export interface ConfigLoadResult {
  */
 const PROJECT_CONFIG_FIELDS: (keyof ProjectConfig)[] = [
   "sourceOfTruth",
+  "autoExport",
   "storeRef",
   "integrations",
   "telemetry",
@@ -265,6 +266,15 @@ export function updateConfig(
  */
 export function isMarkdownFirst(config: Config): boolean {
   return config.sourceOfTruth === "markdown";
+}
+
+/**
+ * Whether entity writes should auto-export the JSONL snapshot. Defaults to true
+ * (only an explicit `autoExport: false` disables it), so existing single-agent
+ * repos are unaffected. Reads config fresh from the store dir.
+ */
+export function isAutoExportEnabled(outputDir: string): boolean {
+  return getProjectConfig(outputDir).autoExport !== false;
 }
 
 /**

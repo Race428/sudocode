@@ -14,7 +14,9 @@ import {
   searchIssues,
   updateIssue,
   closeIssue,
+  claimIssue,
 } from "../operations/issues.js";
+import { insertEvent } from "../operations/events.js";
 import {
   getOutgoingRelationships,
   getIncomingRelationships,
@@ -22,7 +24,7 @@ import {
 import { getTags, setTags } from "../operations/tags.js";
 import { materializeContentReferences } from "../operations/references.js";
 import { listFeedback } from "../operations/feedback.js";
-import { exportToJSONL } from "../export.js";
+import { maybeAutoExport } from "../export.js";
 import { syncJSONLToMarkdown } from "../sync.js";
 import { generateUniqueFilename, findExistingEntityFile, syncFileWithRename } from "../filename-generator.js";
 import {
@@ -79,7 +81,7 @@ export async function handleIssueCreate(
       issue.content
     );
 
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     // Also update the markdown file to keep it in sync
     const issuesDir = path.join(ctx.outputDir, "issues");
@@ -226,11 +228,12 @@ export async function handleIssueShow(
     const incoming = getIncomingRelationships(ctx.db, id, "issue");
     const tags = getTags(ctx.db, id, "issue");
     const feedback = listFeedback(ctx.db, { from_id: id });
+    const feedbackReceived = listFeedback(ctx.db, { to_id: id });
 
     if (ctx.jsonOutput) {
       console.log(
         JSON.stringify(
-          { ...issue, relationships: { outgoing, incoming }, tags, feedback },
+          { ...issue, relationships: { outgoing, incoming }, tags, feedback, feedback_received: feedbackReceived },
           null,
           2
         )
@@ -293,30 +296,37 @@ export async function handleIssueShow(
         }
       }
 
-      if (feedback.length > 0) {
+      for (const [heading, list] of [
+        ["Feedback Provided:", feedback],
+        ["Feedback Received:", feedbackReceived],
+      ] as const) {
+        if (list.length === 0) continue;
         console.log();
-        console.log(chalk.bold("Feedback Provided:"));
-        for (const fb of feedback) {
+        console.log(chalk.bold(heading));
+        for (const fb of list) {
+          // anchor is null for unanchored feedback (no --line/--text)
           const anchor =
             typeof fb.anchor === "string" ? JSON.parse(fb.anchor) : fb.anchor;
           const statusColor = fb.dismissed ? chalk.gray : chalk.white;
           const anchorStatusColor =
-            anchor.anchor_status === "valid"
+            anchor?.anchor_status === "valid"
               ? chalk.green
-              : anchor.anchor_status === "relocated"
+              : anchor?.anchor_status === "relocated"
                 ? chalk.yellow
                 : chalk.red;
 
           console.log(
-            `  ${chalk.cyan(fb.id)} → ${chalk.cyan(fb.to_id)}`,
+            `  ${chalk.cyan(fb.id)} ${fb.from_id ? chalk.cyan(fb.from_id) : chalk.gray(fb.agent || "anonymous")} → ${chalk.cyan(fb.to_id)}`,
             statusColor(`[${fb.dismissed ? "dismissed" : "active"}]`),
-            anchorStatusColor(`[${anchor.anchor_status}]`)
+            anchor ? anchorStatusColor(`[${anchor.anchor_status}]`) : chalk.gray("[unanchored]")
           );
           console.log(
             chalk.gray(
-              `    Type: ${fb.feedback_type} | ${
-                anchor.section_heading || "No section"
-              } (line ${anchor.line_number})`
+              `    Type: ${fb.feedback_type}${
+                anchor
+                  ? ` | ${anchor.section_heading || "No section"} (line ${anchor.line_number})`
+                  : ""
+              }`
             )
           );
           const contentPreview =
@@ -408,7 +418,7 @@ export async function handleIssueUpdate(
         ? materializeContentReferences(ctx.db, id, "issue", issue.content)
         : { linked: [], warnings: [] };
 
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     // Also update the markdown file to keep it in sync
     const issuesDir = path.join(ctx.outputDir, "issues");
@@ -446,8 +456,81 @@ export async function handleIssueUpdate(
   }
 }
 
+export interface IssueClaimOptions {
+  agent?: string;
+}
+
+/**
+ * Atomically claim an issue for an agent. Exits non-zero if the task is already
+ * held by a live lease, so fan-out scripts (N agents each calling claim) can
+ * detect a lost race without any coordination.
+ */
+export async function handleIssueClaim(
+  ctx: CommandContext,
+  id: string,
+  options: IssueClaimOptions
+): Promise<void> {
+  const startTime = Date.now();
+  const agent =
+    options.agent ||
+    process.env.SUDOCODE_AGENT ||
+    process.env.USER ||
+    "agent";
+  try {
+    let result;
+    try {
+      result = claimIssue(ctx.db, id, agent);
+    } catch (error) {
+      // Stale cache: issue may exist in JSONL but not yet in this cache.db
+      // (e.g. created by another agent/worktree). Re-import and retry once.
+      if (
+        error instanceof Error &&
+        error.message.includes(`Issue not found: ${id}`)
+      ) {
+        const { importFromJSONL } = await import("../import.js");
+        await importFromJSONL(ctx.db, { inputDir: ctx.outputDir });
+        result = claimIssue(ctx.db, id, agent);
+      } else {
+        throw error;
+      }
+    }
+
+    if (result.claimed) {
+      await maybeAutoExport(ctx.db, ctx.outputDir);
+      const issuesDir = path.join(ctx.outputDir, "issues");
+      fs.mkdirSync(issuesDir, { recursive: true });
+      const mdPath = syncFileWithRename(id, issuesDir, result.issue.title);
+      await syncJSONLToMarkdown(ctx.db, id, "issue", mdPath);
+    }
+
+    if (ctx.jsonOutput) {
+      console.log(JSON.stringify(result, null, 2));
+    } else if (result.claimed) {
+      console.log(chalk.green("✓ Claimed issue"), chalk.cyan(id), chalk.gray(`by ${agent}`));
+    } else {
+      console.error(
+        chalk.yellow("✗ Already claimed"),
+        chalk.cyan(id),
+        chalk.gray(`held by ${result.held_by || "another agent"}`)
+      );
+    }
+    await trackCommand(ctx.outputDir, "issue_claim", { id }, true, Date.now() - startTime);
+    // Non-zero exit on a lost claim is for shell fan-out scripts. In --json mode
+    // callers (e.g. the MCP server) parse the result instead, so exit 0 there.
+    if (!result.claimed && !ctx.jsonOutput) {
+      process.exit(1);
+    }
+  } catch (error) {
+    await trackCommand(ctx.outputDir, "issue_claim", { id }, false, Date.now() - startTime);
+    console.error(chalk.red("✗ Failed to claim issue"));
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}
+
 export interface IssueCloseOptions {
   reason?: string;
+  evidence?: string;
 }
 
 export async function handleIssueClose(
@@ -461,6 +544,24 @@ export async function handleIssueClose(
     for (const id of ids) {
       try {
         closeIssue(ctx.db, id);
+        // Record explicit closing evidence (commit SHA / PR / file path) if
+        // given. Auto-capture of a linked execution's commit happens inside
+        // closeIssue → recordCloseEvidence.
+        if (options.evidence) {
+          const isSha = /^[0-9a-f]{7,40}$/i.test(options.evidence);
+          const closed = getIssue(ctx.db, id);
+          insertEvent(ctx.db, {
+            entity_id: id,
+            entity_uuid: closed?.uuid || id,
+            entity_type: "issue",
+            event_type: "status_changed",
+            actor: process.env.SUDOCODE_AGENT || process.env.USER || "sudocode",
+            new_value: "closed",
+            comment: options.evidence,
+            git_commit_sha: isSha ? options.evidence : null,
+            source: "close",
+          });
+        }
         results.push({ id, success: true });
         if (!ctx.jsonOutput) {
           console.log(chalk.green("✓ Closed issue"), chalk.cyan(id));
@@ -482,7 +583,7 @@ export async function handleIssueClose(
       }
     }
 
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     // Also update the markdown files to keep them in sync
     const issuesDir = path.join(ctx.outputDir, "issues");
@@ -593,7 +694,7 @@ export async function handleIssueDelete(
     }
 
     // Export to JSONL after all deletions
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     if (ctx.jsonOutput) {
       console.log(JSON.stringify(results, null, 2));

@@ -6,7 +6,7 @@ import chalk from "chalk";
 import * as path from "path";
 import type Database from "better-sqlite3";
 import { addRelationship } from "../operations/relationships.js";
-import { exportToJSONL } from "../export.js";
+import { maybeAutoExport } from "../export.js";
 import { syncJSONLToMarkdown } from "../sync.js";
 import { getSpec } from "../operations/specs.js";
 import { getIssue } from "../operations/issues.js";
@@ -77,7 +77,7 @@ export async function handleLink(
     });
 
     // Export to JSONL to persist the relationship
-    await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+    await maybeAutoExport(ctx.db, ctx.outputDir);
 
     // Sync the "from" entity back to markdown so the relationship appears in frontmatter
     if (fromType === "spec") {

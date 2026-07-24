@@ -10,7 +10,7 @@ import { addReferenceToContent } from '../operations/references.js';
 import { getSpec, updateSpec } from '../operations/specs.js';
 import { getIssue, updateIssue } from '../operations/issues.js';
 import { parseMarkdown, stringifyMarkdown } from '../markdown.js';
-import { exportToJSONL } from '../export.js';
+import { maybeAutoExport } from '../export.js';
 import { findExistingEntityFile, syncFileWithRename } from '../filename-generator.js';
 
 export interface CommandContext {
@@ -119,7 +119,7 @@ export async function handleAddReference(
       }
 
       // Export to JSONL
-      await exportToJSONL(ctx.db, { outputDir: ctx.outputDir });
+      await maybeAutoExport(ctx.db, ctx.outputDir);
 
       // Output success
       if (ctx.jsonOutput) {

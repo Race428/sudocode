@@ -12,7 +12,7 @@
 import type Database from "better-sqlite3";
 import { exportToJSONL } from "@sudocode-ai/cli/dist/export.js";
 import { syncJSONLToMarkdown } from "@sudocode-ai/cli/dist/sync.js";
-import { getConfig, isMarkdownFirst } from "@sudocode-ai/cli/dist/config.js";
+import { getConfig, isMarkdownFirst, isAutoExportEnabled } from "@sudocode-ai/cli/dist/config.js";
 import { syncFileWithRename } from "@sudocode-ai/cli/dist/filename-generator.js";
 import { getSudocodeDir } from "../utils/sudocode-dir.js";
 import * as fs from "fs";
@@ -109,6 +109,12 @@ export async function syncEntityToMarkdown(
  * @param outputDir - Optional output directory (defaults to getSudocodeDir())
  */
 export function triggerExport(db: Database.Database, outputDir?: string): void {
+  // Honor the project's autoExport setting: when decoupled, the server (like the
+  // CLI) leaves JSONL to explicit `sudocode export` / the pre-commit hook.
+  // executeExportNow() stays available for explicit server-side exports.
+  const dir = outputDir || getSudocodeDir();
+  if (!isAutoExportEnabled(dir)) return;
+
   const debouncer = getExportDebouncer(db);
   debouncer.pending = true;
   if (outputDir) {

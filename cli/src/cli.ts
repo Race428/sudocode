@@ -26,6 +26,7 @@ import {
   handleIssueShow,
   handleIssueUpdate,
   handleIssueClose,
+  handleIssueClaim,
   handleIssueDelete,
 } from "./cli/issue-commands.js";
 import { handleLink } from "./cli/relationship-commands.js";
@@ -373,9 +374,18 @@ issue
   });
 
 issue
+  .command("claim <id>")
+  .description("Atomically claim an issue (fails if held by a live lease)")
+  .option("-a, --agent <name>", "Claiming agent identity (default: $SUDOCODE_AGENT / $USER)")
+  .action(async (id, options) => {
+    await handleIssueClaim(getContext(), id, options);
+  });
+
+issue
   .command("close <id...>")
   .description("Close one or more issues")
   .option("-r, --reason <reason>", "Reason for closing")
+  .option("-e, --evidence <ref>", "Closing evidence: commit SHA, PR URL, or file path")
   .action(async (ids, options) => {
     await handleIssueClose(getContext(), ids, options);
   });
@@ -568,7 +578,9 @@ program
 program
   .command("export")
   .description("Export database to JSONL")
-  .option("-o, --output <dir>", "Output directory", ".sudocode")
+  .option("-o, --output <dir>", "Output directory (defaults to the resolved store)")
+  .option("--stage", "git add the JSONL after writing (for the pre-commit hook)")
+  .option("--quiet", "Suppress human-readable output")
   .action(async (options) => {
     await handleExport(getContext(), options);
   });
@@ -576,9 +588,25 @@ program
 program
   .command("import")
   .description("Import from JSONL to database")
-  .option("-i, --input <dir>", "Input directory", ".sudocode")
+  .option("-i, --input <dir>", "Input directory (defaults to the resolved store)")
+  .option("--quiet", "Suppress human-readable output")
   .action(async (options) => {
     await handleImport(getContext(), options);
+  });
+
+const hooks = program.command("hooks").description("Manage sudocode git hooks");
+hooks
+  .command("install")
+  .description("Install the pre-commit (export+stage) and post-merge (import) hooks")
+  .action(async () => {
+    const { installSyncHooks } = await import("./git-hooks.js");
+    const res = installSyncHooks(process.cwd());
+    if (res.preCommit === "skipped") {
+      console.error("Not inside a git repository — no hooks installed.");
+      process.exit(1);
+    }
+    console.log(`pre-commit: ${res.preCommit}`);
+    console.log(`post-merge: ${res.postMerge}`);
   });
 
 // ============================================================================

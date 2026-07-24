@@ -17,9 +17,11 @@ import {
   exportSpecsToJSONL,
   exportIssuesToJSONL,
   exportToJSONL,
+  maybeAutoExport,
   ExportDebouncer,
   createDebouncedExport,
 } from '../../src/export.js';
+import { updateProjectConfig } from '../../src/config.js';
 import { readJSONL } from '../../src/jsonl.js';
 import type Database from 'better-sqlite3';
 import type { SpecJSONL, IssueJSONL } from '../../src/types.js';
@@ -42,6 +44,34 @@ describe('Export Operations', () => {
     if (fs.existsSync(testDir)) {
       fs.rmSync(testDir, { recursive: true, force: true });
     }
+  });
+
+  describe('maybeAutoExport', () => {
+    it('exports by default (no config)', async () => {
+      createIssue(db, { id: 'i-ax', title: 'Auto on', content: '' });
+      await maybeAutoExport(db, testDir);
+      const issues = await readJSONL(path.join(testDir, 'issues.jsonl'));
+      expect(issues.some((i: any) => i.id === 'i-ax')).toBe(true);
+    });
+
+    it('skips export when autoExport is false', async () => {
+      updateProjectConfig(testDir, { autoExport: false });
+      createIssue(db, { id: 'i-skip', title: 'Decoupled', content: '' });
+      await maybeAutoExport(db, testDir);
+      expect(fs.existsSync(path.join(testDir, 'issues.jsonl'))).toBe(false);
+    });
+
+    it('exports again once autoExport is re-enabled', async () => {
+      updateProjectConfig(testDir, { autoExport: false });
+      createIssue(db, { id: 'i-on', title: 'Back on', content: '' });
+      await maybeAutoExport(db, testDir);
+      expect(fs.existsSync(path.join(testDir, 'issues.jsonl'))).toBe(false);
+
+      updateProjectConfig(testDir, { autoExport: true });
+      await maybeAutoExport(db, testDir);
+      const issues = await readJSONL(path.join(testDir, 'issues.jsonl'));
+      expect(issues.some((i: any) => i.id === 'i-on')).toBe(true);
+    });
   });
 
   describe('specToJSONL', () => {
